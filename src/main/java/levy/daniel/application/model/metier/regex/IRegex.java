@@ -24,12 +24,25 @@ package levy.daniel.application.model.metier.regex;
  */
 public interface IRegex {
 	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 *
+	 * @param pMotif
+	 * @return : String :  .<br/>
+	 */
+	String expliquerMotif(String pMotif);
+	
 	
 	/**
 	 * .<br/>
 	 * <ul>
 	 * <li>.</li>
 	 * </ul>
+	 * return false si pString est blank.<br/>
+	 * <br/>
 	 *
 	 * @param pString
 	 * @return :  :  .<br/>
@@ -43,6 +56,8 @@ public interface IRegex {
 	 * <ul>
 	 * <li>.</li>
 	 * </ul>
+	 * return false si pString est blank.<br/>
+	 * <br/>
 	 *
 	 * @param pString
 	 * @return :  :  .<br/>
@@ -50,6 +65,7 @@ public interface IRegex {
 	boolean motifMatche(String pString);
 
 
+	
 	/**
 	 * Getter de la chaine de caractères dont on veut savoir 
 	 * si elle contient ou matche le motif 

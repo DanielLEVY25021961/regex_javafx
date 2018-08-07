@@ -37,7 +37,16 @@ public class RegexTest {
 	 */
 	public static final Boolean AFFICHAGE_GENERAL = true;
 
-
+	/**
+	 * "La chaîne '".<br/>
+	 */
+	public static final String CHAINE = "La chaîne '";
+	
+	/**
+	 * "' : "<br/>
+	 */
+	public static final String DEUX_POINTS = "' : ";
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -55,6 +64,54 @@ public class RegexTest {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
+	
+	/**
+	 * teste la méthode expliquerMotif(String).<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * </ul>
+	 */
+	@Test
+	public void testExpliquerMotif() {
+						
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE RegexTest - méthode testExpliquerMotif() ********** ");
+		}
+
+
+		// **********************************
+		final String motif = "^\\d+";
+		final String chaineATester = "10";
+		// **********************************
+		
+		
+		final IRegex regex = new Regex();
+		regex.setMotifJava(motif);
+		
+		final boolean resultatContient = regex.motifFind(chaineATester);
+		final boolean resultatMatche = regex.motifMatche(chaineATester);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			
+			System.out.println();
+			System.out.println("EXPLICATION DU MOTIF : ");
+			System.out.println(regex.getSignificationMotif());
+			System.out.println();
+			System.out.println(CHAINE + chaineATester + "' contient-elle le motif java '\\" + motif + DEUX_POINTS + resultatContient);
+			System.out.println(CHAINE + chaineATester + "' matche-t-elle le motif java '\\" + motif + DEUX_POINTS + resultatMatche);
+		}
+		
+		assertTrue("BIDON : ", 1 == 1);
+		
+	} // Fin de testMotifMatche()._________________________________________
+
 	
 	
 	/**
@@ -91,8 +148,8 @@ public class RegexTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("La chaîne '" + chaineATester + "' contient-elle le motif java '\\" + motif + "' : " + resultatContient);
-			System.out.println("La chaîne '" + chaineATester + "' matche-t-elle le motif java '\\" + motif + "' : " + resultatMatche);
+			System.out.println(CHAINE + chaineATester + "' contient-elle le motif java '\\" + motif + DEUX_POINTS + resultatContient);
+			System.out.println(CHAINE + chaineATester + "' matche-t-elle le motif java '\\" + motif + DEUX_POINTS + resultatMatche);
 		}
 		
 		assertTrue("BIDON : ", 1 == 1);
