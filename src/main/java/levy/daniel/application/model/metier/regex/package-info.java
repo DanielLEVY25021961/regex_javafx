@@ -1,6 +1,7 @@
 /**
  * CLASSE package-info :<br/>
- * .<br/>
+ * Package contenant toutes les classes et abstractions 
+ * nécessaires aux abstractions régulières.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
