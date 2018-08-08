@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -176,35 +177,158 @@ public class Regex implements IRegex {
 		return resultat;
 	}
 	
+
+	
+	/**
+	 * Détermine si un motif (pattern) pMotif respecte la <b>syntaxe</b> 
+	 * des Expressions régulières (regex).<br/>
+	 * <ul>
+	 * <li>utilise <code>Pattern.compile(pMotif);</code></li>
+	 * <li>traite la <code>PatternSyntaxException</code> levée 
+	 * si la syntaxe est incorrecte.</li>
+	 * </ul>
+	 * - retourne false si pMotif est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pMotif : String : le pattern regex dont on veut savoir 
+	 * si la syntaxe est correcte.<br/>
+	 * 
+	 * @return : boolean : true si la syntaxe est régulière.<br/>
+	 */
+	public boolean motifRespecteSyntaxeRegex(
+			final String pMotif) {
+		
+		/* retourne false si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return false;
+		}
+		
+		boolean resultat = false;
+		
+		try {
+			
+			Pattern.compile(pMotif);
+			
+			resultat = true;
+			
+		} catch (PatternSyntaxException e) {
+			
+			resultat = false;
+		}
+		
+		return resultat;
+		
+	} // Fin de motifRespecteSyntaxeRegex(...).____________________________
+	
 	
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean motifFind(
-			final String pString) {
+	public boolean texteCorrespondEntierementAMotif() 
+			throws Exception {
+		return this.texteCorrespondEntierementAMotif(
+				this.chaineATester, this.motifJava);
+	} // Fin de texteCorrespondEntierementAMotif().________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean texteCorrespondEntierementAMotif(
+			final String pTexte
+				, final String pMotif) 
+							throws Exception {
 		
-		/* return false si pString est blank. */
-		if (StringUtils.isBlank(pString)) {
+		/* retourne false si pTexte est blank. */
+		if (StringUtils.isBlank(pTexte)) {
+			return false;
+		}
+		
+		/* retourne false si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
 			return false;
 		}
 		
 		boolean resultat = false;
 		
-		final Pattern pattern = Pattern.compile(this.motifJava);
-		
-		final Matcher matcher = pattern.matcher(pString);
-		
-		if (matcher.find()) {
-			resultat = true;
-		}
+		resultat = Pattern.matches(pMotif, pTexte);
 		
 		return resultat;
 		
-	} // Fin de motifFind(...).____________________________________________
+	} // Fin de texteCorrespondEntierementAMotif(...)._____________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean texteContientMotif(
+			final String pTexte) throws Exception {
+		
+		return this.texteContientMotif(pTexte, this.motifJava);
+		
+	} // Fin de texteContientMotif(...).___________________________________
 
 
+	
+	/**
+	 * Détermine si le texte pTexte <b>contient au moins une occurence</b> du motif (pattern) pMotif.<br/>
+	 * Utilise la méthode <code>find()</code> de Matcher.
+	 * <ul>
+	 * <li>retourne true si le texte contient 
+	 * au moins une occurrence du motif.</li>
+	 * <li>utilise : <br/>
+	 * <code>Pattern pattern = Pattern.compile(pMotif);</code><br/>
+	 * <code>Matcher matcher = pattern.matcher(pTexte);</code><br/>
+	 * <code>resultat = matcher.find();</code>
+	 * </li>
+	 * </ul>
+	 * - return false si pTexte est blank.<br/>
+	 * - return false si pMotif est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pTexte : String : texte dont on veut savoir 
+	 * si il contient le motif (pattern) pMotif.<br/>
+	 * @param pMotif : String : le pattern regex.<br/>
+	 * 
+	 * @return : boolean : true si le texte contient 
+	 * au moins une occurence du motif.<br/>
+	 * 
+	 * @throws Exception si le pattern pMotif n'est pas 
+	 * conforme à la syntaxe des Regex.<br/>
+	 */
+	public boolean texteContientMotif(
+			final String pTexte
+				, final String pMotif) 
+						throws Exception {
+		
+		/* return false si pTexte est blank. */
+		if (StringUtils.isBlank(pTexte)) {
+			return false;
+		}
+		
+		/* return false si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return false;
+		}
+		
+		boolean resultat = false;
+		
+		final Pattern pattern = Pattern.compile(pMotif);
+		final Matcher matcher = pattern.matcher(pTexte);
+		
+		resultat = matcher.find();
+		
+		return resultat;
+		
+	} // Fin de texteContientMotif(...).___________________________________
+	
+	
 	
 	/**
 	 * {@inheritDoc}
