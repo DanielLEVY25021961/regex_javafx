@@ -5,11 +5,12 @@ import org.apache.commons.logging.LogFactory;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import levy.daniel.application.controllers.desktop.accueil.IAccueilVueController;
-import levy.daniel.application.controllers.desktop.accueil.impl.AccueilController;
 import levy.daniel.application.vues.desktop.accueil.AccueilVueFxml;
+import levy.daniel.application.vues.desktop.metier.regex.saisietexte.SaisieTexteVueFxml;
 
 /**
  * CLASSE MainApplication :<br/>
@@ -153,7 +154,7 @@ public class MainApplication extends Application {
 			final Stage pPrimaryStage) throws Exception {
 		
 		this.primaryStage = pPrimaryStage;
-		this.primaryStage.setTitle("Application de gestion d'adresses JavaFX");
+		this.primaryStage.setTitle("Application de TEST DES EXPRESSIONS REGULIERES JavaFX");
 				
 		/* Prépare la VUE d'accueil. */
 		this.fabriquerPanneauFond();
@@ -200,14 +201,14 @@ public class MainApplication extends Application {
     	/* FABRIQUE LE PANNEAU DE FOND this.root (BorderPane). */
         /* instancie un AccueilVueFxml chargé de dessiner 
          * la VUE BorderPane this.root. */
-    	final AccueilVueFxml accueilVueFxml = new AccueilVueFxml();
+//    	final AccueilVueFxml accueilVueFxml = new AccueilVueFxml();
     	
     	/* récupère le panneau de fond this.root 
     	 * auprès du AccueilVueFxml. */
-    	this.recupererVue(accueilVueFxml);
+//    	this.recupererVue(accueilVueFxml);
         
         /* récupère le CONTROLLER de VUE auprès du AccueilVueFxml. */
-        this.recupererControllerVue(accueilVueFxml);
+//        this.recupererControllerVue(accueilVueFxml);
  
             
             /* *********************************************** */
@@ -216,8 +217,13 @@ public class MainApplication extends Application {
          * ET SON INCORPORATION DANS lE ROOT. */
         /* Instancie le controller d'accueil 
 		 * qui affiche la VUE d'accueil. */
-   		new AccueilController(this);
+//   		new AccueilController(this);
 
+		
+		this.root = new BorderPane();
+		
+		final AnchorPane saisieTexte = new SaisieTexteVueFxml().getSaisieTexteAnchorPane();
+		this.root.setCenter(saisieTexte);
    		
    		/* *********************************************** */
    		/* FABRIQUE LA SCENE EN LUI PASSANT LE PANNEAU 

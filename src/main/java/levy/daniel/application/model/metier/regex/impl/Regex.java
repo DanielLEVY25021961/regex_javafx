@@ -180,21 +180,9 @@ public class Regex implements IRegex {
 
 	
 	/**
-	 * Détermine si un motif (pattern) pMotif respecte la <b>syntaxe</b> 
-	 * des Expressions régulières (regex).<br/>
-	 * <ul>
-	 * <li>utilise <code>Pattern.compile(pMotif);</code></li>
-	 * <li>traite la <code>PatternSyntaxException</code> levée 
-	 * si la syntaxe est incorrecte.</li>
-	 * </ul>
-	 * - retourne false si pMotif est blank.<br/>
-	 * <br/>
-	 *
-	 * @param pMotif : String : le pattern regex dont on veut savoir 
-	 * si la syntaxe est correcte.<br/>
-	 * 
-	 * @return : boolean : true si la syntaxe est régulière.<br/>
+	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean motifRespecteSyntaxeRegex(
 			final String pMotif) {
 		
@@ -277,31 +265,9 @@ public class Regex implements IRegex {
 
 	
 	/**
-	 * Détermine si le texte pTexte <b>contient au moins une occurence</b> du motif (pattern) pMotif.<br/>
-	 * Utilise la méthode <code>find()</code> de Matcher.
-	 * <ul>
-	 * <li>retourne true si le texte contient 
-	 * au moins une occurrence du motif.</li>
-	 * <li>utilise : <br/>
-	 * <code>Pattern pattern = Pattern.compile(pMotif);</code><br/>
-	 * <code>Matcher matcher = pattern.matcher(pTexte);</code><br/>
-	 * <code>resultat = matcher.find();</code>
-	 * </li>
-	 * </ul>
-	 * - return false si pTexte est blank.<br/>
-	 * - return false si pMotif est blank.<br/>
-	 * <br/>
-	 *
-	 * @param pTexte : String : texte dont on veut savoir 
-	 * si il contient le motif (pattern) pMotif.<br/>
-	 * @param pMotif : String : le pattern regex.<br/>
-	 * 
-	 * @return : boolean : true si le texte contient 
-	 * au moins une occurence du motif.<br/>
-	 * 
-	 * @throws Exception si le pattern pMotif n'est pas 
-	 * conforme à la syntaxe des Regex.<br/>
+	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean texteContientMotif(
 			final String pTexte
 				, final String pMotif) 
