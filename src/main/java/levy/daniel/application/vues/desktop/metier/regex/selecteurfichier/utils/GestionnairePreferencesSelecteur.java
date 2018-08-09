@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.configurationmanagers.gestionnairespreferences;
+package levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,18 +26,18 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
 
 
 /**
- * CLASSE <b>GestionnairePreferences</b> :<br/>
+ * CLASSE <b>GestionnairePreferencesSelecteur</b> :<br/>
  * Classe Utilitaire chargée de gérer les 
- * <b>préférences de l'application</b>.<br/>
+ * <b>préférences du SelecteurFichier</b>.<br/>
  * <br/>
- * Les préférences de l'application sont des données très générales 
+ * Les préférences du Selecteur sont des données 
  * qu'un <b>administrateur doit pouvoir paramétrer</b>. Par exemple :
  * <ul>
- * <li>La langue par défaut de l'application (Locale par défaut)</li>
- * <li>L'encodage par défaut de l'application (Charset par défaut)</li>
+ * <li>Le répertoire sur lequel pointe le sélecteur à son ouverture
+ *  (user.dir par défaut)</li>
  * <li>...</li>
  * </ul>
- * <p>Plus généralement, les préférences de l'application sont tous 
+ * <p>Plus généralement, les préférences du Sélecteur de fichier sont tous 
  * les paramètres que l'administrateur doit ne 
  * <b>saisir qu'une seule fois</b> 
  * et qui doivent rester <b>mémorisés dans l'application</b> tant que 
@@ -116,15 +116,15 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  * @since 24 juil. 2018
  *
  */
-public final class GestionnairePreferences {
+public final class GestionnairePreferencesSelecteur {
 	
 	// ************************ATTRIBUTS************************************/
 	
 	/**
-	 * "Classe GestionnairePreferences".<br/>
+	 * "Classe GestionnairePreferencesSelecteur".<br/>
 	 */
 	public static final String CLASSE_GESTIONNAIRE_PREFERENCES 
-		= "Classe GestionnairePreferences";
+		= "Classe GestionnairePreferencesSelecteur";
 
 	//*****************************************************************/
 	//**************************** SEPARATEURS ************************/
@@ -134,6 +134,28 @@ public final class GestionnairePreferences {
 	 * '/'.<br/>
 	 */
 	public static final char SEPARATEUR_FICHIER = '/';
+	
+
+	/**
+	 * Séparateur de fichiers de la plateforme<br/>
+	 * <ul>
+	 * <li>fourni par System.getProperty("file.separator").</li>
+	 * <li>antislash '\' sur la plateforme Windows.</li>
+	 * <li>slash '/' sur la plateforme Linux.</li>
+	 * </ul>
+	 */
+	public static final String SEPARATEUR_FICHIERS 
+		= System.getProperty("file.separator");
+	
+	
+	/**
+	 * SLASH : char :<br/>
+	 * Séparateur générique des fichiers slash.<br/>
+	 * '/'.<br/>
+	 */
+	public static final char SLASH = '/';
+	
+
 		
 	/**
 	 * SEPARATEUR_MOINS_AERE : String :<br/>
@@ -186,40 +208,43 @@ public final class GestionnairePreferences {
 
 	
 	/**
-	 * clé du charset de l'application dans preferences.properties<br/>
-	 * "application.charset"<br/>
+	 * clé du charset du sélecteur dans 
+	 * preferences_selecteur.properties<br/>
+	 * "selecteur.charset"<br/>
 	 */
 	public static final String KEY_CHARSET_APPLICATION 
-		= "application.charset";
+		= "selecteur.charset";
 	
 	/**
-	 * clé de la locale de l'application dans preferences.properties<br/>
-	 * "application.locale"<br/>
+	 * clé de la locale du sélecteur 
+	 * dans preferences_selecteur.properties<br/>
+	 * "selecteur.locale"<br/>
 	 */
 	public static final String KEY_LOCALE_APPLICATION 
-		= "application.locale";
+		= "selecteur.locale";
 	
 	/**
 	 * clé du répertoire sur lequel s'ouvre le FileChooser 
 	 * dans preferences.properties<br/>
-	 * "repertoire.filechooser"<br/>
+	 * "selecteur.repertoire"<br/>
 	 */
 	public static final String KEY_REPERTOIRE_FILECHOOSER 
-		= "repertoire.filechooser";
+		= "selecteur.repertoire";
 	
 	/**
-	 * Charset par défaut de l'application en dur.<br/>
+	 * Charset par défaut du sélecteur en dur.<br/>
 	 * N'est utilisé que si l'application ne peut lire le Charset 
-	 * indiqué dans preferences.properties.<br/>
+	 * indiqué dans preferences_selecteur.properties.<br/>
 	 * "UTF-8".<br/>
 	 */
 	public static final String CHARSET_STRING_PAR_DEFAUT_EN_DUR 
 		= CHARSET_UTF8.name();
 	
 	/**
-	 * Locale par défaut de l'application en dur.<br/>
+	 * Locale par défaut du sélecteur en dur.<br/>
 	 * N'est utilisé que si l'application ne peut lire la Locale 
-	 * indiquée dans preferences.properties.<br/>
+	 * indiquée dans preferences_selecteur.properties.<br/>
+	 * Locale.FRANCE<br/>
 	 */
 	public static final String LOCALE_STRING_PAR_DEFAUT_EN_DUR 
 		= fournirLangueEtPaysEnFrancais(Locale.FRANCE);
@@ -227,10 +252,11 @@ public final class GestionnairePreferences {
 	/**
 	 * Répertoire par défaut pour le FileChooser en dur.<br/>
 	 * N'est utilisé que si l'application ne peut lire le répertoire 
-	 * indique dans preferences.properties.<br/>
+	 * indique dans preferences_selecteur.properties.<br/>
+	 * "user.dir"<br/>
 	 */
 	public static final String REPERTOIRE_FILECHOOSER_STRING_PAR_DEFAUT_EN_DUR 
-		= System.getProperty("user.dir");
+		= retournerPathGenerique(System.getProperty("user.dir"));
 	
 	
 	/**
@@ -239,7 +265,7 @@ public final class GestionnairePreferences {
 	private static Properties preferences = new Properties();
 	
 	/**
-	 * Path absolu vers preferences.properties.<br/>
+	 * Path absolu vers preferences_selecteur.properties.<br/>
 	 */
 	private static Path pathAbsoluPreferencesProperties;
 	
@@ -251,27 +277,27 @@ public final class GestionnairePreferences {
 	/**
 	 * Chemin relatif (par rapport à src/main/resources) 
 	 * du template contenant le commentataire à ajouter 
-	 * au dessus de preferences.properties.<br/>
-	 * "commentaires_properties/commentaires_preferences_properties.txt"
+	 * au dessus de preferences_selecteur.properties.<br/>
+	 * "commentaires_properties/commentaires_preferences_selecteur_properties.txt"
 	 */
 	private static String cheminRelatifTemplateCommentaire 
-		= "commentaires_properties/commentaires_preferences_properties.txt";
+		= "commentaires_properties/commentaires_preferences_selecteur_properties.txt";
 	
 	/**
 	 * filePreferencesProperties : File :<br/>
-	 * Modélisation Java du fichier preferences.properties.<br/>
+	 * Modélisation Java du fichier preferences_selecteur.properties.<br/>
 	 */
 	private static File filePreferencesProperties;
 		
 	/**
 	 * <b>SINGLETON de Charset par défaut 
-	 * dans l'application</b>.<br/>
+	 * du sélecteur</b>.<br/>
 	 */
 	private static Charset charsetApplication;
 
 	/**
 	 * <b>SINGLETON de la Locale par défaut 
-	 * dans l'application</b>.<br/>
+	 * du sélecteur</b>.<br/>
 	 */
 	private static Locale localeDefautApplication;
 	
@@ -286,7 +312,7 @@ public final class GestionnairePreferences {
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(GestionnairePreferences.class);
+		= LogFactory.getLog(GestionnairePreferencesSelecteur.class);
 	
 	// *************************METHODES************************************/
 	
@@ -295,7 +321,7 @@ public final class GestionnairePreferences {
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * private pour bloquer l'instanciation<br/>
 	 */
-	private GestionnairePreferences() {
+	private GestionnairePreferencesSelecteur() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
@@ -303,18 +329,20 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * <b>sauvegarde sur disque un fichier 
-	 * preferences.properties initial</b> alimenté par des 
+	 * preferences_selecteur.properties initial</b> alimenté par des 
 	 * propriétés [clé-valeur] écrites en dur 
 	 * dans la présente classe.<br/>
 	 * <ul>
 	 * <li>remplit le Properties Java <code>preferences</code> 
 	 * avec des [clé-valeur] stockées en dur dans la classe.</li>
 	 * <li>remplit le fichier <code>filePreferencesProperties</code> 
-	 * (preferences.properties) avec le contenu de <code>preferences</code> 
+	 * (preferences_selecteur.properties) avec le contenu 
+	 * de <code>preferences</code> 
 	 * ([clé-valeur] stockées en dur dans la classe).</li>
 	 * <li>Ecrit en UTF8 le Properties <code>preferences</code> dans 
 	 * le File <code>filePreferencesProperties</code> 
-	 * modélisant le fichier preferences.properties en positionnant 
+	 * modélisant le fichier preferences_selecteur.properties 
+	 * en positionnant 
 	 * le <code>commentaire</code> au dessus.</li>
 	 * <li>Utilise <code>preferences.store(writer, commentaire);</code> 
 	 * avec un try-with-resource.</li>
@@ -327,7 +355,7 @@ public final class GestionnairePreferences {
 	private static void creerFichierPropertiesInitial() 
 											throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* Ajoute les propriétés initiales à preferences. */
 			ajouterPropertiesEnDur();
@@ -363,7 +391,7 @@ public final class GestionnairePreferences {
 	 */
 	private static void ajouterPropertiesEnDur() {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* ajoute le charset par défaut stocké en dur CHARSET_UTF8. */
 			preferences.setProperty(
@@ -389,10 +417,10 @@ public final class GestionnairePreferences {
 	/**
 	 * <b>Instancie tous les attributs</b> relatifs 
 	 * au fichier de preferences <b>si ils sont null</b>.<br/>
-	 * <b>Crée le fichier preferences.properties vide</b> 
+	 * <b>Crée le fichier preferences_selecteur.properties vide</b> 
 	 * (et son arborescence) 
 	 * sur HDD <b>si il n'existe pas déjà</b>.<br/>
-	 * <b>obtient le path du preferences.properties</b> 
+	 * <b>obtient le path du preferences_selecteur.properties</b> 
 	 * dans les ressources externes auprès du 
 	 * <b>ConfigurationApplicationManager</b>.<br/>
 	 * <ul>
@@ -400,7 +428,8 @@ public final class GestionnairePreferences {
 	 * <li>instancie filePreferencesProperties.</li>
 	 * <li>Crée sur le disque dur l'arborescence et le fichier 
 	 * filePreferencesProperties si nécessaire.</li>
-	 * <li>ajoute le commentaire au début du preferences.properties.</li>
+	 * <li>ajoute le commentaire au début du 
+	 * preferences_selecteur.properties.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
@@ -408,7 +437,7 @@ public final class GestionnairePreferences {
 	private static void instancierAttributsFichierProperties() 
 			throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* obtient le path du properties dans les 
 			 * ressources externes auprès du 
@@ -420,12 +449,13 @@ public final class GestionnairePreferences {
 			if (pathAbsoluPreferencesProperties == null) {
 				pathAbsoluPreferencesProperties 
 				= pathRessourcesExternes
-					.resolve("preferences/preferences.properties");
+					.resolve("preferences/preferences_selecteur.properties");
 			}
 			
 			if (filePreferencesProperties == null) {
+				
 				filePreferencesProperties 
-				= pathAbsoluPreferencesProperties.toFile();
+					= pathAbsoluPreferencesProperties.toFile();
 				
 				if (!filePreferencesProperties.exists()) {
 					creerRepertoiresArbo(filePreferencesProperties);
@@ -462,7 +492,7 @@ public final class GestionnairePreferences {
 	private static void creerRepertoiresArbo(
 			final File pFile) throws IOException {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* ne fait rien si pFile == null. */
 			if (pFile == null) {
@@ -485,7 +515,7 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * <b>lit le fichier 
-	 * ressources_externes/preferences/preferences.properties</b> 
+	 * ressources_externes/preferences/preferences_selecteur.properties</b> 
 	 * et alimente le <i>Properties</i> <b>preferences</b> 
 	 * en le décodant en UTF8.<br/>
 	 * <ul>
@@ -501,7 +531,7 @@ public final class GestionnairePreferences {
 	private static void lireFichierPreferencesProperties() 
 												throws Exception {
 
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* initialise les attributs relatifs aux fichiers preferences. */
 			instancierAttributsFichierProperties();
@@ -525,7 +555,7 @@ public final class GestionnairePreferences {
 	/**
 	 * <b>Enregistre en UTF8</b> le <i>Properties</i> preferences dans 
 	 * le <i>fichier</i> <b>ressources_externes/preferences/
-	 * preferences.properties</b>.<br/>
+	 * preferences_selecteur.properties</b>.<br/>
 	 * <ul>
 	 * <li>initialise le <i>Properties</i> <b>preferences</b> 
 	 * et remplit le <i>fichier</i> .properties si nécessaire.</li>
@@ -545,7 +575,7 @@ public final class GestionnairePreferences {
 	private static void enregistrerFichierPreferencesProperties() 
 			throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
@@ -606,7 +636,7 @@ public final class GestionnairePreferences {
 			final String pCheminRelatifTemplate) 
 									throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* retourne null si pCheminRelatifTemplate est blank. */
 			if (StringUtils.isBlank(pCheminRelatifTemplate)) {
@@ -656,7 +686,7 @@ public final class GestionnairePreferences {
 			final String pCheminRelatifTemplate) 
 									throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* retourne null si pCheminRelatifTemplate est blank. */
 			if (StringUtils.isBlank(pCheminRelatifTemplate)) {
@@ -725,7 +755,7 @@ public final class GestionnairePreferences {
 			final File pFile
 				, final Charset pCharset) throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* Retourne null si pFile est null. */
 			if (pFile == null) {
@@ -742,7 +772,8 @@ public final class GestionnairePreferences {
 				return null;
 			}
 			
-			/* Utilise automatiquement le CHARSET_UTF8 si pCharset est null. */
+			/* Utilise automatiquement le CHARSET_UTF8 
+			 * si pCharset est null. */
 			Charset charset = null;
 			
 			if (pCharset == null) {
@@ -831,7 +862,7 @@ public final class GestionnairePreferences {
 	private static String creerStringAPartirDeListe(
 			final List<String> pList) {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* retourne null si pList == null. */
 			if (pList == null) {
@@ -854,6 +885,44 @@ public final class GestionnairePreferences {
 		} // Fin du bloc synchronized.__________________
 		
 	} // Fin de creerStringAPartirDeListe(...).____________________________
+	
+	
+
+	/**
+	 * method retournerPathGenerique(
+	 * String pPathString) :<br/>
+	 * <ul>
+	 * <li><b>Remplace les séparateurs de fichier antislash</b> 
+	 * dans pPath par des <b>séparateurs génériques slash '/'</b>.</li>
+	 * <li>Par exemple : <br/>
+	 * <code>retournerPathGenerique("D:\Donnees
+	 * \eclipse\eclipseworkspace_neon\generation_code")</code> 
+	 * retourne 
+	 * <code>
+	 * "D:/Donnees/eclipse/eclipseworkspace_neon/generation_code"
+	 * </code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @param pPathString : String.<br/>
+	 * 
+	 * @return : String : String avec des slashes
+	 *  à la place des antislash.<br/>
+	 */
+	private static String retournerPathGenerique(
+			final String pPathString) {
+		
+		/* retourne null si pPathString est blank. */
+		if (StringUtils.isBlank(pPathString)) {
+			return null;
+		}
+		
+		final String resultat 
+			= StringUtils.replaceChars(pPathString, '\\', SLASH);
+		
+		return resultat;
+		
+	} // Fin de retournerPathGenerique(...)._______________________________
 	
 	
 	
@@ -991,9 +1060,10 @@ public final class GestionnairePreferences {
 
 	
 	/**
-	 * fournit une String pour l'affichage de preferences.properties.<br/>
+	 * fournit une String pour l'affichage de 
+	 * preferences_selecteur.properties.<br/>
 	 * <ul>
-	 * <li>crée le fichier preferences.properties et alimente 
+	 * <li>crée le fichier preferences_selecteur.properties et alimente 
 	 * le Properties preferences avec des valeurs en dur 
 	 * si preferences est vide.</li>
 	 * <li>trace EX_FONCT_PARAMETRAGE_01</li>
@@ -1004,7 +1074,7 @@ public final class GestionnairePreferences {
 	 */
 	public static String afficherPreferences() throws Exception {
 
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le fichier preferences.properties et alimente 
 			 * le Properties preferences avec des valeurs en dur 
@@ -1056,7 +1126,7 @@ public final class GestionnairePreferences {
 			final String pKey
 				, final String pValue) throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
@@ -1110,7 +1180,7 @@ public final class GestionnairePreferences {
 			final String pKey) 
 					throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
@@ -1155,7 +1225,7 @@ public final class GestionnairePreferences {
 	 */
 	public static boolean viderPreferences() throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
@@ -1215,9 +1285,9 @@ public final class GestionnairePreferences {
 			
 	/**
 	 * Getter du Chemin relatif (par rapport à src/main/resources) 
-	 * du template contenant le commentataire à ajouter 
-	 * au dessus de preferences.properties.<br/>
-	 * "commentaires_properties/commentaires_preferences_properties.txt"
+	 * du template contenant le commentaire à ajouter 
+	 * au dessus de preferences_selecteur.properties.<br/>
+	 * "commentaires_properties/commentaires_preferences_selecteur_properties.txt"
 	 * <br/>
 	 *
 	 * @return cheminRelatifTemplateCommentaire : String.<br/>
@@ -1232,7 +1302,7 @@ public final class GestionnairePreferences {
 	 * Getter du Properties encapsulant les préférences.<br/>
 	 * SINGLETON.<br/>
 	 * <ul>
-	 * <li>crée le fichier preferences.properties et alimente 
+	 * <li>crée le fichier preferences_selecteur.properties et alimente 
 	 * le Properties preferences avec des valeurs en dur 
 	 * si preferences est vide.</li>
 	 * <li>trace EX_FONCT_PARAMETRAGE_01</li>
@@ -1244,7 +1314,7 @@ public final class GestionnairePreferences {
 	 */
 	public static Properties getPreferences() throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le fichier preferences.properties et alimente 
 			 * le Properties preferences avec des valeurs en dur 
@@ -1262,7 +1332,7 @@ public final class GestionnairePreferences {
 
 		
 	/**
-	 * Getter du Path absolu vers preferences.properties.<br/>
+	 * Getter du Path absolu vers preferences_selecteur.properties.<br/>
 	 * SINGLETON.<br/>
 	 *
 	 * @return pathAbsoluPreferencesProperties : Path.<br/>
@@ -1272,7 +1342,7 @@ public final class GestionnairePreferences {
 	public static Path getPathAbsoluPreferencesProperties() 
 											throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			if (pathAbsoluPreferencesProperties == null) {
 				instancierAttributsFichierProperties();
@@ -1288,7 +1358,7 @@ public final class GestionnairePreferences {
 		
 	/**
 	 * Getter de la  Modélisation Java du fichier 
-	 * preferences.properties.<br/>
+	 * preferences_selecteur.properties.<br/>
 	 * SINGLETON.<br/>
 	 *
 	 * @return filePreferencesProperties : File.<br/>
@@ -1297,7 +1367,7 @@ public final class GestionnairePreferences {
 	 */
 	public static File getFilePreferencesProperties() throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			if (filePreferencesProperties == null) {
 				creerFichierPropertiesInitial();
@@ -1312,9 +1382,9 @@ public final class GestionnairePreferences {
 
 
 	/**
-	 * retourne le Charset par défaut de l'application.<br/>
+	 * retourne le Charset par défaut du sélecteur.<br/>
 	 * <ul>
-	 * <li>lit le charset stocké dans preferences.properties 
+	 * <li>lit le charset stocké dans preferences_selecteur.properties 
 	 * si il n'est pas null.</li>
 	 * <li>UTF-8 sinon (Charset stocké en dur dans la classe).</li>
 	 * </ul>
@@ -1330,7 +1400,7 @@ public final class GestionnairePreferences {
 	private static Charset fournirCharsetPrefere() 
 			throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
@@ -1373,8 +1443,8 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * Getter de la clé du charset par défaut de l'application 
-	 * dans preferences.properties.<br/>
-	 * "application.charset".<br/>
+	 * dans preferences_selecteur.properties.<br/>
+	 * "selecteur.charset".<br/>
 	 *
 	 * @return KEY_CHARSET_APPLICATION : String.<br/>
 	 */
@@ -1413,11 +1483,11 @@ public final class GestionnairePreferences {
 	* <b>Enregistre la valeur sur disque</b>.<br/>
 	* <ul>
 	* <li>crée le Properties preferences et le fichier 
-	* preferences.properties et les remplit avec des valeurs 
+	* preferences_selecteur.properties et les remplit avec des valeurs 
 	* en dur si nécessaire.</li>
 	* <li>modifie preferences avec la nouvelle valeur 
 	* passée dans le setter.</li>
-	* <li>ré-écrit entièrement le fichier preferences.properties 
+	* <li>ré-écrit entièrement le fichier preferences_selecteur.properties 
 	* mis à jour.</li>
 	* <li>trace EX_TEC_PARAMETRAGE_04.</li>
 	* </ul>
@@ -1433,7 +1503,7 @@ public final class GestionnairePreferences {
 	public static void setCharsetApplication(
 			final Charset pCharsetApplication) throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* ne fait rien si pCharsetApplication == null 
 			 * ou pCharsetApplication == charsetApplication. */
@@ -1486,7 +1556,7 @@ public final class GestionnairePreferences {
 			final Locale pLocale) {
 		
 		/* Bloc synchronized. */
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			return 
 					pLocale.getDisplayLanguage(Locale.FRANCE) 
 					+ " (" + pLocale.getDisplayCountry(Locale.FRANCE) + ")";
@@ -1575,9 +1645,9 @@ public final class GestionnairePreferences {
 
 	
 	/**
-	 * retourne la Locale par défaut de l'application.<br/>
+	 * retourne la Locale par défaut du sélecteur.<br/>
 	 * <ul>
-	 * <li>lit la Locale stockée dans preferences.properties 
+	 * <li>lit la Locale stockée dans preferences_selecteur.properties 
 	 * si il n'est pas null.</li>
 	 * <li>Locale par défaut en dur sinon (Locale.FRANCE).</li>
 	 * </ul>
@@ -1592,7 +1662,7 @@ public final class GestionnairePreferences {
 	 */
 	private static Locale fournirLocalePreferee() throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
@@ -1629,9 +1699,9 @@ public final class GestionnairePreferences {
 	
 	
 	/**
-	 * getter de la clé de la Locale par défaut de l'application 
-	 * dans preferences.properties.<br/>
-	 * "application.locale".<br/>
+	 * getter de la clé de la Locale par défaut du sélecteur 
+	 * dans preferences_selecteur.properties.<br/>
+	 * "selecteur.locale".<br/>
 	 *
 	 * @return KEY_LOCALE_APPLICATION : String.<br/>
 	 */
@@ -1643,9 +1713,9 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * Getter du <b>SINGLETON de la Locale par défaut 
-	 * dans l'application</b>.
+	 * du sélecteur</b>.
 	 * <ul>
-	 * <li>lit la Locale stockée dans preferences.properties 
+	 * <li>lit la Locale stockée dans preferences_selecteur.properties 
 	 * si il n'est pas null.</li>
 	 * <li>Locale par défaut en dur sinon (Locale.FRANCE).</li>
 	 * </ul>
@@ -1666,15 +1736,16 @@ public final class GestionnairePreferences {
 	
 	/**
 	* Setter du <b>SINGLETON de la Locale par défaut 
-	* dans l'application</b>.<br/>
+	* du sélecteur</b>.<br/>
 	* <b>Enregistre la valeur sur disque</b>.<br/>
 	* <ul>
 	* <li>crée le Properties preferences et le fichier 
-	* preferences.properties et les remplit avec des valeurs 
+	* preferences_selecteur.properties et les remplit avec des valeurs 
 	* en dur si nécessaire.</li>
 	* <li>modifie preferences avec la nouvelle valeur 
 	* passée dans le setter.</li>
-	* <li>ré-écrit entièrement le fichier preferences.properties 
+	* <li>ré-écrit entièrement le fichier 
+	* preferences_selecteur.properties 
 	* mis à jour.</li>
 	* <li>trace EX_TEC_PARAMETRAGE_04.</li>
 	* </ul>
@@ -1690,7 +1761,7 @@ public final class GestionnairePreferences {
 	public static void setLocaleDefautApplication(
 			final Locale pLocaleDefautApplication) throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* ne fait rien si pLocaleDefautApplication == null 
 			 * ou si pLocaleDefautApplication == localeDefautApplication. */
@@ -1726,7 +1797,7 @@ public final class GestionnairePreferences {
 	/**
 	 * retourne le répertoire par défaut du FileChooser.<br/>
 	 * <ul>
-	 * <li>lit le répertoire stocké dans preferences.properties 
+	 * <li>lit le répertoire stocké dans preferences_selecteur.properties 
 	 * si il n'est pas null.</li>
 	 * <li>répertoire par défaut en dur sinon (user.dir).</li>
 	 * </ul>
@@ -1741,7 +1812,7 @@ public final class GestionnairePreferences {
 	 */
 	private static File fournirRepertoirePrefere() throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
+		synchronized (GestionnairePreferencesSelecteur.class) {
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
@@ -1781,10 +1852,10 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * Getter de la clé du répertoire sur lequel s'ouvre le FileChooser 
-	 * dans preferences.properties<br/>
-	 * "repertoire.filechooser"<br/>
+	 * dans preferences_selecteur.properties<br/>
+	 * "selecteur.repertoire"<br/>
 	 *
-	 * @return : String : "repertoire.filechooser".<br/>
+	 * @return : String : "selecteur.repertoire".<br/>
 	 */
 	public static String fournirKeyRepertoireFileChooser() {
 		return KEY_REPERTOIRE_FILECHOOSER;
@@ -1796,7 +1867,7 @@ public final class GestionnairePreferences {
 	 * Getter du <b>SINGLETON de repértoire par défaut 
 	 * du FileChooser</b>.
 	 * <ul>
-	 * <li>lit le répertoire stocké dans preferences.properties 
+	 * <li>lit le répertoire stocké dans preferences_selecteur.properties 
 	 * si il n'est pas null.</li>
 	 * <li>répertoire par défaut en dur sinon (user.dir).</li>
 	 * </ul>
@@ -1822,11 +1893,11 @@ public final class GestionnairePreferences {
 	* <b>Enregistre la valeur sur disque</b>.<br/>
 	* <ul>
 	* <li>crée le Properties preferences et le fichier 
-	* preferences.properties et les remplit avec des valeurs 
+	* preferences_selecteur.properties et les remplit avec des valeurs 
 	* en dur si nécessaire.</li>
 	* <li>modifie preferences avec la nouvelle valeur 
 	* passée dans le setter.</li>
-	* <li>ré-écrit entièrement le fichier preferences.properties 
+	* <li>ré-écrit entièrement le fichier preferences_selecteur.properties 
 	* mis à jour.</li>
 	* <li>trace EX_TEC_PARAMETRAGE_04.</li>
 	* </ul>
@@ -1846,8 +1917,8 @@ public final class GestionnairePreferences {
 			final File pRepertoirePrefereFileChooser) 
 											throws Exception {
 		
-		synchronized (GestionnairePreferences.class) {
-			
+		synchronized (GestionnairePreferencesSelecteur.class) {
+						
 			/* ne fait rien si pRepertoirePrefereFileChooser == null 
 			 * ou si pRepertoirePrefereFileChooser == repertoirePrefereFileChooser. */
 			if (pRepertoirePrefereFileChooser != null 
@@ -1868,7 +1939,8 @@ public final class GestionnairePreferences {
 				repertoirePrefereFileChooser = pRepertoirePrefereFileChooser;
 				
 				final String nomRepertoire 
-					= repertoirePrefereFileChooser.getAbsolutePath();
+					= retournerPathGenerique(
+							repertoirePrefereFileChooser.getAbsolutePath());
 				
 				/* crée le Properties preferences et 
 				 * le remplit avec des valeurs en dur si nécessaire. */
@@ -1890,4 +1962,4 @@ public final class GestionnairePreferences {
 	
 		
 	
-} // FIN DE LA CLASSE GestionnairePreferences.-------------------------------
+} // FIN DE LA CLASSE GestionnairePreferencesSelecteur.-------------------------------
