@@ -138,7 +138,7 @@ public class GestionnairePreferencesSelecteurTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -155,11 +155,11 @@ public class GestionnairePreferencesSelecteurTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("preferences.properties détruit : " + detruit);
+				System.out.println("preferences_selecteur.properties détruit : " + detruit);
 			}
 			
 			assertFalse(
-					"le fichier preferences.properties doit avoir été détruit : "
+					"le fichier preferences_selecteur.properties doit avoir été détruit : "
 						, this.filePreferencesProperties.exists());
 		}
 		
@@ -178,6 +178,7 @@ public class GestionnairePreferencesSelecteurTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
+			System.out.println("user.dir : " + System.getProperty("user.dir"));
 			System.out.println("Le charset du sélecteur est : " + charsetSelecteur.displayName());
 			System.out.println("La locale du sélecteur est : " + localeSelecteur.getDisplayName());
 			System.out.println("le répertoire du sélecteur est : " + repertoireSelecteur.getAbsolutePath());
