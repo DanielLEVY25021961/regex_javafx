@@ -9,9 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.ISelecteurFichier;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.SelecteurFichier;
+import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.GestionnairePreferencesSelecteur;
 
 
 /**
@@ -115,24 +115,59 @@ public class SaisieTexteVueController {
 
 	
 	/**
-	 * .<br/>
+	 * OnClick : Ouvre un FileChooser, permet de sélectionner un fichier 
+	 * et d'injecter son contenu dans this.textArea.<br/>
 	 * <ul>
-	 * <li>.</li>
+	 * <li>récupère le répertoire dans les préférences.</li>
+	 * <li>instancie un SelecteurFichier et configure son FileChooser.</li>
+	 * <li>affiche le FileChooser, permet la sélection d'un fichier 
+	 * et retourne son contenu.</li>
+	 * <li>remplit this.textArea avec le contenu.</li>
 	 * </ul>
-	 * :  :  .<br/>
+	 * 
+	 * @throws Exception 
 	 */
 	@FXML
-	public final void lireFichier() {
+	public final void lireFichier() throws Exception {
 
-		final File repertoirePrefere = new File("D:/Donnees/eclipse/eclipseworkspace_oxygen/regex_javafx/ressources_externes");
-		final ISelecteurFichier selecteurFichier = new SelecteurFichier("Sélectionnez le fichier à lire", repertoirePrefere);
-		final FileChooser fileChooser = selecteurFichier.getFileChooser();
+		/* récupère le répertoire dans les préférences. */
+		final File repertoirePrefere 
+			= GestionnairePreferencesSelecteur
+				.getRepertoirePrefereFileChooser();
 		
-		/* récupération du File sélectionné par l'utilisateur. */
-		final File fichierChoisi = fileChooser.showOpenDialog(null);
+		/* instancie un SelecteurFichier et configure son FileChooser. */
+		final ISelecteurFichier selecteurFichier 
+			= new SelecteurFichier(
+					"Sélectionnez le fichier à lire", repertoirePrefere);
+
+		/* affiche le FileChooser, permet la sélection 
+		 * d'un fichier et retourne son contenu. */
+		final String contenu = selecteurFichier.selectionnerEtLire(null);
 		
-		System.out.println("Fichier choisi : " + fichierChoisi.getAbsolutePath());
-	}
+		/* remplit this.textArea avec le contenu. */
+		this.remplirTextArea(contenu);
+		
+	} // Fin de lireFichier()._____________________________________________
+	
+
+	
+	/**
+	 * Injecte le texte pString dans this.textArea.<br/>
+	 * <ul>
+	 * <li>ne fait rien si pString == null.</li>
+	 * </ul>
+	 *
+	 * @param pString : String.<br/>
+	 */
+	private void remplirTextArea(
+			final String pString) {
+		
+		/* ne fait rien si pString == null. */
+		if (pString != null) {
+			this.textArea.setText(pString);
+		}
+		
+	} // Fin de remplirTextArea(...).______________________________________
 	
 	
 	

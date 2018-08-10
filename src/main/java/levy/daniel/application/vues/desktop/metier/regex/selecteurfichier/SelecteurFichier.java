@@ -32,6 +32,9 @@ import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.
  * <li>Retourne le contenu du fichier sélectionné sous forme de String.</li>
  * </ul>
  * <br/>
+ * <img src="../../../../../../../../../../../javadoc/images/selecteur_fichier.png" 
+ * alt="diagramme de classes SelecteurFichier" border="1" align="center" />
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
  * <code><i>// Instancie un SelecteurFichier 
@@ -202,7 +205,7 @@ public class SelecteurFichier implements ISelecteurFichier {
 		
 		this.fichierSelectionne = null;
 		
-		/* ouvre le FileChooser. */
+		/* affiche le FileChooser. */
 		final File fichierChoisi = 
 				this.fileChooser.showOpenDialog(pStage);
 		

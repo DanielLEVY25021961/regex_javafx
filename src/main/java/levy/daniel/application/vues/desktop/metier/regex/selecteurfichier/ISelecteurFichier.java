@@ -10,6 +10,9 @@ import javafx.stage.Stage;
  * INTERFACE ISelecteurFichier :<br/>
  * Interface factorisant les comportements des SelecteurFichier concrets.<br/>
  * <br/>
+ * <img src="../../../../../../../../../../../javadoc/images/selecteur_fichier.png" 
+ * alt="diagramme de classes SelecteurFichier" border="1" align="center" />
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
  * <code><i>// Instancie un SelecteurFichier 

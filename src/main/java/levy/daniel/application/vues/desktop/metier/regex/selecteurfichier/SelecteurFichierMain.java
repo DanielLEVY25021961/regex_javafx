@@ -40,6 +40,7 @@ import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
+ * se lance comme une application Java.<br/>
  * <br/>
  * 
  * - Mots-clé :<br/>

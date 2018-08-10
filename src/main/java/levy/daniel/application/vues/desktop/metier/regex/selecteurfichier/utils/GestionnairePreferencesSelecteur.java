@@ -37,6 +37,11 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  *  (user.dir par défaut)</li>
  * <li>...</li>
  * </ul>
+ * <br/>
+ * <img src="../../../../../../../../../../../../javadoc/images/GestionnairePreferencesSelecteur.png" 
+ * alt="GestionnairePreferencesSelecteur" border="1" align="center" />
+ * <br/><br/>
+ * 
  * <p>Plus généralement, les préférences du Sélecteur de fichier sont tous 
  * les paramètres que l'administrateur doit ne 
  * <b>saisir qu'une seule fois</b> 
