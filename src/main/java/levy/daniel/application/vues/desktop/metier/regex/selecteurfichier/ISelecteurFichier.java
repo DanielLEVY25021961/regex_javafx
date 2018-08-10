@@ -7,14 +7,29 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * CLASSE ISelecteurFichier :<br/>
- * .<br/>
+ * INTERFACE ISelecteurFichier :<br/>
+ * Interface factorisant les comportements des SelecteurFichier concrets.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
+ * <code><i>// Instancie un SelecteurFichier 
+ * et configure son FileChooser en le positionnant 
+ * sur le répertoire préféré.</i></code><br/>
+ * <code><b>ISelecteurFichier selecteur 
+ * = new SelecteurFichier(titre, 
+ * GestionnairePreferencesSelecteur.getRepertoirePrefereFileChooser());</b></code><br/>
+ * <code><i>// Ouvre le FileChooser sur le répertoire mémorisé, 
+ * permet la sélection d'un fichier et lit le 
+ * contenu du fichier en UTF8.<br/>
+ * // Mémorise éventuellement le nouveau répertoire.</i></code><br/>
+ * <code><b>selecteur.selectionnerEtLire(pPrimaryStage);</b></code><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * FileChooser, Properties, fichier properties, préférences, <br/>
+ * preferences, lire le contenu d'un fichier, lire fichier, <br/>
+ * créer une String à partir d'une liste de lignes,<br/>
+ * mémoriser répertoire, écrire repertoire dans préférences,<br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -28,19 +43,19 @@ import javafx.stage.Stage;
  */
 public interface ISelecteurFichier {
 
+
 	/**
-	 * "Classe SelecteurFichier".<br/>
-	 */
-	String CLASSE_SELECTEURFICHIER = "Classe SelecteurFichier";
-	/**
-	 * METHODE_LIRE_STRINGS_DANS_FILE : String :<br/>
 	 * "méthode lireStringsDansFile(File pFile, Charset pCharset)".<br/>
 	 */
-	String METHODE_LIRE_STRINGS_DANS_FILE = "méthode lireStringsDansFile(File pFile, Charset pCharset)";
+	String METHODE_LIRE_STRINGS_DANS_FILE 
+		= "méthode lireStringsDansFile(File pFile, Charset pCharset)";
+	
 	/**
 	 * " - ".<br/>
 	 */
 	String SEPARATEUR_MOINS_AERE = " - ";
+	
+	
 	//*****************************************************************/
 	//**************************** CHARSETS ***************************/
 	//*****************************************************************/
@@ -49,6 +64,8 @@ public interface ISelecteurFichier {
 	 * Eight-bit Unicode (or UCS) Transformation Format.<br/> 
 	 */
 	Charset CHARSET_UTF8 = Charset.forName("UTF-8");
+	
+	
 	//*****************************************************************/
 	//**************************** SAUTS ******************************/
 	//*****************************************************************/	
@@ -57,6 +74,8 @@ public interface ISelecteurFichier {
 	 * System.getProperty("line.separator").<br/>
 	 */
 	String NEWLINE = System.getProperty("line.separator");
+	
+	
 
 	/**
 	 * Ouvre un FileChooser, permet la sélection d'un fichier, 
@@ -71,13 +90,15 @@ public interface ISelecteurFichier {
 	 * </ul>
 	 *
 	 * @param pStage : Stage : Fenêtre (théâtre) 
-	 * englobant le FileChooser.<br/>
+	 * englobant le FileChooser.<br/> Peut être null.<br/>
 	 * 
 	 * @return String : le contenu du fichier.<br/>
 	 * 
 	 * @throws Exception
 	 */
-	String selectionnerEtLire(Stage pStage) throws Exception; // Fin de selectionnerEtLire(...).___________________________________
+	String selectionnerEtLire(Stage pStage) throws Exception;
+	
+	
 
 	/**
 	 * Ouvre le FileChooser et récupère le fichier sélectionné.<br/>
@@ -102,13 +123,15 @@ public interface ISelecteurFichier {
 	 * <br/>
 	 *
 	 * @param pStage : Stage : Fenêtre (théâtre) 
-	 * englobant le FileChooser.<br/>
+	 * englobant le FileChooser.<br/> Peut être null.<br/>
 	 * 
 	 * @return : File : this.fichierSelectionne.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	File ouvrirEtSelectionnerFichier(Stage pStage) throws Exception; // Fin de ouvrirEtSelectionnerFichier(...).__________________________
+	File ouvrirEtSelectionnerFichier(Stage pStage) throws Exception;
+	
+	
 
 	/**
 	 * lit (en UTF8) le contenu d'un fichier "textuel"
@@ -137,7 +160,9 @@ public interface ISelecteurFichier {
 	 * 
 	 * @throws Exception 
 	 */
-	String lireContenuFichier(File pFile) throws Exception; // Fin de lireContenuFichier(...).___________________________________
+	String lireContenuFichier(File pFile) throws Exception;
+	
+	
 
 	/**
 	 * Getter du FileChooser (Browser : VUE) pour 
@@ -145,15 +170,19 @@ public interface ISelecteurFichier {
 	 *
 	 * @return this.fileChooser : FileChooser.<br/>
 	 */
-	FileChooser getFileChooser(); // Fin de getFileChooser().__________________________________________
+	FileChooser getFileChooser();
+	
+	
 
 	/**
 	 * Getter du titre du FileChooser.<br/>
 	 *
 	 * @return this.titre : String.<br/>
 	 */
-	String getTitre(); // Fin de getTitre().________________________________________________
-
+	String getTitre();
+	
+	
+	
 	/**
 	* Setter du titre du FileChooser.<br/>
 	* <ul>
@@ -165,7 +194,9 @@ public interface ISelecteurFichier {
 	* @param pTitre : String : 
 	* valeur à passer à this.titre.<br/>
 	*/
-	void setTitre(String pTitre); // Fin de setTitre(...)._____________________________________________
+	void setTitre(String pTitre);
+	
+	
 
 	/**
 	 * Getter du répertoire sur lequel va pointer 
@@ -173,7 +204,9 @@ public interface ISelecteurFichier {
 	 *
 	 * @return this.repertoirePrefere : File.<br/>
 	 */
-	File getRepertoirePrefere(); // Fin de getRepertoirePrefere().____________________________________
+	File getRepertoirePrefere();
+	
+	
 
 	/**
 	* Setter du répertoire sur lequel va pointer 
@@ -188,7 +221,9 @@ public interface ISelecteurFichier {
 	* @param pRepertoirePrefere : File : 
 	* valeur à passer à this.repertoirePrefere.<br/>
 	*/
-	void setRepertoirePrefere(File pRepertoirePrefere); // Fin de setRepertoirePrefere(...)._________________________________
+	void setRepertoirePrefere(File pRepertoirePrefere);
+	
+	
 
 	/**
 	 * Getter du fichier sélectionné par l'utilisateur 
@@ -196,7 +231,9 @@ public interface ISelecteurFichier {
 	 *
 	 * @return this.fichierSelectionne : File.<br/>
 	 */
-	File getFichierSelectionne(); // Fin de getFichierSelectionne().___________________________________
+	File getFichierSelectionne();
+	
+	
 
 	/**
 	 * Getter du contenu sous forme de String du 
@@ -205,6 +242,8 @@ public interface ISelecteurFichier {
 	 *
 	 * @return this.contenuFichierSelectionne : String.<br/>
 	 */
-	String getContenuFichierSelectionne(); // Fin de getContenuFichierSelectionne().____________________________
+	String getContenuFichierSelectionne();
+	
+	
 
-}
+} // FIN DE L'INTERFACE ISelecteurFichier.-----------------------------------

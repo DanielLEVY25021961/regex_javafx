@@ -105,6 +105,13 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * répertoire du projet, System.getProperty("user.dir"),<br/>
+ * Properties, préférences, Preferences, <br/>
+ * Template, template, lire dans fichier,<br/>
+ * enregistrer des préférences dans un Properties, fichier properties, <br/>
+ * commentaire dans un fichier properties, écrire commentaire, <br/>
+ * lire dans un fichier properties, écrire dans un fichier properties, <br/>
+ * créer une String à partir d'une liste de lignes, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -228,6 +235,7 @@ public final class GestionnairePreferences {
 	 * Répertoire par défaut pour le FileChooser en dur.<br/>
 	 * N'est utilisé que si l'application ne peut lire le répertoire 
 	 * indique dans preferences.properties.<br/>
+	 * Répertoire du projet : "user.dir"<br/>
 	 */
 	public static final String REPERTOIRE_FILECHOOSER_STRING_PAR_DEFAUT_EN_DUR 
 		= System.getProperty("user.dir");
@@ -1332,6 +1340,11 @@ public final class GestionnairePreferences {
 		
 		synchronized (GestionnairePreferences.class) {
 			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
+			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
@@ -1594,6 +1607,11 @@ public final class GestionnairePreferences {
 		
 		synchronized (GestionnairePreferences.class) {
 			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
+			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
@@ -1742,6 +1760,11 @@ public final class GestionnairePreferences {
 	private static File fournirRepertoirePrefere() throws Exception {
 		
 		synchronized (GestionnairePreferences.class) {
+			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */

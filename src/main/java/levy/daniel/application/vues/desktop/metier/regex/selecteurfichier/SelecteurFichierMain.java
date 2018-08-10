@@ -12,24 +12,39 @@ import org.apache.commons.logging.LogFactory;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.GestionnairePreferencesSelecteur;
 
 /**
  * CLASSE SelecteurFichierMain :<br/>
- * .<br/>
+ * Classe applicative permettant d'afficher un bouton ouvrant 
+ * un FileChooser (encapsulé dans un SelecteurFichier).<br/>
+ * <br/>
+ * <img src="../../../../../../../../../../../javadoc/images/Lanceur de FileChooser.png" 
+ * alt="fenêtre lanceur de FileChooser" border="1" align="center" />
+ * <br/><br/>
+ * Après appui sur le bouton :
+ * <br/><br/>
+ * <img src="../../../../../../../../../../../javadoc/images/FileChooser-Sélectionnez un fichier.png" 
+ * alt="FileChooser" border="1" align="center" />
+ * <br/><br/>
+ * 
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
- *<br/>
+ * <br/>
  * 
  * - Mots-clé :<br/>
+ * bouton, Button, évènementiel, FileChooser, <br/>
+ * java.awt.Desktop, emulateur Windows, ouvrir un fichier type MIME, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -92,11 +107,18 @@ public class SelecteurFichierMain extends Application {
 		this.configurerButton(pPrimaryStage);
 		this.configurerGridPane();
 		
-		final Pane rootGroup = new VBox(12);		
-        rootGroup.getChildren().addAll(this.inputGridPane);
+		final BorderPane rootGroup = new BorderPane();
+		rootGroup.setPrefSize(400d, 100d);
+		rootGroup.setCenter(this.inputGridPane);
+
         rootGroup.setPadding(new Insets(12, 12, 12, 12));
  
-        pPrimaryStage.setScene(new Scene(rootGroup));
+        /* Titre du théâtre. */
+        pPrimaryStage.setTitle("Lanceur de FileChooser");
+        
+        final Scene scene = new Scene(rootGroup);
+        
+        pPrimaryStage.setScene(scene);
         
         pPrimaryStage.show();
 
@@ -106,12 +128,21 @@ public class SelecteurFichierMain extends Application {
 	
 
 	/**
-	 * .<br/>
+	 * Configure le Button pour qu'il ouvre le FileChooser 
+	 * sur un click.<br/>
 	 * <ul>
-	 * <li></li>
+	 * <li>récupère le répertoire mémorisé auprès du 
+	 * GestionnairePreferencesSelecteur.</li>
+	 * <li>instancie un Selecteur fichier en 
+	 * configurant son FileChooser.</li>
+	 * <li>ouvre le FileChooser, permet la sélection 
+	 * d'un fichier et lit son contenu.</li>
+	 * <li>récupère le fichier sélectionné.</li>
+	 * <li>ouvre le fichier sélectionné avec l'application 
+	 * correspondant à son type MIME.</li>
 	 * </ul>
 	 *
-	 * @param pPrimaryStage : Stage :  .<br/>
+	 * @param pPrimaryStage : Stage.<br/>
 	 */
 	private void configurerButton(
 			final Stage pPrimaryStage) {
@@ -127,15 +158,22 @@ public class SelecteurFichierMain extends Application {
 	                	
 						try {
 							
+							/* récupère le répertoire mémorisé auprès du 
+							 * GestionnairePreferencesSelecteur. */
 							repertoirePrefere = GestionnairePreferencesSelecteur
 	                			.getRepertoirePrefereFileChooser();
 							
+							/* instancie un Selecteur fichier en configurant 
+							 * son FileChooser.*/
 							final ISelecteurFichier selecteur 
 	                			= new SelecteurFichier(
 	                					titre, repertoirePrefere);
-	                	
+							
+							/* ouvre le FileChooser, permet la sélection 
+							 * d'un fichier et lit son contenu. */
 		                    selecteur.selectionnerEtLire(pPrimaryStage);
 		                    
+		                    /* récupère le fichier sélectionné. */
 		                    final File file = selecteur.getFichierSelectionne();
 		                    
 		                    if (file != null) {
@@ -155,7 +193,8 @@ public class SelecteurFichierMain extends Application {
 						}
 	                }
 	            });
-	}
+		
+	} // Fin de configurerButton(...)._____________________________________
 	
 	
 	
@@ -167,11 +206,14 @@ public class SelecteurFichierMain extends Application {
 	 */
 	private void configurerGridPane() {
 		
-		GridPane.setConstraints(this.openButton, 0, 1);
-
-        this.inputGridPane.setHgap(6);
-        this.inputGridPane.setVgap(6);
-        
+		GridPane.setConstraints(
+				this.openButton
+					, 0, 0
+						, 1, 1
+							, HPos.CENTER, VPos.CENTER
+								, Priority.ALWAYS, Priority.ALWAYS
+									, new Insets(12, 12, 12, 12));
+     
         this.inputGridPane.getChildren().addAll(this.openButton);
         
 	} // Fin de configurerGridPane().______________________________________

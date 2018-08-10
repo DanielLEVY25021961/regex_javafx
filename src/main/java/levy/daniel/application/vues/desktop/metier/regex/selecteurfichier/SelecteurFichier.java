@@ -19,13 +19,39 @@ import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.
 
 /**
  * CLASSE SelecteurFichier :<br/>
- * .<br/>
+ * <b>Configure et ouvre un FileChooser permettant à l'utilisateur 
+ * de sélectionner un fichier simple.</b><br/>
+ * <b>Lit le contenu du fichier sélectionné en UTF8 et le retourne sous forme de String.</b>
+ * <ul>
+ * <li>Instancie et configure un FileChooser pour choisir 
+ * un fichier simple dans un système de fichiers.</li>
+ * <li>Récupère le fichier sélectionné par l'utilisateur 
+ * et mémorise son répertoire comme préférence 
+ * (utilise un GestionnairePreferencesSelecteur).</li>
+ * <li>Lit le contenu du fichier sélectionné en UTF8.</li>
+ * <li>Retourne le contenu du fichier sélectionné sous forme de String.</li>
+ * </ul>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
+ * <code><i>// Instancie un SelecteurFichier 
+ * et configure son FileChooser en le positionnant 
+ * sur le répertoire préféré.</i></code><br/>
+ * <code><b>ISelecteurFichier selecteur 
+ * = new SelecteurFichier(titre, 
+ * GestionnairePreferencesSelecteur.getRepertoirePrefereFileChooser());</b></code><br/>
+ * <code><i>// Ouvre le FileChooser sur le répertoire mémorisé, 
+ * permet la sélection d'un fichier et lit le 
+ * contenu du fichier en UTF8.<br/>
+ * // Mémorise éventuellement le nouveau répertoire.</i></code><br/>
+ * <code><b>selecteur.selectionnerEtLire(pPrimaryStage);</b></code><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * FileChooser, Properties, fichier properties, préférences, <br/>
+ * preferences, lire le contenu d'un fichier, lire fichier, <br/>
+ * créer une String à partir d'une liste de lignes,<br/>
+ * mémoriser répertoire, écrire repertoire dans préférences,<br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -41,7 +67,12 @@ public class SelecteurFichier implements ISelecteurFichier {
 	
 	// ************************ATTRIBUTS************************************/
 
-
+	/**
+	 * "Classe SelecteurFichier".<br/>
+	 */
+	public static final String CLASSE_SELECTEURFICHIER 
+		= "Classe SelecteurFichier";
+	
 	/**
 	 * FileChooser (Browser : VUE) pour 
 	 * sélectionner un fichier sur un disque dur.<br/>
