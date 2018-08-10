@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.ISelecteurFichier;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.SelecteurFichier;
 
 
@@ -124,7 +125,7 @@ public class SaisieTexteVueController {
 	public final void lireFichier() {
 
 		final File repertoirePrefere = new File("D:/Donnees/eclipse/eclipseworkspace_oxygen/regex_javafx/ressources_externes");
-		final SelecteurFichier selecteurFichier = new SelecteurFichier("Sélectionnez le fichier à lire", repertoirePrefere);
+		final ISelecteurFichier selecteurFichier = new SelecteurFichier("Sélectionnez le fichier à lire", repertoirePrefere);
 		final FileChooser fileChooser = selecteurFichier.getFileChooser();
 		
 		/* récupération du File sélectionné par l'utilisateur. */

@@ -1402,6 +1402,11 @@ public final class GestionnairePreferencesSelecteur {
 		
 		synchronized (GestionnairePreferencesSelecteur.class) {
 			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
+			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
@@ -1664,6 +1669,11 @@ public final class GestionnairePreferencesSelecteur {
 		
 		synchronized (GestionnairePreferencesSelecteur.class) {
 			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
+			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
@@ -1813,6 +1823,11 @@ public final class GestionnairePreferencesSelecteur {
 	private static File fournirRepertoirePrefere() throws Exception {
 		
 		synchronized (GestionnairePreferencesSelecteur.class) {
+			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
 			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
