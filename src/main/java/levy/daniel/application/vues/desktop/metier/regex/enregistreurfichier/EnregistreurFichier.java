@@ -27,41 +27,42 @@ import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.
  * <b>Permet à l'utilisateur d'indiquer le nom 
  * et la destination du fichier.</b>
  * <ul>
- * <li>Instancie et configure un FileChooser pour choisir 
+ * <li>Instancie et configure un FileChooser pour créer 
  * un fichier simple dans un système de fichiers.</li>
+ * <li>crée le fichier sur disque si nécessaire.<br/>
  * <li>Récupère le fichier sélectionné par l'utilisateur 
  * et mémorise son répertoire comme préférence 
  * (utilise un GestionnairePreferencesSelecteur).</li>
- * <li>Lit le contenu du fichier sélectionné en UTF8.</li>
- * <li>Retourne le contenu du fichier sélectionné sous forme de String.</li>
+ * <li>Enregistre un contenu en UTF8 (String) dans le fichier sélectionné.</li>
+ * <li>Retourne le fichier enregistré.</li>
  * </ul>
  * <br/>
- * <img src="../../../../../../../../../../../javadoc/images/selecteur_fichier.png" 
- * alt="diagramme de classes SelecteurFichier" border="1" align="center" />
+ * <img src="../../../../../../../../../../../javadoc/images/diagramme_classe_enregistreurfichier.png" 
+ * alt="diagramme de classes EnregistreurFichier" border="1" align="center" />
  * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
- * <code><i>// Instancie un SelecteurFichier 
+ * <code><i>// Instancie un EnregistreurFichier 
  * et configure son FileChooser en le positionnant 
  * sur le répertoire préféré.</i></code><br/>
- * <code><b>ISelecteurFichier selecteur 
- * = new SelecteurFichier(titre, 
+ * <code><b>IEnregistreurFichier enregistreur 
+ * = new EnregistreurFichier(titre, 
  * GestionnairePreferencesSelecteur.getRepertoirePrefereFileChooser());</b></code><br/>
  * <code><i>// Ouvre le FileChooser sur le répertoire mémorisé, 
- * permet la sélection d'un fichier et lit le 
- * contenu du fichier en UTF8.<br/>
+ * permet la création d'un fichier et y enregistre le 
+ * contenu en UTF8.<br/>
  * // Mémorise éventuellement le nouveau répertoire.</i></code><br/>
- * <code><b>selecteur.selectionnerEtLire(pPrimaryStage);</b></code><br/>
- *<br/>
+ * <code><b>enregistreur.selectionnerEtEnregistrer(pPrimaryStage, this.contenu);</b></code><br/>
+ *<br/><br/>
  *
- * - Exemple d'utilisation :<br/>
- *<br/>
- * 
  * - Mots-clé :<br/>
- * sélection de fichier, FileChooser, <br/>
- * enregistrer fichier, enregistrer String dans fichier,<br/>
+ * FileChooser, Properties, fichier properties, préférences, <br/>
+ * preferences, écrire contenu dans fichier, ecrire fichier, <br/>
+ * mémoriser répertoire, écrire repertoire dans préférences,<br/>
  * enregistrer contenu dans fichier,<br/> 
  * enregistrer contenu String dans fichier, <br/>
+ * sélection de fichier, FileChooser, <br/>
+ * enregistrer fichier, enregistrer String dans fichier,<br/>
  * enregistrer fichier texte en UTF8, <br/>
  * écrire contenu sur disque, ecrire sur disque, <br/>
  * filtrer fichiers FileChooser, <br/>

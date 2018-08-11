@@ -11,11 +11,31 @@ import javafx.stage.Stage;
  * INTERFACE IEnregistreurFichier :<br/>
  * Interface factorisant les comportements des EnregistreurFichier concrets.<br/>
  * <br/>
+ * <img src="../../../../../../../../../../../javadoc/images/diagramme_classe_enregistreurfichier.png" 
+ * alt="diagramme de classes EnregistreurFichier" border="1" align="center" />
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
+ *<code><i>// Instancie un EnregistreurFichier 
+ * et configure son FileChooser en le positionnant 
+ * sur le répertoire préféré.</i></code><br/>
+ * <code><b>IEnregistreurFichier enregistreur 
+ * = new EnregistreurFichier(titre, 
+ * GestionnairePreferencesSelecteur.getRepertoirePrefereFileChooser());</b></code><br/>
+ * <code><i>// Ouvre le FileChooser sur le répertoire mémorisé, 
+ * permet la création d'un fichier et y enregistre le 
+ * contenu en UTF8.<br/>
+ * // Mémorise éventuellement le nouveau répertoire.</i></code><br/>
+ * <code><b>enregistreur.selectionnerEtEnregistrer(pPrimaryStage, this.contenu);</b></code><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * FileChooser, Properties, fichier properties, préférences, <br/>
+ * preferences, écrire contenu dans fichier, ecrire fichier, <br/>
+ * mémoriser répertoire, écrire repertoire dans préférences,<br/>
+ * enregistrer fichier, enregistrer String dans fichier,<br/>
+ * enregistrer contenu dans fichier,<br/> 
+ * enregistrer contenu String dans fichier, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
