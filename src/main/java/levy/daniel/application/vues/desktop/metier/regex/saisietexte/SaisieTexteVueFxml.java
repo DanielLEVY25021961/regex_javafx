@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
+import levy.daniel.application.MainApplication;
 
 /**
  * CLASSE SaisieTexteVueFxml :<br/>
@@ -71,6 +72,10 @@ public class SaisieTexteVueFxml {
 	 */
 	private SaisieTexteVueController saisieTexteVueController;
 
+	/**
+	 * classe applicative.<br/>
+	 */
+	private MainApplication applicationMain;
 	
 	/**
 	 * LOG : Log : 
@@ -83,7 +88,7 @@ public class SaisieTexteVueFxml {
 	
 		
 	 /**
-	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 * CONSTRUCTEUR COMPLET.<br/>
 	 * <ul>
 	 * <li>instancie la VUE this.saisieTexteAnchorPane 
 	 * via un FXMLLoader. </li>
@@ -92,10 +97,15 @@ public class SaisieTexteVueFxml {
 	 * this.saisieTexteVueController 
 	 * et l'exécution de sa méthode initialize().</li>
 	 * </ul>
+	 * 
+	 * @param pApplicationMain : javafx.application.Application.<br/>
 	 */
-	public SaisieTexteVueFxml() {
+	public SaisieTexteVueFxml(
+			final MainApplication pApplicationMain) {
 		
 		super();
+		
+		this.applicationMain = pApplicationMain;
 		
 		/* INSTANCIE LA VUE EN CHARGEANT UN FICHIER fxml. */
 		this.dessiner();
@@ -114,6 +124,7 @@ public class SaisieTexteVueFxml {
 	 * AnchorPane (VUE) modélisant un Panneau de saisie de texte.</li>
 	 * <li>récupère le CONTROLLER de VUE auprès du FXMLLoader 
 	 * et alimente l'attribut.</li>
+	 * <li>passe la classe applicative au Controller (Call Back).</li>
 	 * </ul>
 	 */
 	private void dessiner() {
@@ -140,6 +151,10 @@ public class SaisieTexteVueFxml {
 			
 			/* récupère le CONTROLLER de VUE auprès du FXMLLoader. */
             this.recupererControllerDeVue(loader);
+            
+            /* passe la classe applicative au Controller (Call Back). */
+            this.saisieTexteVueController
+            	.setApplicationMain(this.applicationMain);
             						
 		}
 		catch (IOException e) {
@@ -233,6 +248,32 @@ public class SaisieTexteVueFxml {
 		this.saisieTexteVueController = pSaisieTexteVueController;
 	} // Fin de setSaisieTexteVueController(...).__________________________
 
+
 	
+	/**
+	 * Getter de la classe applicative.<br/>
+	 * <br/>
+	 *
+	 * @return this.applicationMain : MainApplication.<br/>
+	 */
+	public MainApplication getApplicationMain() {
+		return this.applicationMain;
+	} // Fin de getApplicationMain().______________________________________
+
+
+	
+	/**
+	* Setter de la classe applicative.<br/>
+	* <br/>
+	*
+	* @param pApplicationMain : MainApplication : 
+	* valeur à passer à this.applicationMain.<br/>
+	*/
+	public void setApplicationMain(
+			final MainApplication pApplicationMain) {
+		this.applicationMain = pApplicationMain;
+	} // Fin de setApplicationMain(...).___________________________________
+
+		
 
 } // FIN DE LA CLASSE SaisieTexteVueFxml.------------------------------------

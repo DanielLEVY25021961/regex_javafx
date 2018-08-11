@@ -190,7 +190,7 @@ public class SelecteurFichier implements ISelecteurFichier {
 		this.ouvrirEtSelectionnerFichier(pStage);
 		
 		/* Lit le contenu du fichier sélectionné en UTF8. */
-		return this.lireContenuFichier(this.fichierSelectionne);
+		return this.contenuFichierSelectionne;
 		
 	} // Fin de selectionnerEtLire(...).___________________________________
 	
@@ -230,7 +230,7 @@ public class SelecteurFichier implements ISelecteurFichier {
 			}
 			
 			/* lit le contenu du fichier et alimente alimente 
-			 * this.fichierSelectionne. */
+			 * this.contenuFichierSelectionne. */
 			this.lireContenuFichier(this.fichierSelectionne);
 		}
 		

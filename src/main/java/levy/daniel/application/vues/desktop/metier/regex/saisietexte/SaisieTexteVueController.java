@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import levy.daniel.application.MainApplication;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.ISelecteurFichier;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.SelecteurFichier;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.GestionnairePreferencesSelecteur;
@@ -67,12 +69,24 @@ public class SaisieTexteVueController {
 	 */
 	@FXML
 	private Button lireFichierButton;
+	
+	/**
+	 * bouton pour effacer le contenu de la zone de texte.<br/>
+	 */
+	@FXML
+	private Button effacerButton;
 		
 	/**
 	 * zone de texte pour écrire ou afficher du texte.<br/>
 	 */
 	@FXML
 	private TextArea textArea;
+	
+	/**
+	 * classe applicative.<br/>
+	 */
+	private MainApplication applicationMain;
+
 	
 	/**
 	 * LOG : Log : 
@@ -140,9 +154,12 @@ public class SaisieTexteVueController {
 			= new SelecteurFichier(
 					"Sélectionnez le fichier à lire", repertoirePrefere);
 
+		/* récupère le théatre auprès de la classe applicative. */
+		final Stage stage = this.applicationMain.getPrimaryStage();
+		
 		/* affiche le FileChooser, permet la sélection 
 		 * d'un fichier et retourne son contenu. */
-		final String contenu = selecteurFichier.selectionnerEtLire(null);
+		final String contenu = selecteurFichier.selectionnerEtLire(stage);
 		
 		/* remplit this.textArea avec le contenu. */
 		this.remplirTextArea(contenu);
@@ -168,6 +185,16 @@ public class SaisieTexteVueController {
 		}
 		
 	} // Fin de remplirTextArea(...).______________________________________
+	
+
+	
+	/**
+	 * Vide this.textArea.<br/>
+	 */
+	@FXML
+	public final void  effacerTextArea() {
+		this.textArea.setText("");
+	} // Fin de effacerTextArea().________________________________________
 	
 	
 	
@@ -222,7 +249,33 @@ public class SaisieTexteVueController {
 	} // Fin de setLireFichierButton(...)._________________________________
 
 
+
+	/**
+	 * Getter du bouton pour effacer 
+	 * le contenu de la zone de texte.<br/>
+	 *
+	 * @return effacerButton : Button.<br/>
+	 */
+	public Button getEffacerButton() {
+		return this.effacerButton;
+	} // Fin de getEffacerButton().________________________________________
+
+
 	
+	/**
+	* Setter du bouton pour effacer 
+	* le contenu de la zone de texte.<br/>
+	*
+	* @param pEffacerButton : Button : 
+	* valeur à passer à effacerButton.<br/>
+	*/
+	public void setEffacerButton(
+			final Button pEffacerButton) {
+		this.effacerButton = pEffacerButton;
+	} // Fin de setEffacerButton(...)._____________________________________
+
+
+
 	/**
 	 * Getter de la zone de texte pour 
 	 * écrire ou afficher du texte.<br/>
@@ -249,4 +302,30 @@ public class SaisieTexteVueController {
 
 	
 	
+	/**
+	 * Getter de la classe applicative.<br/>
+	 * <br/>
+	 *
+	 * @return this.applicationMain : MainApplication.<br/>
+	 */
+	public MainApplication getApplicationMain() {
+		return this.applicationMain;
+	} // Fin de getApplicationMain().______________________________________
+
+
+	
+	/**
+	* Setter de la classe applicative.<br/>
+	* <br/>
+	*
+	* @param pApplicationMain : MainApplication : 
+	* valeur à passer à this.applicationMain.<br/>
+	*/
+	public void setApplicationMain(
+			final MainApplication pApplicationMain) {
+		this.applicationMain = pApplicationMain;
+	} // Fin de setApplicationMain(...).___________________________________
+
+		
+
 } // FIN DE LA CLASSE SaisieTexteVueController.------------------------------

@@ -81,8 +81,8 @@ public interface ISelecteurFichier {
 	
 
 	/**
-	 * Ouvre un FileChooser, permet la sélection d'un fichier, 
-	 * et retourne son contenu sous forme de String.<br/>
+	 * <b>Ouvre un FileChooser, permet la sélection d'un fichier, 
+	 * et retourne son contenu sous forme de String</b>.<br/>
 	 * <ul>
 	 * <li>Ouvre le FileChooser et récupère le fichier sélectionné.</li>
 	 * <li>Mémorise le répertoire de sélection dans les préférences.</li>
@@ -104,7 +104,8 @@ public interface ISelecteurFichier {
 	
 
 	/**
-	 * Ouvre le FileChooser et récupère le fichier sélectionné.<br/>
+	 * <b>Ouvre le FileChooser et retourne le fichier sélectionné</b>.<br/>
+	 * <b>Lit le contenu du fichier sélectionné</b>.<br/>
 	 * Ne peut sélectionner qu'un fichier simple 
 	 * par construction du FileChooser.<br/>
 	 * Mémorise le répertoire de sélection dans les préférences.<br/>
@@ -112,13 +113,13 @@ public interface ISelecteurFichier {
 	 * <li>ouvre le FileChooser.</li>
 	 * <li>récupère le fichier sélectionné par l'utilisateur 
 	 * (null si pas de sélection).</li>
-	 * <li>alimente this.fichierSelectionne 
+	 * <li>alimente <code>this.fichierSelectionne</code> 
 	 * avec le fichier sélectionné.</li>
 	 * <li>lit le contenu du fichier et alimente alimente 
-	 * this.fichierSelectionne.</li>
+	 * <code>this.contenuFichierSelectionne</code>.</li>
 	 * <li>enregistre le répertoire de sélection 
 	 * dans les préférences (si fichier sélectionné pas null).</li>
-	 * <li>alimente this.repertoirePrefere 
+	 * <li>alimente <code>this.repertoirePrefere</code> 
 	 * avec le répertoire de sélection 
 	 * (si fichier sélectionné pas null).</li>
 	 * </ul>
@@ -137,14 +138,14 @@ public interface ISelecteurFichier {
 	
 
 	/**
-	 * lit (en UTF8) le contenu d'un fichier "textuel"
-	 * et le retourne sous forme de String.<br/>
+	 * <b>lit (en UTF8) le contenu d'un fichier "textuel"
+	 * et le retourne sous forme de String</b>.<br/>
 	 * <ul>
 	 * <li>lit le contenu sous forme de liste de lignes 
 	 * avec le Charset UTF8.</li>
 	 * <li>transforme la liste de lignes en String en mettant 
-	 * un NEWLINE à chaque saut de ligne.</li>
-	 * <li>alimente this.contenuFichierSelectionne.</li>
+	 * un saut de ligne de la plateforme NEWLINE à chaque saut de ligne.</li>
+	 * <li>alimente <code>this.contenuFichierSelectionne</code>.</li>
 	 * </ul>
 	 * - retourne null si pFile == null.<br/>
 	 * - retourne null si pFile n'existe pas.<br/>
@@ -152,7 +153,7 @@ public interface ISelecteurFichier {
 	 * (répertoire).<br/>
 	 * - retourne null si le fihier n'est pas "textuel" 
 	 * et lisible avec un Charset UTF8 
-	 * (images .png, sons .mp3, ...).<br/>
+	 * (images .png, sons .mp3, docx, ...).<br/>
 	 * <br/>
 	 * 
 	 *

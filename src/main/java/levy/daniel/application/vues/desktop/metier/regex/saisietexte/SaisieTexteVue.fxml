@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -17,12 +16,19 @@
          <left>
             <BorderPane fx:id="leftBorderPane" prefWidth="100.0" BorderPane.alignment="CENTER">
                <center>
-                  <Button fx:id="lireFichierButton" mnemonicParsing="false" onAction="#lireFichier" text="lire un Fichier" BorderPane.alignment="CENTER">
+                  <Button fx:id="lireFichierButton" mnemonicParsing="false" onAction="#lireFichier" prefHeight="20.0" prefWidth="200.0" text="lire un Fichier" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
+                     </BorderPane.margin>
+                  </Button>
+               </center>
+               <bottom>
+                  <Button fx:id="effacerButton" mnemonicParsing="false" onAction="#effacerTextArea" prefHeight="20.0" prefWidth="200.0" text="effacer" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </BorderPane.margin>
                   </Button>
-               </center>
+               </bottom>
             </BorderPane>
          </left>
          <center>
@@ -51,11 +57,7 @@
                <center>
                   <BorderPane fx:id="zoneTexteBorderPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <center>
-                        <ScrollPane fx:id="zoneTexteScrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <content>
-                              <TextArea fx:id="textArea" prefHeight="476.0" prefWidth="550.0" />
-                           </content>
-                        </ScrollPane>
+                        <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </center>

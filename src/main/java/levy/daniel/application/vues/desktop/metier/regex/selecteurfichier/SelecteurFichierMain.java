@@ -26,17 +26,25 @@ import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.
 /**
  * CLASSE SelecteurFichierMain :<br/>
  * Classe applicative permettant d'afficher un bouton ouvrant 
- * un FileChooser (encapsulé dans un SelecteurFichier).<br/>
+ * un FileChooser (encapsulé dans un SelecteurFichier) pour 
+ * <b>lire le contenu d'un fichier</b>.<br/>
  * <br/>
  * <img src="../../../../../../../../../../../javadoc/images/Lanceur de FileChooser.png" 
- * alt="fenêtre lanceur de FileChooser" border="1" align="center" />
+ * alt="fenêtre lanceur de FileChooser de sélection" border="1" align="center" />
  * <br/><br/>
- * Après appui sur le bouton :
+ * Après appui sur le bouton "Sélectionner un fichier"
+ * , le FileChooser s'ouvre pour permettre de sélectionner 
+ * un fichier simple :
  * <br/><br/>
  * <img src="../../../../../../../../../../../javadoc/images/FileChooser-Sélectionnez un fichier.png" 
- * alt="FileChooser" border="1" align="center" />
+ * alt="FileChooser de sélection de fichier" border="1" align="center" />
  * <br/><br/>
- * 
+ * > Ouvrir > Le Desktop ouvre alors le fichier sélectionné 
+ * avec l'application adaptée au type MIME sur la machine.<br/>
+ * <br/>
+ * <img src="../../../../../../../../../../../javadoc/images/SelectionnerFichier_Resultat.png" 
+ * alt="Résultat de la sélection" border="1" align="center" />
+ * <br/><br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -63,7 +71,8 @@ public class SelecteurFichierMain extends Application {
 
 	/**
 	 * Emulateur de bureau Windows.<br/>
-	 * permet d'ouvrir un fichier comme dans Windows
+	 * permet d'ouvrir un fichier comme dans Windows 
+	 * avec l'application adaptée au type MIME d'un fichier
 	 */
 	private final transient Desktop desktop = Desktop.getDesktop();
 	
@@ -134,7 +143,7 @@ public class SelecteurFichierMain extends Application {
 	 * <ul>
 	 * <li>récupère le répertoire mémorisé auprès du 
 	 * GestionnairePreferencesSelecteur.</li>
-	 * <li>instancie un Selecteur fichier en 
+	 * <li>instancie un SelecteurFichier en 
 	 * configurant son FileChooser.</li>
 	 * <li>ouvre le FileChooser, permet la sélection 
 	 * d'un fichier et lit son contenu.</li>
@@ -164,7 +173,7 @@ public class SelecteurFichierMain extends Application {
 							repertoirePrefere = GestionnairePreferencesSelecteur
 	                			.getRepertoirePrefereFileChooser();
 							
-							/* instancie un Selecteur fichier en configurant 
+							/* instancie un SelecteurFichier en configurant 
 							 * son FileChooser.*/
 							final ISelecteurFichier selecteur 
 	                			= new SelecteurFichier(

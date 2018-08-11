@@ -222,7 +222,9 @@ public class MainApplication extends Application {
 		
 		this.root = new BorderPane();
 		
-		final AnchorPane saisieTexte = new SaisieTexteVueFxml().getSaisieTexteAnchorPane();
+		final AnchorPane saisieTexte 
+			= new SaisieTexteVueFxml(this).getSaisieTexteAnchorPane();
+		
 		this.root.setCenter(saisieTexte);
    		
    		/* *********************************************** */
