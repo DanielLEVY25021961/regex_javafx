@@ -1,8 +1,8 @@
 /**
  * CLASSE package-info :<br/>
  * Ce package contient toutes les classes nécessaires pour faire fonctionner 
- * un enregistreur de fichier (basé sur un FileChooser).<br/>
- * <br/>
+ * un <b>enregistreur de fichier</b> (basé sur un {@link FileChooser}).<br/>
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>

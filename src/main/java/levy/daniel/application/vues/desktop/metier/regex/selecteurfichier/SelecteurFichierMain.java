@@ -21,11 +21,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.GestionnairePreferencesSelecteur;
+import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur.GestionnairePreferencesSelecteur;
 
 /**
- * CLASSE SelecteurFichierMain :<br/>
- * Classe applicative permettant d'afficher un bouton ouvrant 
+ * <b>CLASSE SelecteurFichierMain</b> :<br/>
+ * Classe <i>applicative</i> permettant d'afficher un bouton ouvrant 
  * un FileChooser (encapsulé dans un SelecteurFichier) pour 
  * <b>lire le contenu d'un fichier</b>.<br/>
  * <br/>

@@ -7,18 +7,34 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import levy.daniel.application.MainApplication;
 
 /**
- * CLASSE SaisieTexteVueFxml :<br/>
- * prépare la VUE AnchorPane <b>this.saisieTexteAnchorPane</b> 
- * modélisant le panneau de saisie d'un texte.<br/>
+ * <b>CLASSE SaisieTexteVueFxml</b> :<br/>
+ * prépare et retourne la VUE {@link AnchorPane} 
+ * <b><code>this.saisieTexteAnchorPane</code></b> 
+ * modélisant le panneau de <b>saisie d'un texte</b>.<br/>
+ * <b><code>this.saisieTexteAnchorPane</code></b> 
+ * permet de <b>saisir un texte</b> 
+ * ou d'importer le contenu d'un fichier textuel dans une 
+ * {@link TextArea}.<br/>
+ * <b><code>this.saisieTexteAnchorPane</code></b> permet d'enregistrer 
+ * le contenu de la {@link TextArea} dans un fichier 
+ * pour une utilisation ultérieure.<br/>
+ * <br/>
+ * <img src="../../../../../../../../../../../javadoc/images/saisie_texte_vue.png" 
+ * alt="AnchorPane SaisieTexteVueFxml" border="1" align="center" />
+ * <br/><br/>
  * <ul>
  * <li>charge dans sa méthode dessiner() le FXML.</li>
- * <li></li>
- * <li></li>
- * <li></li>
+ * <li>fabrique la vue {@link AnchorPane} 
+ * <b><code>this.saisieTexteAnchorPane</code></b></li>
+ * <li>fabrique le CONTROLLER DE VUE {@link SaisieTexteVueController} 
+ * <b><code>this.saisieTexteVueController</code></b></li>
+ * <li>retourne la {@link TextArea} <b><code>this.textArea</code></b> 
+ * encapsulée dans la VUE.</li>
  * </ul>
  * <br/>
  *
@@ -59,7 +75,7 @@ public class SaisieTexteVueFxml {
 	public static final String TIRET = " - ";
 	
 	/**
-	 * panneau AnchorPane (VUE) modélisant un 
+	 * panneau {@link AnchorPane} (VUE) modélisant un 
 	 * panneau de saisie d'un texte.<br/>
 	 */
 	private AnchorPane saisieTexteAnchorPane;
@@ -67,15 +83,23 @@ public class SaisieTexteVueFxml {
 	/**
 	 * CONTROLLER DE VUE fabriqué automatiquement lors du 
      * chargement du FXML par le FXMLLoader.<br/>
-     * Permet d'accéder aux objets graphiques de 
-     * la VUE générés par le FXML.<br/>
+     * <b>Permet d'accéder aux objets graphiques de 
+     * la VUE générés par le FXML et 
+     * de paramétrer l'évènementiel</b>.<br/>
 	 */
 	private SaisieTexteVueController saisieTexteVueController;
 
 	/**
-	 * classe applicative.<br/>
+	 * classe applicative 
+	 * (hérite de {@link javafx.application.Application}).<br/>
 	 */
 	private MainApplication applicationMain;
+	
+	/**
+	 * Zone de texte de la VUE.<br/>
+	 */
+	private TextArea textArea;
+	
 	
 	/**
 	 * LOG : Log : 
@@ -90,15 +114,16 @@ public class SaisieTexteVueFxml {
 	 /**
 	 * CONSTRUCTEUR COMPLET.<br/>
 	 * <ul>
-	 * <li>instancie la VUE this.saisieTexteAnchorPane 
+	 * <li>instancie la VUE <b><code>this.saisieTexteAnchorPane</code></b> 
 	 * via un FXMLLoader. </li>
 	 * <li>Le chargement via le FXMLLoader provoque automatiquement 
 	 * l'instanciation du CONTROLLER DE VUE 
-	 * this.saisieTexteVueController 
-	 * et l'exécution de sa méthode initialize().</li>
+	 * <b><code>this.saisieTexteVueController</code></b> 
+	 * et l'exécution de sa méthode <code>initialize()</code>.</li>
+	 * <li>appelle this.dessiner()</li>
 	 * </ul>
 	 * 
-	 * @param pApplicationMain : javafx.application.Application.<br/>
+	 * @param pApplicationMain : {@link javafx.application.Application}.<br/>
 	 */
 	public SaisieTexteVueFxml(
 			final MainApplication pApplicationMain) {
@@ -118,13 +143,18 @@ public class SaisieTexteVueFxml {
 	 * method dessiner() :<br/>
 	 * <ul>
 	 * INSTANCIE LA VUE EN CHARGEANT UN FICHIER fxml.<br/>
-	 * <li>instancie un FXMLLoader.</li>
+	 * <li>instancie un {@link FXMLLoader}.</li>
 	 * <li>positionne le FXMLLoader sur le bon fichier fxml.</li>
 	 * <li>charge le fichier fxml et instancie le panneau 
-	 * AnchorPane (VUE) modélisant un Panneau de saisie de texte.</li>
+	 * {@link AnchorPane} 
+	 * <b><code>this.saisieTexteAnchorPane</code></b> (VUE) 
+	 * modélisant un Panneau de saisie de texte.</li>
 	 * <li>récupère le CONTROLLER de VUE auprès du FXMLLoader 
 	 * et alimente l'attribut.</li>
-	 * <li>passe la classe applicative au Controller (Call Back).</li>
+	 * <li>passe la classe applicative au Controller de VUE 
+	 * (Call Back).</li>
+	 * <li>alimente <b><code>this.textArea</code></b> avec l'attribut 
+	 * du CONTROLLER DE VUE.</li>
 	 * </ul>
 	 */
 	private void dessiner() {
@@ -155,6 +185,10 @@ public class SaisieTexteVueFxml {
             /* passe la classe applicative au Controller (Call Back). */
             this.saisieTexteVueController
             	.setApplicationMain(this.applicationMain);
+            
+            /* alimente this.textArea avec l'attribut 
+             * du CONTROLLER DE VUE. */
+            this.textArea = this.saisieTexteVueController.getTextArea();
             						
 		}
 		catch (IOException e) {
@@ -178,10 +212,12 @@ public class SaisieTexteVueFxml {
 
 	
 	/**
-	 * récupère le CONTROLLER DE VUE auprès du FXMLLoader.<br/>
+	 * récupère le CONTROLLER DE VUE {@link SaisieTexteVueController}
+	 * <b><code>this.saisieTexteVueController</code></b> 
+	 * auprès du FXMLLoader.<br/>
 	 * <br/>
 	 *
-	 * @param pLoader : FXMLLoader.<br/>
+	 * @param pLoader : {@link FXMLLoader}.<br/>
 	 */
 	private void recupererControllerDeVue(
 			final FXMLLoader pLoader) {
@@ -197,7 +233,7 @@ public class SaisieTexteVueFxml {
 	 * Getter du panneau AnchorPane (VUE) modélisant un 
 	 * panneau de saisie d'un texte.<br/>
 	 *
-	 * @return this.saisieTexteAnchorPane : AnchorPane.<br/>
+	 * @return this.saisieTexteAnchorPane : {@link AnchorPane}.<br/>
 	 */
 	public AnchorPane getSaisieTexteAnchorPane() {
 		return this.saisieTexteAnchorPane;
@@ -209,7 +245,7 @@ public class SaisieTexteVueFxml {
 	* Setter du panneau AnchorPane (VUE) modélisant un 
 	* panneau de saisie d'un texte.<br/>
 	*
-	* @param pSaisieTexteAnchorPane : AnchorPane : 
+	* @param pSaisieTexteAnchorPane : {@link AnchorPane} : 
 	* valeur à passer à saisieTexteAnchorPane.<br/>
 	*/
 	public void setSaisieTexteAnchorPane(
@@ -222,11 +258,11 @@ public class SaisieTexteVueFxml {
 	/**
 	 * Getter du CONTROLLER DE VUE fabriqué automatiquement lors du 
      * chargement du FXML par le FXMLLoader.<br/>
-     * Permet d'accéder aux objets graphiques de 
-     * la VUE générés par le FXML.<br/>
+     * <b>Permet d'accéder aux objets graphiques de 
+     * la VUE générés par le FXML et de paramétrer l'évènementiel</b>.<br/>
 	 *
 	 * @return this.saisieTexteVueController : 
-	 * SaisieTexteVueController.<br/>
+	 * {@link SaisieTexteVueController}.<br/>
 	 */
 	public SaisieTexteVueController getSaisieTexteVueController() {
 		return this.saisieTexteVueController;
@@ -240,7 +276,7 @@ public class SaisieTexteVueFxml {
     * Permet d'accéder aux objets graphiques de 
     * la VUE générés par le FXML.<br/>
 	*
-	* @param pSaisieTexteVueController : SaisieTexteVueController : 
+	* @param pSaisieTexteVueController : {@link SaisieTexteVueController} : 
 	* valeur à passer à this.saisieTexteVueController.<br/>
 	*/
 	public void setSaisieTexteVueController(
@@ -252,9 +288,8 @@ public class SaisieTexteVueFxml {
 	
 	/**
 	 * Getter de la classe applicative.<br/>
-	 * <br/>
 	 *
-	 * @return this.applicationMain : MainApplication.<br/>
+	 * @return this.applicationMain : {@link MainApplication}.<br/>
 	 */
 	public MainApplication getApplicationMain() {
 		return this.applicationMain;
@@ -264,15 +299,38 @@ public class SaisieTexteVueFxml {
 	
 	/**
 	* Setter de la classe applicative.<br/>
-	* <br/>
 	*
-	* @param pApplicationMain : MainApplication : 
+	* @param pApplicationMain : {@link MainApplication} : 
 	* valeur à passer à this.applicationMain.<br/>
 	*/
 	public void setApplicationMain(
 			final MainApplication pApplicationMain) {
 		this.applicationMain = pApplicationMain;
 	} // Fin de setApplicationMain(...).___________________________________
+
+
+	
+	/**
+	 * Getter de la Zone de texte de la VUE.<br/>
+	 *
+	 * @return this.textArea : {@link TextArea}.<br/>
+	 */
+	public TextArea getTextArea() {
+		return this.textArea;
+	} // Fin de getTextArea()._____________________________________________
+
+
+	
+	/**
+	* Setter de la Zone de texte de la VUE.<br/>
+	*
+	* @param pTextArea : {@link TextArea} : 
+	* valeur à passer à this.textArea.<br/>
+	*/
+	public void setTextArea(
+			final TextArea pTextArea) {
+		this.textArea = pTextArea;
+	} // Fin de setTextArea(...).__________________________________________
 
 		
 

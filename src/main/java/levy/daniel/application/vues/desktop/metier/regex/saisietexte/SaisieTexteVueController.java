@@ -11,20 +11,25 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import levy.daniel.application.MainApplication;
+import levy.daniel.application.vues.desktop.metier.regex.enregistreurfichier.EnregistreurFichier;
+import levy.daniel.application.vues.desktop.metier.regex.enregistreurfichier.IEnregistreurFichier;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.ISelecteurFichier;
 import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.SelecteurFichier;
-import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.GestionnairePreferencesSelecteur;
+import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur.GestionnairePreferencesSelecteur;
 
 
 /**
- * CLASSE SaisieTexteVueController :<br/>
- * CONTROLLER de la VUE <b>SaisieTexteVue.fxml</b>.<br/>
+ * <b>CLASSE SaisieTexteVueController</b> :<br/>
+ * CONTROLLER de la VUE <b>{@link SaisieTexteVueFxml}</b> 
+ * créée par le chargement du fichier XML <b>SaisieTexteVue.fxml</b>.<br/>
  * <ul>
- * <li>Permet d'accéder en JAVA aux objets graphiques de la VUE 
- * générée par le fxml.</li>
- * <li>la VUE générée par <b>SaisieTexteVue.fxml</b> est l'AnchorPane 
+ * <li><b>Permet d'accéder en JAVA aux objets graphiques de la VUE 
+ * générée par le fxml</b>.</li>
+ * <li>la VUE générée par <b>SaisieTexteVue.fxml</b> est 
+ * l' {@link AnchorPane} 
  * <b>this.saisieTexteAnchorPane</b></li>
- * <li>L'annotation FXML permet de lier les objets graphiques crées 
+ * <li>L' <b>annotation FXML</b> permet de lier 
+ * les objets graphiques crées 
  * dans le fxml aux attributs du présent CONTROLLER DE VUE.</li>
  * <li>Ce CONTROLLER DE VUE est <b>AUTOMATIQUEMENT ALIMENTE</b> 
  * LORS DU CHARGEMENT du FXML et sa méthode initialize() 
@@ -36,6 +41,11 @@ import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.
  * pour alimenter par exemple une table doivent donc être 
  * passés par CallBack après l'instanciation du présent 
  * CONTROLLER DE VUE.</li>
+ * <li><b>permet d'instancier des modèles 
+ * (contenu de JTable par exemple) 
+ * et de préparer les composants à afficher dans la VUE 
+ * (méthode initialize).</b></li>
+* <li><b>permet d'implémenter les méthodes évènementielles.</b></li>
  * </ul>
  * <br/>
  *
@@ -71,11 +81,19 @@ public class SaisieTexteVueController {
 	private Button lireFichierButton;
 	
 	/**
-	 * bouton pour effacer le contenu de la zone de texte.<br/>
+	 * bouton pour effacer le contenu de la zone de texte 
+	 * <code>this.textArea</code>.<br/>
 	 */
 	@FXML
 	private Button effacerButton;
-		
+
+	/**
+	 * bouton pour enregistrer le contenu 
+	 * de la zone de texte dans un fichier.<br/>
+	 */
+	@FXML
+	private Button enregistrerFichierButton;
+
 	/**
 	 * zone de texte pour écrire ou afficher du texte.<br/>
 	 */
@@ -84,9 +102,21 @@ public class SaisieTexteVueController {
 	
 	/**
 	 * classe applicative.<br/>
+	 * fournie par la Vue par Callback.
 	 */
-	private MainApplication applicationMain;
+	private transient MainApplication applicationMain;
 
+	/**
+	 * fenêtre (théatre) créée par la classe applicative applicationMain 
+	 * possédant les composants à afficher.<br/>
+	 */
+	private transient Stage stage;
+	
+	/**
+	 * répertoire d'ouverture des FileChooser stocké 
+	 * dans un fichier properties de préférences.<br/>
+	 */
+	private transient File repertoirePrefere;
 	
 	/**
 	 * LOG : Log : 
@@ -115,51 +145,62 @@ public class SaisieTexteVueController {
 	 * method initialize() :<br/>
 	 * <ul>
 	 * <li>Initialise le présent CONTROLLER DE VUE.</li>
-	 * <li>Méthode automatiquement appelée après que 
-	 * le FXML ait été chargé (juste après le constructeur).</li>
+	 * <li>Méthode <b>automatiquement appelée après que 
+	 * le FXML ait été chargé (juste après le constructeur)</b>.</li>
+	 * <li><b>permet d'instancier des modèles (contenu de JTable par exemple) 
+	 * et de préparer les composants à afficher dans la VUE.</b></li>
+	 * <li>récupère le répertoire d'ouverture des FileChooser 
+	 * <code>this.repertoirePrefere</code> dans les préférences.</li>
 	 * </ul>
+	 * @throws Exception 
 	 */
 	@FXML
-    private void initialize() {
+    private void initialize() throws Exception {
 		
-		/**/
+		/* récupère le répertoire d'ouverture des FileChooser 
+		 * dans les préférences. */
+		this.repertoirePrefere 
+			= GestionnairePreferencesSelecteur
+				.getRepertoirePrefereFileChooser();
 		
 	} // Fin de initialize().______________________________________________
 
 
 	
 	/**
-	 * OnClick : Ouvre un FileChooser, permet de sélectionner un fichier 
-	 * et d'injecter son contenu dans this.textArea.<br/>
+	 * OnClick sur bouton <code>this.lireFichierButton</code> : 
+	 * Ouvre un FileChooser, permet de sélectionner un fichier textuel 
+	 * et d'injecter son contenu dans <code>this.textArea</code>.<br/>
 	 * <ul>
-	 * <li>récupère le répertoire dans les préférences.</li>
-	 * <li>instancie un SelecteurFichier et configure son FileChooser.</li>
+	 * <li><b>méthode évènementielle.</b></li>
+	 * <li>instancie un {@link SelecteurFichier} et 
+	 * configure son FileChooser.</li>
 	 * <li>affiche le FileChooser, permet la sélection d'un fichier 
 	 * et retourne son contenu.</li>
-	 * <li>remplit this.textArea avec le contenu.</li>
+	 * <li>met à jour <code>this.repertoirePrefere</code> avec le 
+	 * dernier répertoire sélectionné.</li>
+	 * <li>remplit <code>this.textArea</code> avec le contenu.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception 
 	 */
 	@FXML
 	public final void lireFichier() throws Exception {
-
-		/* récupère le répertoire dans les préférences. */
-		final File repertoirePrefere 
-			= GestionnairePreferencesSelecteur
-				.getRepertoirePrefereFileChooser();
 		
 		/* instancie un SelecteurFichier et configure son FileChooser. */
 		final ISelecteurFichier selecteurFichier 
 			= new SelecteurFichier(
-					"Sélectionnez le fichier à lire", repertoirePrefere);
-
-		/* récupère le théatre auprès de la classe applicative. */
-		final Stage stage = this.applicationMain.getPrimaryStage();
+					"Sélectionnez le fichier à lire"
+						, this.repertoirePrefere);
 		
 		/* affiche le FileChooser, permet la sélection 
 		 * d'un fichier et retourne son contenu. */
-		final String contenu = selecteurFichier.selectionnerEtLire(stage);
+		final String contenu 
+			= selecteurFichier.selectionnerEtLire(this.stage);
+		
+		/* met à jour this.repertoirePrefere avec le 
+		 * dernier répertoire sélectionné. */
+		this.repertoirePrefere = selecteurFichier.getRepertoirePrefere();
 		
 		/* remplit this.textArea avec le contenu. */
 		this.remplirTextArea(contenu);
@@ -167,6 +208,61 @@ public class SaisieTexteVueController {
 	} // Fin de lireFichier()._____________________________________________
 	
 
+	
+	/**
+	 * OnClick sur bouton <code>this.enregistrerFichierButton</code> : 
+	 * Ouvre un FileChooser, permet de définir ou sélectionner un fichier 
+	 * et d'y injecter le contenu de <code>this.textArea</code>.<br/>
+	 * <ul>
+	 * <li><b>méthode évènementielle.</b></li>
+	 * <li>instancie un {@link EnregistreurFichier} et 
+	 * configure son FileChooser.</li>
+	 * <li>récupère le contenu textuel dans this.textArea.</li>
+	 * <li>affiche le FileChooser, permet la définition ou 
+	 * sélection d'un fichier et y écrit le contenu 
+	 * de <code>this.textArea</code>.</li>
+	 * <li>met à jour <code>this.repertoirePrefere</code> avec le 
+	 * dernier répertoire sélectionné.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	public final void enregistrerFichier() throws Exception {
+		
+		/* instancie un EnregistreurFichier et configure son FileChooser. */
+		final String titre 
+			= "Définissez ou Sélectionnez un fichier "
+					+ "dans lequel enregistrer";
+		
+		final IEnregistreurFichier enregistreur 
+			= new EnregistreurFichier(titre, this.repertoirePrefere);
+		
+		/* récupère le contenu textuel dans this.textArea. */
+		final String contenu = this.recupererContenuTextArea();
+		
+		/* affiche le FileChooser, permet la définition ou 
+		 * sélection d'un fichier et y écrit le contenu 
+		 * de this.textArea.*/
+		enregistreur.selectionnerEtEnregistrer(this.stage, contenu);
+		
+		/* met à jour this.repertoirePrefere avec le 
+		 * dernier répertoire sélectionné. */
+		this.repertoirePrefere = enregistreur.getRepertoirePrefere();
+		
+	} // Fin de enregistrerFichier().______________________________________
+	
+	
+	
+	/**
+	 * retourne le contenu de <code>this.textArea</code>.<br/>
+	 *
+	 * @return : String  : <code>this.textArea.getText();</code>.<br/>
+	 */
+	private String recupererContenuTextArea() {
+		return this.textArea.getText();
+	} // Fin de recupererContenuTextArea().________________________________
+	
+	
 	
 	/**
 	 * Injecte le texte pString dans this.textArea.<br/>
@@ -189,7 +285,11 @@ public class SaisieTexteVueController {
 
 	
 	/**
-	 * Vide this.textArea.<br/>
+	 * OnClick sur bouton <code>this.effacerButton</code> : 
+	 * <b>vide <code>this.textArea</code></b>.<br/>
+	 * <ul>
+	 * <li><b>méthode évènementielle.</b></li>
+	 * </ul>
 	 */
 	@FXML
 	public final void  effacerTextArea() {
@@ -199,7 +299,7 @@ public class SaisieTexteVueController {
 	
 	
 	/**
-	 * Getter de l'AnchorPane contenant l'ensemble du 
+	 * Getter de l' {@link AnchorPane} contenant l'ensemble du 
 	 * panneau de saisie du texte (racine).<br/>
 	 *
 	 * @return this.saisieTexteAnchorPane : AnchorPane.<br/>
@@ -211,7 +311,7 @@ public class SaisieTexteVueController {
 
 	
 	/**
-	* Setter de l'AnchorPane contenant l'ensemble du 
+	* Setter de l' {@link AnchorPane} contenant l'ensemble du 
 	* panneau de saisie du texte (racine).<br/>
 	*
 	* @param pSaisieTexteAnchorPane : AnchorPane : 
@@ -228,7 +328,7 @@ public class SaisieTexteVueController {
 	 * Getter du bouton pour afficher 
 	 * le browser de sélection de fichier.<br/>
 	 *
-	 * @return lireFichierButton : Button.<br/>
+	 * @return this.lireFichierButton : {@link Button}.<br/>
 	 */
 	public Button getLireFichierButton() {
 		return this.lireFichierButton;
@@ -240,8 +340,8 @@ public class SaisieTexteVueController {
 	* Setter du bouton pour afficher 
 	* le browser de sélection de fichier.<br/>
 	*
-	* @param pLireFichierButton : Button : 
-	* valeur à passer à lireFichierButton.<br/>
+	* @param pLireFichierButton : {@link Button} : 
+	* valeur à passer à this.lireFichierButton.<br/>
 	*/
 	public void setLireFichierButton(
 			final Button pLireFichierButton) {
@@ -252,9 +352,9 @@ public class SaisieTexteVueController {
 
 	/**
 	 * Getter du bouton pour effacer 
-	 * le contenu de la zone de texte.<br/>
+	 * le contenu de la zone de texte <code>this.textArea</code>.<br/>
 	 *
-	 * @return effacerButton : Button.<br/>
+	 * @return this.effacerButton : {@link Button}.<br/>
 	 */
 	public Button getEffacerButton() {
 		return this.effacerButton;
@@ -264,10 +364,10 @@ public class SaisieTexteVueController {
 	
 	/**
 	* Setter du bouton pour effacer 
-	* le contenu de la zone de texte.<br/>
+	* le contenu de la zone de texte <code>this.textArea</code>.<br/>
 	*
-	* @param pEffacerButton : Button : 
-	* valeur à passer à effacerButton.<br/>
+	* @param pEffacerButton : {@link Button} : 
+	* valeur à passer à this.effacerButton.<br/>
 	*/
 	public void setEffacerButton(
 			final Button pEffacerButton) {
@@ -275,12 +375,38 @@ public class SaisieTexteVueController {
 	} // Fin de setEffacerButton(...)._____________________________________
 
 
+	
+	/**
+	 * Getter du bouton pour enregistrer le 
+	 * contenu de la zone de texte dans un fichier.<br/>
+	 *
+	 * @return this.enregistrerFichierButton : {@link Button}.<br/>
+	 */
+	public Button getEnregistrerFichierButton() {
+		return this.enregistrerFichierButton;
+	} // Fin de getEnregistrerFichierButton()._____________________________
+
+
+	
+	/**
+	* Setter du bouton pour enregistrer le 
+	* contenu de la zone de texte dans un fichier.<br/>
+	*
+	* @param pEnregistrerFichierButton : {@link Button} : 
+	* valeur à passer à this.enregistrerFichierButton.<br/>
+	*/
+	public void setEnregistrerFichierButton(
+			final Button pEnregistrerFichierButton) {
+		this.enregistrerFichierButton = pEnregistrerFichierButton;
+	} // Fin de setEnregistrerFichierButton(...).__________________________
+
+
 
 	/**
 	 * Getter de la zone de texte pour 
 	 * écrire ou afficher du texte.<br/>
 	 *
-	 * @return textArea : TextArea.<br/>
+	 * @return this.textArea : {@link TextArea}.<br/>
 	 */
 	public TextArea getTextArea() {
 		return this.textArea;
@@ -292,8 +418,8 @@ public class SaisieTexteVueController {
 	* Setter de la zone de texte pour 
 	* écrire ou afficher du texte.<br/>
 	*
-	* @param pTextArea : TextArea : 
-	* valeur à passer à textArea.<br/>
+	* @param pTextArea : {@link TextArea} : 
+	* valeur à passer à this.textArea.<br/>
 	*/
 	public void setTextArea(
 			final TextArea pTextArea) {
@@ -306,7 +432,7 @@ public class SaisieTexteVueController {
 	 * Getter de la classe applicative.<br/>
 	 * <br/>
 	 *
-	 * @return this.applicationMain : MainApplication.<br/>
+	 * @return this.applicationMain : {@link MainApplication}.<br/>
 	 */
 	public MainApplication getApplicationMain() {
 		return this.applicationMain;
@@ -316,16 +442,50 @@ public class SaisieTexteVueController {
 	
 	/**
 	* Setter de la classe applicative.<br/>
-	* <br/>
+	* <ul>
+	* <li>récupère le théatre <code>this.stage</code> 
+	* auprès de la classe applicative.</li>
+	* </ul>
 	*
-	* @param pApplicationMain : MainApplication : 
+	* @param pApplicationMain : {@link MainApplication} : 
 	* valeur à passer à this.applicationMain.<br/>
 	*/
 	public void setApplicationMain(
 			final MainApplication pApplicationMain) {
+		
 		this.applicationMain = pApplicationMain;
+		
+		/* récupère le théatre this.stage auprès 
+		 * de la classe applicative. */
+		this.stage = this.applicationMain.getPrimaryStage();
+
 	} // Fin de setApplicationMain(...).___________________________________
 
-		
 
+	
+	/**
+	 * Getter de la fenêtre (théatre) créée par 
+	 * la classe applicative applicationMain 
+	 * possédant les composants à afficher.<br/>
+	 *
+	 * @return this.stage : {@link Stage}.<br/>
+	 */
+	public Stage getStage() {
+		return this.stage;
+	} // Fin de getStage().________________________________________________
+
+
+	
+	/**
+	 * Getter répertoire d'ouverture des FileChooser stocké 
+	 * dans un fichier properties de préférences.<br/>
+	 *
+	 * @return this.repertoirePrefere : {@link File}.<br/>
+	 */
+	public File getRepertoirePrefere() {
+		return this.repertoirePrefere;
+	} // Fin de getRepertoirePrefere().____________________________________
+
+	
+	
 } // FIN DE LA CLASSE SaisieTexteVueController.------------------------------

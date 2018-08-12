@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
 import levy.daniel.application.ConfigurationApplicationManager;
+import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur.GestionnairePreferencesSelecteur;
 
 /**
  * CLASSE GestionnairePreferencesSelecteurTest :<br/>

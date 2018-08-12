@@ -15,9 +15,9 @@
  * <br/>
  *
  *
- * @author daniel.levy Lévy
+ * @author dan Lévy
  * @version 1.0
- * @since 9 août 2018
+ * @since 12 août 2018
  *
  */
-package levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils;
+package levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur;

@@ -19,16 +19,18 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.GestionnairePreferencesSelecteur;
+import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur.GestionnairePreferencesSelecteur;
 
 
 /**
- * CLASSE EnregistreurFichierMain :<br/>
- * Classe applicative permettant d'afficher un bouton ouvrant 
- * un FileChooser (encapsulé dans un EnregistreurFichier) pour 
+ * <b>CLASSE EnregistreurFichierMain</b> :<br/>
+ * Classe <i>applicative</i> permettant d'afficher un bouton ouvrant 
+ * un {@link FileChooser} (encapsulé dans un 
+ * {@link EnregistreurFichier}) pour 
  * <b>enregistrer un contenu dans un fichier</b>.<br/>
- * Affiche également une TextArea pour saisir un contenu.<br/>
+ * Affiche également une {@link TextArea} pour saisir un contenu.<br/>
  * <br/>
  * <img src="../../../../../../../../../../../javadoc/images/panneau_enregistrer_fichier.png" 
  * alt="fenêtre lanceur de FileChooser d'enregistrement" border="1" align="center" />

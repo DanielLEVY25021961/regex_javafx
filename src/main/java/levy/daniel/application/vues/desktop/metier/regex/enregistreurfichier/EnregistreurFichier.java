@@ -17,12 +17,13 @@ import org.apache.commons.logging.LogFactory;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.GestionnairePreferencesSelecteur;
+import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur.GestionnairePreferencesSelecteur;
 
 
 /**
- * CLASSE EnregistreurFichier :<br/>
- * <b>Configure et ouvre un FileChooser permettant à l'utilisateur 
+ * <b>CLASSE EnregistreurFichier</b> :<br/>
+ * <b>Configure et ouvre un {@link FileChooser} 
+ * permettant à l'utilisateur 
  * d'enregistrer dans un fichier simple un contenu (String).</b><br/>
  * <b>Permet à l'utilisateur d'indiquer le nom 
  * et la destination du fichier.</b>
@@ -32,7 +33,7 @@ import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.
  * <li>crée le fichier sur disque si nécessaire.<br/>
  * <li>Récupère le fichier sélectionné par l'utilisateur 
  * et mémorise son répertoire comme préférence 
- * (utilise un GestionnairePreferencesSelecteur).</li>
+ * (utilise un {@link GestionnairePreferencesSelecteur}).</li>
  * <li>Enregistre un contenu en UTF8 (String) dans le fichier sélectionné.</li>
  * <li>Retourne le fichier enregistré.</li>
  * </ul>

@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils.GestionnairePreferencesSelecteur;
+import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur.GestionnairePreferencesSelecteur;
 
 
 /**

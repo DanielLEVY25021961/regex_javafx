@@ -8,7 +8,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * INTERFACE IEnregistreurFichier :<br/>
+ * <b>INTERFACE IEnregistreurFichier</b> :<br/>
  * Interface factorisant les comportements des EnregistreurFichier concrets.<br/>
  * <br/>
  * <img src="../../../../../../../../../../../javadoc/images/diagramme_classe_enregistreurfichier.png" 

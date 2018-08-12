@@ -1,7 +1,9 @@
 /**
  * CLASSE package-info :<br/>
- * .<br/>
- * <br/>
+ * Ce package contient toutes les classes nécessaires 
+ * concernant les VUES pour tester 
+ * des expression régulières (RegEx).<br/>
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>

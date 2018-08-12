@@ -1,4 +1,4 @@
-package levy.daniel.application.vues.desktop.metier.regex.selecteurfichier.utils;
+package levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  * <li>...</li>
  * </ul>
  * <br/>
- * <img src="../../../../../../../../../../../../javadoc/images/GestionnairePreferencesSelecteur.png" 
+ * <img src="../../../../../../../../../../javadoc/images/GestionnairePreferencesSelecteur.png" 
  * alt="GestionnairePreferencesSelecteur" border="1" align="center" />
  * <br/><br/>
  * 
