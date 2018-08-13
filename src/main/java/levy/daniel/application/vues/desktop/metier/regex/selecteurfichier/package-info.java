@@ -2,7 +2,10 @@
  * CLASSE package-info :<br/>
  * Ce package contient toutes les classes nécessaires pour faire fonctionner 
  * un <b>sélecteur de fichier</b> (basé sur un {@link FileChooser}).<br/>
- * <br/>
+ * <br/><br/>
+ * <img src="../../../../../../../../../../../javadoc/images/FileChooser-Sélectionnez un fichier.png" 
+ * alt="FileChooser de sélection de fichier" border="1" align="center" />
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>

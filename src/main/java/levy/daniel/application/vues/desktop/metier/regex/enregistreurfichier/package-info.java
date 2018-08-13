@@ -3,6 +3,9 @@
  * Ce package contient toutes les classes nécessaires pour faire fonctionner 
  * un <b>enregistreur de fichier</b> (basé sur un {@link FileChooser}).<br/>
  * <br/><br/>
+ * <img src="../../../../../../../../../../../javadoc/images/FileChooser_enregistrer_fichier.png" 
+ * alt="FileChooser d'enregistrement de fichier" border="1" align="center" />
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
