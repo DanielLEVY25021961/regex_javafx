@@ -210,6 +210,7 @@ public class Regex implements IRegex {
 	
 	
 	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -249,6 +250,48 @@ public class Regex implements IRegex {
 		
 	} // Fin de texteCorrespondEntierementAMotif(...)._____________________
 	
+
+	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li>utilise <code>matcher.lookingAt();</code></li>
+	 * </ul>
+	 *
+	 * @param pTexte : String : Le texte dont on veut savoir 
+	 * si il <i>commence</i> par le pattern pMotif.<br/>
+	 * @param pMotif : String : le pattern regex.<br/>
+	 * 
+	 * @return : boolean :  .<br/>
+	 * 
+	 * @throws Exception
+	 */
+	public boolean texteCommenceParMotif(
+			final String pTexte
+				, final String pMotif) 
+						throws Exception {
+		
+		/* return false si pTexte est blank. */
+		if (StringUtils.isBlank(pTexte)) {
+			return false;
+		}
+		
+		/* return false si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return false;
+		}
+		
+		boolean resultat = false;
+		
+		final Pattern pattern = Pattern.compile(pMotif);
+		final Matcher matcher = pattern.matcher(pTexte);
+		
+		resultat = matcher.lookingAt();
+		
+		return resultat;
+		
+	} // Fin de texteCommenceParMotif(...).________________________________
+	
 	
 	
 	/**
@@ -287,7 +330,7 @@ public class Regex implements IRegex {
 		
 		final Pattern pattern = Pattern.compile(pMotif);
 		final Matcher matcher = pattern.matcher(pTexte);
-		
+
 		resultat = matcher.find();
 		
 		return resultat;
