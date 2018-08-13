@@ -14,7 +14,7 @@ import levy.daniel.application.model.metier.regex.IRegex;
 
 
 /**
- * CLASSE Regex :<br/>
+ * CLASSE <b>Regex</b> :<br/>
  * .<br/>
  * <br/>
  *
@@ -432,8 +432,7 @@ public class Regex implements IRegex {
 	@Override
 	public String getMotifJavaScript() {
 		return this.motifJavaScript;
-	}
-
+	} // Fin de getMotifJavaScript().______________________________________
 
 
 	
@@ -443,10 +442,8 @@ public class Regex implements IRegex {
 	@Override
 	public String getSignificationMotif() {
 		return this.significationMotif;
-	}
+	} // Fin de getSignificationMotif().___________________________________
 	
-	
-	
-	
+		
 	
 } // FIN DE LA CLASSE Regex.-------------------------------------------------

@@ -19,15 +19,15 @@ import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencess
 
 /**
  * CLASSE SelecteurFichier :<br/>
- * <b>Configure et ouvre un FileChooser permettant à l'utilisateur 
+ * <b>Configure et ouvre un {@link FileChooser} permettant à l'utilisateur 
  * de sélectionner un fichier simple.</b><br/>
  * <b>Lit le contenu du fichier sélectionné en UTF8 et le retourne sous forme de String.</b>
  * <ul>
- * <li>Instancie et configure un FileChooser pour choisir 
+ * <li>Instancie et configure un {@link FileChooser} pour choisir 
  * un fichier simple dans un système de fichiers.</li>
  * <li>Récupère le fichier sélectionné par l'utilisateur 
  * et mémorise son répertoire comme préférence 
- * (utilise un GestionnairePreferencesSelecteur).</li>
+ * (utilise un {@link GestionnairePreferencesSelecteur}).</li>
  * <li>Lit le contenu du fichier sélectionné en UTF8.</li>
  * <li>Retourne le contenu du fichier sélectionné sous forme de String.</li>
  * </ul>

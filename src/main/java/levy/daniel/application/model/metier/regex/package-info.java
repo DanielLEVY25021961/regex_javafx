@@ -1,13 +1,15 @@
 /**
  * CLASSE package-info :<br/>
  * Package contenant toutes les classes et abstractions 
- * nécessaires aux abstractions régulières.<br/>
+ * nécessaires aux expressions régulières (Regex).<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * expression régulière, expression reguliere, regex,<br/>
+ * REGEX, Regex, <br/>
  * <br/>
  *
  * - Dépendances :<br/>

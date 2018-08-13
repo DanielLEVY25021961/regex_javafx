@@ -26,7 +26,7 @@ import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencess
 /**
  * <b>CLASSE SelecteurFichierMain</b> :<br/>
  * Classe <i>applicative</i> permettant d'afficher un bouton ouvrant 
- * un FileChooser (encapsulé dans un SelecteurFichier) pour 
+ * un {@link FileChooser} (encapsulé dans un {@link SelecteurFichier}) pour 
  * <b>lire le contenu d'un fichier</b>.<br/>
  * <br/>
  * <img src="../../../../../../../../../../../javadoc/images/Lanceur de FileChooser.png" 

@@ -3,7 +3,7 @@ package levy.daniel.application.model.metier.regex;
 
 
 /**
- * INTERFACE IRegex :<br/>
+ * INTERFACE <b>IRegex</b> :<br/>
  * Interface factorisant les comportements des RegEx.<br/>
  * <br/>
  *
