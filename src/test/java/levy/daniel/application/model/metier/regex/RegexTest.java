@@ -101,6 +101,7 @@ public class RegexTest {
 		final String motifNonValable = "*abc";
 		// **********************************
 		
+		/* Instanciation d'un Regex. */
 		final IRegex regex = new Regex();
 		
 		final boolean resultatValable 
@@ -129,6 +130,77 @@ public class RegexTest {
 	} // Fin de testMotifRespecteSyntaxeRegex().___________________________
 	
 
+	
+	/**
+	 * teste la méthode texteCommenceParMotif(...).<br/>
+	 * <ul>
+	 * <li>garantit que texteCommenceParMotif
+	 * (chaine qui commence par le motif, motif) retourne true.</li>
+	 * <li>garantit que texteCommenceParMotif
+	 * (chaine qui ne commence pas par le motif, motif) retourne false.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testTexteCommenceParMotif() throws Exception {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE RegexTest - méthode testTexteCommenceParMotif() ********** ");
+		}
+		
+		// **********************************
+		/* commence par un ou plusieurs chiffres. */
+		final String motifValable = "^\\d+";
+		final String motifNonValable = "*abc";
+		
+		final String chaineValable = "1 pain tous les matins ça fait du bien";
+		final String chaineNonValable = "Bravo, 1 pain tous les matins ça fait du bien";
+		// **********************************
+		
+		/* Instanciation d'un Regex. */
+		final IRegex regex = new Regex();
+		
+		final boolean resultatValable 
+			= regex.texteCommenceParMotif(chaineValable, motifValable);
+		
+		final boolean resultatNonValable 
+			= regex.texteCommenceParMotif(chaineNonValable, motifValable);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			
+			System.out.println("la String : '" + chaineValable 
+					+ "' commence-t-elle par un chiffre et respecte-t-elle le motif " 
+					+ motifValable + " ? : " + resultatValable);
+			
+			System.out.println("la String : '" + chaineNonValable 
+					+ "' commence-t-elle par un chiffre et respecte-t-elle le motif " 
+					+ motifValable + " ? : " + resultatNonValable);
+		}
+
+		/* garantit que texteCommenceParMotif(chaine qui 
+		 * commence par le motif, motif) retourne true. */
+		assertTrue(
+				"la chaine valable commence par le motif : "
+					, resultatValable);
+		
+		/* garantit que texteCommenceParMotif(chaine qui 
+		 * ne commence pas par le motif, motif) retourne false. */
+		assertFalse(
+				"la chaine non valable ne commence pas par le motif : "
+					, resultatNonValable);
+
+	} // Fin de testTexteCommenceParMotif()._______________________________
+	
+	
 	
 	/**
 	 * teste la méthode texteCorrespondEntierementAMotif().<br/>
@@ -257,18 +329,19 @@ public class RegexTest {
 					, resultatNonValable);
 
 	} // Fin de testTexteCorrespondEntierementAMotif2().___________________
-	
 
 	
 	/**
-	 * teste la méthode expliquerMotif(String).<br/>
+	 * Teste la méthode trouverOccurences(...).<br/>
 	 * <ul>
 	 * <li>.</li>
 	 * </ul>
-	 * @throws Exception 
+	 *
+	 * @throws Exception :  :  .<br/>
 	 */
+	@SuppressWarnings(UNUSED)
 	@Test
-	public void testExpliquerMotif() throws Exception {
+	public void testTrouverOccurences() throws Exception {
 						
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -277,82 +350,23 @@ public class RegexTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE RegexTest - méthode testExpliquerMotif() ********** ");
-		}
-
-
-		// **********************************
-		final String motif = "^\\d+";
-		final String chaineATester = "10";
-		// **********************************
-		
-		
-		final IRegex regex = new Regex();
-		regex.setMotifJava(motif);
-		
-		final boolean resultatContient = regex.texteContientMotif(chaineATester);
-		final boolean resultatMatche = regex.motifMatche(chaineATester);
-		
-		/* AFFICHAGE A LA CONSOLE. */
-		if (AFFICHAGE_GENERAL && affichage) {
-			
-			System.out.println();
-			System.out.println("EXPLICATION DU MOTIF : ");
-			System.out.println(regex.getSignificationMotif());
-			System.out.println();
-			System.out.println(CHAINE + chaineATester + "' contient-elle le motif java '\\" + motif + DEUX_POINTS + resultatContient);
-			System.out.println(CHAINE + chaineATester + "' matche-t-elle le motif java '\\" + motif + DEUX_POINTS + resultatMatche);
+			System.out.println("********** CLASSE RegexTest - méthode testTrouverOccurences() ********** ");
 		}
 		
+		// **********************************
+		final String motifValable = "avec";
+		
+		final String chaineValable = "avec le temps et avec l'argent tout s'en va\nles roses aavec leur pétales m'ennuient";
+		// **********************************
+
+		/* Instanciation d'un Regex. */
+		final Regex regex = new Regex();
+		
+		regex.trouverOccurences(chaineValable, motifValable);
+
 		assertTrue("BIDON : ", 1 == 1);
 		
-	} // Fin de testMotifMatche()._________________________________________
-
-	
-	
-	/**
-	 * teste la méthode motifMatche(String).<br/>
-	 * <ul>
-	 * <li>.</li>
-	 * </ul>
-	 * @throws Exception 
-	 */
-	@Test
-	public void testMotifMatche() throws Exception {
-						
-		// **********************************
-		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
-		// **********************************
-		
-		/* AFFICHAGE A LA CONSOLE. */
-		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE RegexTest - méthode testMotifMatche() ********** ");
-		}
-
-
-		// **********************************
-		final String motif = "[0-9]";
-		final String chaineATester = "10";
-		// **********************************
-		
-		
-		final IRegex regex = new Regex();
-		regex.setMotifJava(motif);
-		
-		final boolean resultatContient = regex.texteContientMotif(chaineATester);
-		final boolean resultatMatche = regex.motifMatche(chaineATester);
-		
-		/* AFFICHAGE A LA CONSOLE. */
-		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(CHAINE + chaineATester + "' contient-elle le motif java '\\" + motif + DEUX_POINTS + resultatContient);
-			System.out.println(CHAINE + chaineATester + "' matche-t-elle le motif java '\\" + motif + DEUX_POINTS + resultatMatche);
-		}
-		
-		assertTrue("BIDON : ", 1 == 1);
-		
-	} // Fin de testMotifMatche()._________________________________________
-
+	} // Fin de testTrouverOccurences().___________________________________
 	
 	
 } // FIN DE LA CLASSE RegexTest.---------------------------------------------

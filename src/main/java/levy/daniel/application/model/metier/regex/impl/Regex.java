@@ -1,7 +1,7 @@
 package levy.daniel.application.model.metier.regex.impl;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -16,6 +16,12 @@ import levy.daniel.application.model.metier.regex.IRegex;
 /**
  * CLASSE <b>Regex</b> :<br/>
  * .<br/>
+ * <br/>
+ * <ul>
+ * <li>la méthode <code>expliquerMotif(String pMotif)</code> 
+ * permet de savoir si un Pattern Regex est conforme 
+ * à la syntaxe des Regex.</li>
+ * </ul>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -44,55 +50,6 @@ public class Regex implements IRegex {
 		= System.getProperty("line.separator");
 	
 	/**
-	 * Map&lt;String, String&gt; des méta-caractères 
-	 * (symboles remplaçant d'autres caractères).<br/>
-	 * <ul>
-	 * <li>String : méta-caractère.</li>
-	 * <li>String : signification du méta-caractère.</li>
-	 * </ul>
-	 * Par exemple : . signifie "n'importe quel caractère".<br/>
-	 * <br/>
-	 */
-	private static Map<String, String> metaCaracteresMap 
-		= new ConcurrentHashMap<String, String>();
-	
-	/**
-	 * Map&lt;String, String&gt; des méta-caractères 
-	 * de positionnement (ancrages).<br/>
-	 * <ul>
-	 * <li>String : méta-caractère de positionnement (ancrage).</li>
-	 * <li>String : signification de l'ancrage.</li>
-	 * </ul>
-	 * Par exemple : $ en fin de motif signifie "fin de chaîne".
-	 */
-	private static Map<String, String> ancragesMap 
-		= new ConcurrentHashMap<String, String>();
-	
-	
-	/**
-	 * Map&lt;String, String&gt; des caractères 
-	 * opérateurs (ou, ...).<br/>
-	 * <ul>
-	 * <li>String : opérateur.</li>
-	 * <li>String : signification de l'opérateur.</li>
-	 * </ul>
-	 * Par exemple : | entre 2 motifs signifie "un motif ou l'autre".
-	 */
-	private static Map<String, String> operateursMap 
-		= new ConcurrentHashMap<String, String>();
-	
-	static {
-		
-		metaCaracteresMap.put(".", "tout caractère");
-		metaCaracteresMap.put("*", "toute chaine de caractères");
-		
-		ancragesMap.put("¨", "début de chaîne");
-		ancragesMap.put("$", "fin de chaîne");
-		
-		operateursMap.put("|", "ou");
-	}
-	
-	/**
 	 * chaine de caractères dont on veut savoir 
 	 * si elle contient ou matche le motif 
 	 * de l'expression régulière.<br/>
@@ -118,72 +75,154 @@ public class Regex implements IRegex {
 	private transient String significationMotif;
 	
 	/**
+	 * boolean qui détermine si <code>this.motifJava</code> 
+	 * respecte la syntaxe des expressions régulières (RegEx).<br/>
+	 */
+	private transient boolean motifJavaRespecteSyntaxe;
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG = LogFactory.getLog(Regex.class);
 	
+	
 	// *************************METHODES************************************/
 
 	
 	
+	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 */
+	public Regex() {
+		this(null, null);
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
+	
+	 /**
+	 * CONSTRUCTEUR COMPLET.<br/>
+	 * <ul>
+	 * <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
+	 * si <code>this.motifJava</code> respecte la syntaxe 
+	 * des RegEx Java.</li>
+	 * </ul>
+	 *
+	 * @param pChaineATester : String : 
+	 * chaine de caractères dont on veut savoir 
+	 * si elle contient ou matche le motif 
+	 * de l'expression régulière.<br/>
+	 * @param pMotifJava : String : 
+	 * Motif de l'expression régulière applicable en Java.<br/>
+	 * Par exemple : "[0-9]" ou "\\d" en java pour un chiffre. 
+	 */
+	public Regex(
+			final String pChaineATester
+				, final String pMotifJava) {
+		
+		super();
+		
+		this.chaineATester = pChaineATester;
+		this.motifJava = pMotifJava;
+		
+		/* alimente this.motifJavaRespecteSyntaxe à true si 
+		 * this.motifJava respecte la syntaxe des RegEx Java. */
+		this.determinerSiMotifConforme();
+		
+	} // Fin du  CONSTRUCTEUR COMPLET._____________________________________
+	
+
 	
 	/**
-	 * {@inheritDoc}
+	 * Détermine si <code>this.motifJava</code> respecte la syntaxe 
+	 * des expressions régulières Java (RegEx).<br/>
+	 * <ul>
+	 * <li>alimente le boolean 
+	 * <code>this.motifJavaRespecteSyntaxe</code>.</li>
+	 * <li>passe <code>this.motifJavaRespecteSyntaxe</code> 
+	 * à true si <code>this.motifJava</code> respecte 
+	 * la syntaxe RegEx Java.</li>
+	 * </ul>
+	 *  - ne fait rien si <code>this.motifJava</code> est null.<br/>
+	 *  <br/>
 	 */
-	@Override
-	public String expliquerMotif(
-			final String pMotif) {
+	private void determinerSiMotifConforme() {
+		
+		/* ne fait rien si this.motifJava est null. */
+		if (!StringUtils.isBlank(this.motifJava)) {
+			
+			/* alimente this.motifJavaRespecteSyntaxe. */
+			this.motifJavaRespecteSyntaxe 
+				= this.motifRespecteSyntaxeRegex(this.motifJava);
+		}
+		
+	} // Fin de determinerSiMotifConforme()._______________________________
+	
+
+	
+	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * </ul>
+	 *
+	 * @param pTexte
+	 * @param pMotif
+	 * 
+	 * @return List&lt;Occurence&gt; : 
+	 * 
+	 * @throws Exception
+	 */
+	public List<Occurence> trouverOccurences(
+			final String pTexte, final String pMotif) throws Exception {
+		
+		/* return null si pTexte est blank. */
+		if (StringUtils.isBlank(pTexte)) {
+			return null;
+		}
 		
 		/* return null si pMotif est blank. */
 		if (StringUtils.isBlank(pMotif)) {
 			return null;
 		}
 		
-		String resultat = null;
+		final Pattern pattern = Pattern.compile(pMotif);
+		final Matcher matcher = pattern.matcher(pTexte);
 		
-		final StringBuilder stb = new StringBuilder();
+		int i = 0;
 		
-		System.out.println("MOTIF : " + pMotif);
+		final List<Occurence> resultat = new LinkedList<Occurence>();
 		
-//		final String motifRegex = "^(\\^?)(.*)$";
-		final String motifRegex = "^(\\^?)(\\[0-9\\]|.*)(\\+?)$";
-		
-		final Pattern pattern = Pattern.compile(motifRegex);
-		
-		final Matcher matcher = pattern.matcher(pMotif);
-		
-		final boolean caColle = matcher.matches();
-		
-		if (caColle) {
+		while (matcher.find()) {
 			
-			for (int j = 0; j <= matcher.groupCount(); j++) {
-				System.out.println("Groupe (" + j + ") = " + matcher.group(j));
-				System.out.println("Le texte \"" + matcher.group(j) + "\" débute à " + matcher.start(j) + " et se termine à " + matcher.end(j));
-			}
+			i++;
 			
-			if (StringUtils.isNotBlank(matcher.group(1))) {
-				stb.append("^ au début du motif signifie : ");
-				stb.append("commence par");
-				stb.append(NEWLINE);
-			}
-					
+			final String trouve = matcher.group();
+			System.out.println("occurence trouvée (" + i + ") : " + trouve);
+			
+			final int positionDebut = matcher.start();
+			System.out.println("position de début (0-based) de l'occurence(" + i + ") : " + positionDebut);
+			
+			final int positionFin = matcher.end();
+			System.out.println("position de fin (0-based) de l'occurence(" + i + ") : " + positionFin);
+			
+			final Occurence occurence = new Occurence(i, trouve, positionDebut, positionFin);
+			
+			resultat.add(occurence);
 		}
 		
-		resultat = stb.toString();
-		
-		this.significationMotif = resultat;
-		
 		return resultat;
+
 	}
 	
-
+	
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean motifRespecteSyntaxeRegex(
+	public final boolean motifRespecteSyntaxeRegex(
 			final String pMotif) {
 		
 		/* retourne false si pMotif est blank. */
@@ -207,66 +246,27 @@ public class Regex implements IRegex {
 		return resultat;
 		
 	} // Fin de motifRespecteSyntaxeRegex(...).____________________________
-	
-	
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean texteCorrespondEntierementAMotif() 
-			throws Exception {
-		return this.texteCorrespondEntierementAMotif(
-				this.chaineATester, this.motifJava);
-	} // Fin de texteCorrespondEntierementAMotif().________________________
-	
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean texteCorrespondEntierementAMotif(
-			final String pTexte
-				, final String pMotif) 
-							throws Exception {
-		
-		/* retourne false si pTexte est blank. */
-		if (StringUtils.isBlank(pTexte)) {
-			return false;
-		}
-		
-		/* retourne false si pMotif est blank. */
-		if (StringUtils.isBlank(pMotif)) {
-			return false;
-		}
-		
-		boolean resultat = false;
-		
-		resultat = Pattern.matches(pMotif, pTexte);
-		
-		return resultat;
-		
-	} // Fin de texteCorrespondEntierementAMotif(...)._____________________
-	
 
 	
+	
 	/**
-	 * .<br/>
-	 * <ul>
-	 * <li>utilise <code>matcher.lookingAt();</code></li>
-	 * </ul>
-	 *
-	 * @param pTexte : String : Le texte dont on veut savoir 
-	 * si il <i>commence</i> par le pattern pMotif.<br/>
-	 * @param pMotif : String : le pattern regex.<br/>
-	 * 
-	 * @return : boolean :  .<br/>
-	 * 
-	 * @throws Exception
+	 * {@inheritDoc}
 	 */
-	public boolean texteCommenceParMotif(
+	@Override
+	public final boolean texteCommenceParMotif() throws Exception {
+		
+		return this.texteCommenceParMotif(
+				this.chaineATester, this.motifJava);
+		
+	} // Fin de texteCommenceParMotif().___________________________________
+
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean texteCommenceParMotif(
 			final String pTexte
 				, final String pMotif) 
 						throws Exception {
@@ -292,16 +292,16 @@ public class Regex implements IRegex {
 		
 	} // Fin de texteCommenceParMotif(...).________________________________
 	
-	
-	
+
+		
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean texteContientMotif(
-			final String pTexte) throws Exception {
+	public final boolean texteContientMotif() throws Exception {
 		
-		return this.texteContientMotif(pTexte, this.motifJava);
+		return this.texteContientMotif(
+				this.chaineATester, this.motifJava);
 		
 	} // Fin de texteContientMotif(...).___________________________________
 
@@ -311,7 +311,7 @@ public class Regex implements IRegex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean texteContientMotif(
+	public final boolean texteContientMotif(
 			final String pTexte
 				, final String pMotif) 
 						throws Exception {
@@ -337,41 +337,54 @@ public class Regex implements IRegex {
 		
 	} // Fin de texteContientMotif(...).___________________________________
 	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean texteCorrespondEntierementAMotif() 
+			throws Exception {
+		return this.texteCorrespondEntierementAMotif(
+				this.chaineATester, this.motifJava);
+	} // Fin de texteCorrespondEntierementAMotif().________________________
+	
 	
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean motifMatche(
-			final String pString) {
+	public final boolean texteCorrespondEntierementAMotif(
+			final String pTexte
+				, final String pMotif) 
+							throws Exception {
 		
-		/* return false si pString est blank. */
-		if (StringUtils.isBlank(pString)) {
+		/* retourne false si pTexte est blank. */
+		if (StringUtils.isBlank(pTexte)) {
+			return false;
+		}
+		
+		/* retourne false si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
 			return false;
 		}
 		
 		boolean resultat = false;
 		
-		final Pattern pattern = Pattern.compile(this.motifJava);
-		
-		final Matcher matcher = pattern.matcher(pString);
-		
-		if (matcher.matches()) {
-			resultat = true;
-		}
+		resultat = Pattern.matches(pMotif, pTexte);
 		
 		return resultat;
 		
-	} // Fin de motifMatche(...).__________________________________________
+	} // Fin de texteCorrespondEntierementAMotif(...)._____________________
+	
 
-
-		
+			
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getChaineATester() {
+	public final String getChaineATester() {
 		return this.chaineATester;
 	} // Fin de getChaineATester().________________________________________
 
@@ -381,7 +394,7 @@ public class Regex implements IRegex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setChaineATester(
+	public final void setChaineATester(
 			final String pChaineATester) {
 		this.chaineATester = pChaineATester;
 	} // Fin de setChaineATester(...)._____________________________________
@@ -392,7 +405,7 @@ public class Regex implements IRegex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getMotifJava() {
+	public final String getMotifJava() {
 		return this.motifJava;
 	} // Fin de getMotifJava().____________________________________________
 
@@ -402,70 +415,20 @@ public class Regex implements IRegex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setMotifJava(
+	public final void setMotifJava(
 			final String pMotifJava) {
 		
 		if (!StringUtils.equals(pMotifJava, this.motifJava)) {
 			
 			this.motifJava = pMotifJava;
 			
-			this.expliquerMotif(this.motifJava);
+			/* alimente this.motifJavaRespecteSyntaxe à true si 
+			 * this.motifJava respecte la syntaxe des RegEx Java. */
+			this.determinerSiMotifConforme();
+			
 		}
 				
 	} // Fin de setMotifJava(...)._________________________________________
-
-
-	
-	/**
-	 * Getter de la Map&lt;String, String&gt; des méta-caractères 
-	 * (symboles remplaçant d'autres caractères).<br/>
-	 * <ul>
-	 * <li>String : méta-caractère.</li>
-	 * <li>String : signification du méta-caractère.</li>
-	 * </ul>
-	 * Par exemple : . signifie "n'importe quel caractère".<br/>
-	 * <br/>
-	 *
-	 * @return metaCaracteresMap : Map&lt;String, String&gt;.<br/>
-	 */
-	public static Map<String, String> getMetaCaracteresMap() {
-		return metaCaracteresMap;
-	} // Fin de getMetaCaracteresMap().____________________________________
-
-
-
-	/**
-	 * Getter de la Map&lt;String, String&gt; des méta-caractères 
-	 * de positionnement (ancrages).<br/>
-	 * <ul>
-	 * <li>String : méta-caractère de positionnement (ancrage).</li>
-	 * <li>String : signification de l'ancrage.</li>
-	 * </ul>
-	 * Par exemple : $ en fin de motif signifie "fin de chaîne".
-	 *
-	 * @return ancragesMap : Map&lt;String, String&gt;.<br/>
-	 */
-	public static Map<String, String> getAncragesMap() {
-		return ancragesMap;
-	} // Fin de getAncragesMap().__________________________________________
-
-
-	
-	/**
-	 * Getter de la Map&lt;String, String&gt; des caractères 
-	 * opérateurs (ou, ...).<br/>
-	 * <ul>
-	 * <li>String : opérateur.</li>
-	 * <li>String : signification de l'opérateur.</li>
-	 * </ul>
-	 * Par exemple : | entre 2 motifs signifie "un motif ou l'autre".<br/>
-	 * <br/>
-	 *
-	 * @return operateursMap : Map&lt;String, String&gt;.<br/>
-	 */
-	public static Map<String, String> getOperateursMap() {
-		return operateursMap;
-	} // Fin de getOperateursMap().________________________________________
 
 
 
@@ -473,7 +436,7 @@ public class Regex implements IRegex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getMotifJavaScript() {
+	public final String getMotifJavaScript() {
 		return this.motifJavaScript;
 	} // Fin de getMotifJavaScript().______________________________________
 
