@@ -1,6 +1,8 @@
 package levy.daniel.application.model.metier.regex;
 
+import java.util.List;
 
+import levy.daniel.application.model.metier.regex.impl.Occurence;
 
 /**
  * INTERFACE <b>IRegex</b> :<br/>
@@ -31,6 +33,7 @@ public interface IRegex {
 	 * des Expressions régulières (regex) en Java.<br/>
 	 * <ul>
 	 * <li>retourne true si pMotif respecte la syntaxe RegEx Java.</li>
+	 * <li>utilise {@link Pattern}</li>
 	 * <li>utilise <code>Pattern.compile(pMotif);</code></li>
 	 * <li>traite la <code>PatternSyntaxException</code> levée 
 	 * si la syntaxe est incorrecte.</li>
@@ -53,6 +56,8 @@ public interface IRegex {
 	 * le motif (pattern) <code>this.motifJava</code>.<br/>
 	 * Le texte vérifie alors <b>lookingAt()</b> avec le motif.<br/>
 	 * <ul>
+	 * <li><b>alimente <code>this.listeOccurencesMotif</code></b>.</li>
+	 * <li>utilise {@link Pattern} et {@link Matcher}.</li>
 	 * <li>utilise <code>matcher.lookingAt();</code></li>
 	 * <li>retourne true si le texte commence par le pattern.</li>
 	 * </ul>
@@ -75,6 +80,7 @@ public interface IRegex {
 	 * le motif (pattern) pMotif.<br/>
 	 * Le texte vérifie alors <b>lookingAt()</b> avec le motif.<br/>
 	 * <ul>
+	 * <li>utilise {@link Pattern} et {@link Matcher}.</li>
 	 * <li>utilise <code>matcher.lookingAt();</code></li>
 	 * <li>retourne true si le texte commence par le pattern.</li>
 	 * </ul>
@@ -105,8 +111,10 @@ public interface IRegex {
 	 * du motif (pattern) <code>this.motifJava</code>.<br/>
 	 * Utilise la méthode <code>find()</code> de Matcher.
 	 * <ul>
+	 * <li><b>alimente <code>this.listeOccurencesMotif</code></b>.</li>
 	 * <li>retourne true si le texte contient 
 	 * au moins une occurrence du motif.</li>
+	 * <li>utilise {@link Pattern} et {@link Matcher}.</li>
 	 * <li>utilise : <br/>
 	 * <code>Pattern pattern 
 	 * = Pattern.compile(this.motifJava);</code><br/>
@@ -135,6 +143,7 @@ public interface IRegex {
 	 * du motif (pattern) pMotif.<br/>
 	 * Utilise la méthode <code>find()</code> de Matcher.
 	 * <ul>
+	 * <li>utilise {@link Pattern} et {@link Matcher}.</li>
 	 * <li>retourne true si le texte contient 
 	 * au moins une occurrence du motif.</li>
 	 * <li>utilise : <br/>
@@ -162,6 +171,77 @@ public interface IRegex {
 				, String pMotif) 
 						throws Exception;
 	
+
+	
+	/**
+	 * fournit la liste des {@link Occurence} du motif Regex Java 
+	 * <code>this.motifJava</code> dans le texte 
+	 * <code>this.chaineATester</code>.<br/>
+	 * <b>retourne <code>this.listeOccurencesMotif</code></b><br/>
+	 * Utilise la méthode <code>find()</code> de Matcher.
+	 * <ul>
+	 * <li><b>alimente <code>this.listeOccurencesMotif</code></b>.</li>
+	 * <li>retourne une <b>liste vide</b> 
+	 * si aucune occurence n'est trouvée.</li>
+	 * <li>utilise {@link Pattern} et {@link Matcher}.</li>
+	 * <li>utilise une boucle <code>while (matcher.find())</code> 
+	 * pour trouver toute les occurences.</li>
+	 * <li>utilise <code>matcher.group()</code> 
+	 * pour extraire le contenu de l'occurence.</li>
+	 * <li>utilise <code>matcher.start()</code> 
+	 * pour trouver la position de début de l'occurence.</li>
+	 * <li>utilise <code>matcher.end()</code> 
+	 * pour trouver la position de fin de l'occurence.</li>
+	 * </ul>
+	 * - return null si <code>this.chaineATester</code> est blank.<br/>
+	 * - return null si <code>this.motifJava</code> est blank.<br/>
+	 * <br/>
+	 * 
+	 * @return List&lt;IOccurence&gt; : liste des {@link Occurence} 
+	 * de <code>this.motifJava</code> dans 
+	 * <code>this.chaineATester</code>.<br/>
+	 * 
+	 * @throws Exception si le pattern <code>this.motifJava</code> 
+	 * n'est pas conforme à la syntaxe des Regex Java.<br/>
+	 */
+	List<IOccurence> trouverOccurences() throws Exception;
+	
+	
+	
+	/**
+	 * fournit la liste des {@link Occurence} du motif Regex Java 
+	 * pMotif dans le texte pTexte.<br/>
+	 * Utilise la méthode <code>find()</code> de Matcher.
+	 * <ul>
+	 * <li>retourne une <b>liste vide</b> 
+	 * si aucune occurence n'est trouvée.</li>
+	 * <li>utilise {@link Pattern} et {@link Matcher}.</li>
+	 * <li>utilise une boucle <code>while (matcher.find())</code> 
+	 * pour trouver toute les occurences.</li>
+	 * <li>utilise <code>matcher.group()</code> 
+	 * pour extraire le contenu de l'occurence.</li>
+	 * <li>utilise <code>matcher.start()</code> 
+	 * pour trouver la position de début de l'occurence.</li>
+	 * <li>utilise <code>matcher.end()</code> 
+	 * pour trouver la position de fin de l'occurence.</li>
+	 * </ul>
+	 * - return null si pTexte est blank.<br/>
+	 * - return null si pMotif est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pTexte : String : texte dans lequel on veut 
+	 * trouver les occurences de pMotif.<br/>
+	 * @param pMotif : String : motif Regex Java.<br/>
+	 * 
+	 * @return List&lt;IOccurence&gt; : liste des {@link Occurence} 
+	 * de pMotif dans pTexte.<br/>
+	 * 
+	 * @throws Exception si le pattern pMotif n'est pas 
+	 * conforme à la syntaxe des Regex Java.<br/>
+	 */
+	List<IOccurence> trouverOccurences(
+			String pTexte, String pMotif) throws Exception;
+	
 	
 	
 	/**
@@ -169,7 +249,9 @@ public interface IRegex {
 	 * <b><i>respecte entièrement</i></b> 
 	 * le motif (pattern) <code>this.motifJava</code>.<br/>
 	 * Le texte <b>matches</b> alors le motif.<br/>
+	 * Utilise la méthode <code>matches()</code> de Matcher.
 	 * <ul>
+	 * <li>utilise {@link Pattern} et {@link Matcher}.</li>
 	 * <li>utilise <code>Pattern.matches(pMotif, pTexte);</code></li>
 	 * <li>retourne true si le texte respecte entièrement le pattern.</li>
 	 * </ul>
@@ -192,7 +274,9 @@ public interface IRegex {
 	 * Détermine si le texte pTexte <b><i>respecte entièrement</i></b> 
 	 * le motif (pattern) pMotif.<br/>
 	 * Le texte <b>matches</b> alors le motif.<br/>
+	 * Utilise la méthode <code>matches()</code> de Matcher.
 	 * <ul>
+	 * <li>utilise {@link Pattern} et {@link Matcher}.</li>
 	 * <li>utilise <code>Pattern.matches(pMotif, pTexte);</code></li>
 	 * <li>retourne true si le texte respecte entièrement le pattern.</li>
 	 * </ul>
@@ -214,6 +298,24 @@ public interface IRegex {
 			String pTexte
 				, String pMotif) 
 							throws Exception;
+
+	
+	
+	/**
+	 * retourne une String pour l'affichage 
+	 * d'une List&lt;IOccurence&gt;.<br/>
+	 * <ul>
+	 * <li>retourne une String vide si pList est vide.</li>
+	 * </ul>
+	 * - retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;IOccurence&gt; : 
+	 * Liste {@link IOccurence}.
+	 * 
+	 * @return : String : String pour affichage.<br/>
+	 */
+	String afficherListOccurences(List<IOccurence> pList);
 	
 	
 	
@@ -232,11 +334,19 @@ public interface IRegex {
 	* Setter de la chaine de caractères dont on veut savoir 
 	* si elle contient ou matche le motif 
 	* de l'expression régulière.<br/>
+	* <ul>
+	* <li><b>alimente <code>this.listeOccurencesMotif</code></b>.</li>
+	* </ul>
+	* - ne fait rien si pChaineATester.equals(this.chaineATester).<br/>
+	* <br/>
 	*
 	* @param pChaineATester : String : 
 	* valeur à passer à this.chaineATester.<br/>
+	* 
+	* @throws Exception si le pattern pMotif n'est pas 
+	* conforme à la syntaxe des Regex Java.<br/>
 	*/
-	void setChaineATester(String pChaineATester);
+	void setChaineATester(String pChaineATester) throws Exception;
 	
 	
 	
@@ -256,15 +366,21 @@ public interface IRegex {
 	* applicable en Java.<br/>
 	* Par exemple : "[0-9]" ou "\\d" en java pour un chiffre. 
 	* <ul>
-	 * <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
-	 * si <code>this.motifJava</code> respecte la syntaxe 
-	 * des RegEx Java.</li>
-	 * </ul>
+	* <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
+	* si <code>this.motifJava</code> respecte la syntaxe 
+	* des RegEx Java.</li>
+	* <li><b>alimente <code>this.listeOccurencesMotif</code></b>.</li>
+	* </ul>
+	* - ne fait rien si pMotifJava.equals(this.motifJava).<br/>
+	* <br/>
 	*
 	* @param pMotifJava : String : 
 	* valeur à passer à <code>this.motifJava</code>.<br/>
+	* 
+	* @throws Exception si le pattern pMotif n'est pas 
+	* conforme à la syntaxe des Regex Java.<br/>
 	*/
-	void setMotifJava(String pMotifJava);
+	void setMotifJava(String pMotifJava) throws Exception;
 
 
 
@@ -286,6 +402,16 @@ public interface IRegex {
 	 */
 	String getSignificationMotif();
 
+	
+	
+	/**
+	 * Getter de la Liste des occurences de <code>this.motifJava</code> 
+	 * dans <code>this.chaineATester</code>.<br/>
+	 *
+	 * @return this.listeOccurencesMotif : List&lt;IOccurence&gt;.<br/>
+	 */
+	List<IOccurence> getListeOccurencesMotif();
+	
 	
 	
 } // FIN DE L'INTERFACE IRegex.----------------------------------------------

@@ -10,17 +10,36 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.model.metier.regex.IOccurence;
 import levy.daniel.application.model.metier.regex.IRegex;
 
 
 /**
  * CLASSE <b>Regex</b> :<br/>
- * .<br/>
+ * Classe fournissant le <b>métier</b> des 
+ * Expressions Régulières (RegEx) en Java.<br/>
  * <br/>
  * <ul>
- * <li>la méthode <code>expliquerMotif(String pMotif)</code> 
- * permet de savoir si un Pattern Regex est conforme 
- * à la syntaxe des Regex.</li>
+ * <li>la méthode <code>determinerSiMotifConforme()</code> 
+ * permet de savoir si le Pattern Regex <code>this.motifJava</code> 
+ * est <b>conforme à la syntaxe des Regex</b>.</li>
+ * <li>la méthode <code>motifRespecteSyntaxeRegex(String pMotif)</code> 
+ * permet de savoir si le motif pMotif <b>respecte 
+ * la syntaxe des Regex Java</b>.</li>
+ * <li>la méthode <code>texteCommenceParMotif(...)</code> 
+ * permet de savoir si un texte <b>commence</b> par un motif.</li>
+ * <li>la méthode <code>texteContientMotif(...)</code> 
+ * permet de savoir si un texte <b>contient</b> un motif.</li>
+ * <li>la méthode <code>trouverOccurences(...)</code> 
+ * permet de <b>trouver toutes les occurences</b> 
+ * d'un motif dans un texte.<br/> 
+ * Utilise des {@link IOccurence}</li>
+ * <li>la méthode <code>texteCorrespondEntierementAMotif(...)</code> 
+ * permet de savoir si un texte <b<correspond entièrement</b> 
+ * à un motif.</li>
+ * <li>la méthode <code></code> </li>
+ * <li>la méthode <code></code> </li>
+ * <li></li>
  * </ul>
  * <br/>
  *
@@ -79,6 +98,12 @@ public class Regex implements IRegex {
 	 * respecte la syntaxe des expressions régulières (RegEx).<br/>
 	 */
 	private transient boolean motifJavaRespecteSyntaxe;
+	
+	/**
+	 * Liste des occurences de <code>this.motifJava</code> 
+	 * dans <code>this.chaineATester</code>.<br/>
+	 */
+	private transient List<IOccurence> listeOccurencesMotif;
 	
 	/**
 	 * LOG : Log : 
@@ -161,61 +186,6 @@ public class Regex implements IRegex {
 
 	
 	
-	/**
-	 * .<br/>
-	 * <ul>
-	 * <li>.</li>
-	 * </ul>
-	 *
-	 * @param pTexte
-	 * @param pMotif
-	 * 
-	 * @return List&lt;Occurence&gt; : 
-	 * 
-	 * @throws Exception
-	 */
-	public List<Occurence> trouverOccurences(
-			final String pTexte, final String pMotif) throws Exception {
-		
-		/* return null si pTexte est blank. */
-		if (StringUtils.isBlank(pTexte)) {
-			return null;
-		}
-		
-		/* return null si pMotif est blank. */
-		if (StringUtils.isBlank(pMotif)) {
-			return null;
-		}
-		
-		final Pattern pattern = Pattern.compile(pMotif);
-		final Matcher matcher = pattern.matcher(pTexte);
-		
-		int i = 0;
-		
-		final List<Occurence> resultat = new LinkedList<Occurence>();
-		
-		while (matcher.find()) {
-			
-			i++;
-			
-			final String trouve = matcher.group();
-			System.out.println("occurence trouvée (" + i + ") : " + trouve);
-			
-			final int positionDebut = matcher.start();
-			System.out.println("position de début (0-based) de l'occurence(" + i + ") : " + positionDebut);
-			
-			final int positionFin = matcher.end();
-			System.out.println("position de fin (0-based) de l'occurence(" + i + ") : " + positionFin);
-			
-			final Occurence occurence = new Occurence(i, trouve, positionDebut, positionFin);
-			
-			resultat.add(occurence);
-		}
-		
-		return resultat;
-
-	}
-	
 	
 	
 	/**
@@ -254,6 +224,10 @@ public class Regex implements IRegex {
 	 */
 	@Override
 	public final boolean texteCommenceParMotif() throws Exception {
+		
+		/* alimente this.listeOccurencesMotif. */
+		this.listeOccurencesMotif 
+			= this.trouverOccurences(this.chaineATester, this.motifJava);
 		
 		return this.texteCommenceParMotif(
 				this.chaineATester, this.motifJava);
@@ -300,6 +274,10 @@ public class Regex implements IRegex {
 	@Override
 	public final boolean texteContientMotif() throws Exception {
 		
+		/* alimente this.listeOccurencesMotif. */
+		this.listeOccurencesMotif 
+			= this.trouverOccurences(this.chaineATester, this.motifJava);
+		
 		return this.texteContientMotif(
 				this.chaineATester, this.motifJava);
 		
@@ -343,6 +321,78 @@ public class Regex implements IRegex {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public final List<IOccurence> trouverOccurences() 
+											throws Exception {
+		
+		/* alimente this.listeOccurencesMotif. */
+		this.listeOccurencesMotif 
+			= this.trouverOccurences(this.chaineATester, this.motifJava);
+		
+		return this.listeOccurencesMotif;
+		
+	} // Fin de trouverOccurences()._______________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final List<IOccurence> trouverOccurences(
+			final String pTexte
+				, final String pMotif) 
+						throws Exception {
+		
+		/* return null si pTexte est blank. */
+		if (StringUtils.isBlank(pTexte)) {
+			return null;
+		}
+		
+		/* return null si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		final Pattern pattern = Pattern.compile(pMotif);
+		final Matcher matcher = pattern.matcher(pTexte);
+		
+		int i = 0;
+		
+		final List<IOccurence> resultat = new LinkedList<IOccurence>();
+		
+		/* détecte toutes les occurences du motif. */
+		while (matcher.find()) {
+			
+			/* incrémente le numéro (1-based). */
+			i++;
+			
+			/* extrait le contenu. */
+			final String trouve = matcher.group();
+			
+			/* extrait la position de début. */
+			final int positionDebut = matcher.start();
+			
+			/* extrait la position de fin. */
+			final int positionFin = matcher.end();
+			
+			/* instancie une Occurence (pure fabrication). */
+			final IOccurence occurence 
+				= new Occurence(i, trouve, positionDebut, positionFin);
+			
+			/* ajoute l'Occurence au résultat. */
+			resultat.add(occurence);
+		}
+		
+		return resultat;
+
+	} // Fin de trouverOccurences(...).____________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final boolean texteCorrespondEntierementAMotif() 
 			throws Exception {
 		return this.texteCorrespondEntierementAMotif(
@@ -379,7 +429,32 @@ public class Regex implements IRegex {
 	} // Fin de texteCorrespondEntierementAMotif(...)._____________________
 	
 
-			
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String afficherListOccurences(
+			final List<IOccurence> pList)	{
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final IOccurence occurence : pList) {
+			stb.append(occurence.toString());
+			stb.append(NEWLINE);
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherListOccurences(...)._______________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -391,12 +466,24 @@ public class Regex implements IRegex {
 
 	
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc} 
 	 */
 	@Override
 	public final void setChaineATester(
-			final String pChaineATester) {
-		this.chaineATester = pChaineATester;
+			final String pChaineATester) throws Exception {
+		
+		/* ne fait rien si pChaineATester.equals(this.chaineATester). */
+		if (!StringUtils.isBlank(pChaineATester)) {
+			
+			this.chaineATester = pChaineATester;
+			
+			/* alimente this.listeOccurencesMotif. */
+			this.listeOccurencesMotif 
+				= this.trouverOccurences(
+						this.chaineATester, this.motifJava);
+			
+		}
+				
 	} // Fin de setChaineATester(...)._____________________________________
 
 
@@ -416,8 +503,9 @@ public class Regex implements IRegex {
 	 */
 	@Override
 	public final void setMotifJava(
-			final String pMotifJava) {
+			final String pMotifJava) throws Exception {
 		
+		/* ne fait rien si pMotifJava.equals(this.motifJava). */
 		if (!StringUtils.equals(pMotifJava, this.motifJava)) {
 			
 			this.motifJava = pMotifJava;
@@ -426,6 +514,9 @@ public class Regex implements IRegex {
 			 * this.motifJava respecte la syntaxe des RegEx Java. */
 			this.determinerSiMotifConforme();
 			
+			/* alimente this.listeOccurencesMotif. */
+			this.listeOccurencesMotif 
+				= this.trouverOccurences(this.chaineATester, this.motifJava);
 		}
 				
 	} // Fin de setMotifJava(...)._________________________________________
@@ -449,6 +540,16 @@ public class Regex implements IRegex {
 	public String getSignificationMotif() {
 		return this.significationMotif;
 	} // Fin de getSignificationMotif().___________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final List<IOccurence> getListeOccurencesMotif() {
+		return this.listeOccurencesMotif;
+	} // Fin de getListeOccurencesMotif()._________________________________
 	
 		
 	

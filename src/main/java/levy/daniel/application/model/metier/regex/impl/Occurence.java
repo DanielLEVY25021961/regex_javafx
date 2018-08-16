@@ -5,12 +5,12 @@ import javax.persistence.Transient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.model.metier.regex.IExportateurCsv;
-import levy.daniel.application.model.metier.regex.IExportateurJTable;
+import levy.daniel.application.model.metier.regex.IOccurence;
 
 
 /**
  * CLASSE <b>Occurence</b> :<br/>
+ * Encapsulation et pure fabrication java.<br/>
  * Modélisation de l'occurence d'un motif RegEx Java dans un texte.<br/>
  * Par exemple : <br/>
  * pour le motif Regex Java <code>"avec"</code> 
@@ -23,6 +23,8 @@ import levy.daniel.application.model.metier.regex.IExportateurJTable;
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
+ * <code><i>// instanciation d'occurences dans la boucle de la méthode find() d'un Matcher.</i></code><br/>
+ * <code>IOccurence occurence = new Occurence(i, trouve, positionDebut, positionFin);</code><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
@@ -37,30 +39,10 @@ import levy.daniel.application.model.metier.regex.IExportateurJTable;
  * @since 14 août 2018
  *
  */
-public class Occurence implements 
-	Comparable<Occurence>, Cloneable, IExportateurCsv, IExportateurJTable {
+public class Occurence implements IOccurence {
 	
 	// ************************ATTRIBUTS************************************/
 
-	/**
-	 * ';'.<br/>
-	 */
-	public static final char POINT_VIRGULE = ';';
-	
-		
-	/**
-	 * NULL : String :<br/>
-	 * "null".<br/>
-	 */
-	public static final String NULL = "null";
-
-	
-	
-	/**
-	 * ", ".<br/>
-	 */
-	public static final String VIRGULE = ", ";
-	
 	/**
 	 * numero d'ordre (1-based) de l'occurence 
 	 * du motif dans un texte.<br/>
@@ -182,7 +164,7 @@ public class Occurence implements
 	 */
 	@Override
 	public final int compareTo(
-			final Occurence pObject) {
+			final IOccurence pObject) {
 		
 		if (this == pObject) {
 			return 0;
@@ -215,8 +197,7 @@ public class Occurence implements
 			}
 			
 		}
-		
-		
+				
 		compareNumero = this.getNumero() - pObject.getNumero();
 		
 		return compareNumero;
@@ -248,7 +229,7 @@ public class Occurence implements
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String toString() {
+	public final String toString() {
 		
 		final StringBuilder builder = new StringBuilder();
 		
@@ -282,10 +263,6 @@ public class Occurence implements
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * <b>en-tête csv pour un Occurence</b> :<br/>
-	 * "numéro;contenu;indexDebut;indexFin;".<br/>
-	 * <br/>
 	 */
 	@Transient
 	@Override
@@ -297,10 +274,6 @@ public class Occurence implements
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * <b>ligne csv pour un Occurence</b> :<br/>
-	 * "numéro;contenu;indexDebut;indexFin;".<br/>
-	 * <br/>
 	 */
 	@Override
 	public final String toStringCsv() {
@@ -331,10 +304,6 @@ public class Occurence implements
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * <b>en-tête Jtable pour un Occurence</b> :<br/>
-	 * "numéro;contenu;indexDebut;indexFin;".<br/>
-	 * <br/>
 	 */
 	@Transient
 	@Override
@@ -375,10 +344,6 @@ public class Occurence implements
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * <b>ligne Jtable pour un Occurence</b> :<br/>
-	 * "numéro;contenu;indexDebut;indexFin;".<br/>
-	 * <br/>
 	 */
 	@Transient
 	@Override
@@ -420,49 +385,40 @@ public class Occurence implements
 
 	
 	/**
-	 * Getter du numero d'ordre (1-based) de l'occurence 
-	 * du motif dans un texte.<br/>
-	 * (1ère occurence, 2ème occurence, ...).<br/>
-	 *
-	 * @return this.numero : int.<br/>
+	 * {@inheritDoc}
 	 */
-	public int getNumero() {
+	@Override
+	public final int getNumero() {
 		return this.numero;
 	} // Fin de getNumero()._______________________________________________
 
 
 	
 	/**
-	 * Getter du contenu de l'occurence du motif dans le texte.<br/>
-	 *
-	 * @return this.contenu : String.<br/>
+	 * {@inheritDoc}
 	 */
-	public String getContenu() {
+	@Override
+	public final String getContenu() {
 		return this.contenu;
 	} // Fin de getContenu().______________________________________________
 
 
 	
 	/**
-	 * Getter de la position (0-based) du début 
-	 * de l'occurence du motif.<br/>
-	 *
-	 * @return this.indexDebut : int.<br/>
+	 * {@inheritDoc}
 	 */
-	public int getIndexDebut() {
+	@Override
+	public final int getIndexDebut() {
 		return this.indexDebut;
 	} // Fin de getIndexDebut().___________________________________________
 
 
 	
 	/**
-	 * Getter de la position (0-based) de la fin 
-	 * de l'occurence du motif.<br/>
-	 * <br/>
-	 *
-	 * @return this.indexFin : int.<br/>
+	 * {@inheritDoc}
 	 */
-	public int getIndexFin() {
+	@Override
+	public final int getIndexFin() {
 		return this.indexFin;
 	} // Fin de getIndexFin()._____________________________________________
 

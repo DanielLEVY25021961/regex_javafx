@@ -11,6 +11,8 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import levy.daniel.application.model.metier.regex.IOccurence;
+
 
 /**
  * CLASSE OccurenceTest :<br/>
@@ -118,7 +120,7 @@ public class OccurenceTest {
 	 * objet1AvecNull et objet2EqualsObjet1AvecNull 
 	 * doivent être equals() et avoir certains attributs à null.
 	 */
-	public static transient Occurence objet1AvecNull 
+	public static transient IOccurence objet1AvecNull 
 		= new Occurence(7, null, 40, 45);
 	
 	/**
@@ -126,21 +128,21 @@ public class OccurenceTest {
 	 * objet1AvecNull et objet2EqualsObjet1AvecNull 
 	 * doivent être equals() et avoir certains attributs à null.
 	 */
-	public static transient Occurence objet2EqualsObjet1AvecNull 
+	public static transient IOccurence objet2EqualsObjet1AvecNull 
 		= new Occurence(7, null, 40, 45);
 	
 	/**
 	 * new Occurence(7, "avec", 10, 15).<br/>
 	 * objetDiff1 doit être différent de objetDiff2
 	 */
-	public static transient Occurence objetDiff1 
+	public static transient IOccurence objetDiff1 
 		= new Occurence(7, AVEC, 10, 15);
 	
 	/**
 	 * new Occurence(17, "avec", 40, 45).<br/>
 	 * objetDiff2 doit être différent de objetDiff1
 	 */
-	public static transient Occurence objetDiff2 
+	public static transient IOccurence objetDiff2 
 		= new Occurence(17, AVEC, 40, 45);
 	
 	/**
@@ -148,7 +150,7 @@ public class OccurenceTest {
 	 * objetDiff1AvecNull doit être différent de objetDiff2AvecNull.<br/>
 	 * objetDiff1AvecNull et objetDiff2AvecNull doivent avoir des attributs null.
 	 */
-	public static transient Occurence objetDiff1AvecNull 
+	public static transient IOccurence objetDiff1AvecNull 
 		= new Occurence(7, null, 10, 15);
 	
 	/**
@@ -156,7 +158,7 @@ public class OccurenceTest {
 	 * objetDiff1AvecNull doit être différent de objetDiff2AvecNull.<br/>
 	 * objetDiff1AvecNull et objetDiff2AvecNull doivent avoir des attributs null.
 	 */
-	public static transient Occurence objetDiff2AvecNull 
+	public static transient IOccurence objetDiff2AvecNull 
 		= new Occurence(17, null, 40, 45);
 	
 	/**
@@ -176,12 +178,12 @@ public class OccurenceTest {
 	/**
 	 * clone de objetNull1.<br/>
 	 */
-	public static transient Occurence objetNullClone1;
+	public static transient IOccurence objetNullClone1;
 	
 	/**
 	 * clone de objet1.<br/>
 	 */
-	public static transient Occurence objetClone1;
+	public static transient IOccurence objetClone1;
 
 	
 	/**
