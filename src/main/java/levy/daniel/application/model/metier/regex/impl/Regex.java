@@ -141,6 +141,9 @@ public class Regex implements IRegex {
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 * 
+	 * @throws Exception si le pattern <code>this.motifJava</code> 
+	 * n'est pas conforme à la syntaxe des Regex Java.<br/>
 	 */
 	public Regex() throws Exception {
 		this(null, null);
