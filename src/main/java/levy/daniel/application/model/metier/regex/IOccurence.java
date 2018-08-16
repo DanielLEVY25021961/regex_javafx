@@ -58,6 +58,7 @@ public interface IOccurence extends
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	int hashCode();
 
 
@@ -65,6 +66,7 @@ public interface IOccurence extends
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	boolean equals(Object pObject);
 	
 
@@ -72,6 +74,7 @@ public interface IOccurence extends
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	int compareTo(IOccurence pObject);
 	
 	
@@ -79,13 +82,7 @@ public interface IOccurence extends
 	/**
 	 * {@inheritDoc}
 	 */
-	IOccurence clone() throws CloneNotSupportedException;
-	
-	
-
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	String toString();
 	
 	
@@ -97,6 +94,7 @@ public interface IOccurence extends
 	 * "numéro;contenu;indexDebut;indexFin;".<br/>
 	 * <br/>
 	 */
+	@Override
 	String getEnTeteCsv();
 	
 	
@@ -108,6 +106,7 @@ public interface IOccurence extends
 	 * "numéro;contenu;indexDebut;indexFin;".<br/>
 	 * <br/>
 	 */
+	@Override
 	String toStringCsv();
 	
 	
@@ -119,6 +118,7 @@ public interface IOccurence extends
 	 * "numéro;contenu;indexDebut;indexFin;".<br/>
 	 * <br/>
 	 */
+	@Override
 	String getEnTeteColonne(int pI);
 	
 	
@@ -130,6 +130,7 @@ public interface IOccurence extends
 	 * "numéro;contenu;indexDebut;indexFin;".<br/>
 	 * <br/>
 	 */
+	@Override
 	Object getValeurColonne(int pI);
 	
 	

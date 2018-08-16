@@ -1,6 +1,8 @@
 package levy.daniel.application.model.metier.regex;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import levy.daniel.application.model.metier.regex.impl.Occurence;
 

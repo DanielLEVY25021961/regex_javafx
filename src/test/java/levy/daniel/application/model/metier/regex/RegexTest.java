@@ -1,5 +1,6 @@
 package levy.daniel.application.model.metier.regex;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -71,6 +72,36 @@ public class RegexTest {
 	 */
 	public static final String COMMENCE_PAR_MOTIF 
 		= "' commence-t-elle par un chiffre et respecte-t-elle le motif ";
+	
+	/**
+	 * "Le texte contient-il le motif : ".<br/>
+	 */
+	public static final String CONTIENT_MOTIF 
+		= "Le texte contient-il le motif : ";
+	
+	/**
+	 * "la liste d'occurences est-elle vide ? : ".<br/>
+	 */
+	public static final String LISTE_OCCURENCES_VIDE 
+		= "la liste d'occurences est-elle vide ? : ";
+	
+	/**
+	 * "liste d'occurences : \n".<br/>
+	 */
+	public static final String LISTE_OCCURENCES 
+		= "liste d'occurences : \n";
+	
+	/**
+	 * "la liste d'occurences ne doit pas être null : ".<br/>
+	 */
+	public static final String LISTE_OCCURENCES_PAS_NULL 
+		= "la liste d'occurences ne doit pas être null : ";
+	
+	/**
+	 * "le constructeur complet et le constructeur d'arité nulle avec Setters doivent avoir le même comportement : ".<br/>
+	 */
+	public static final String CONSTRUCTEUR_SIMILAIRES 
+		= "le constructeur complet et le constructeur d'arité nulle avec Setters doivent avoir le même comportement : ";
 	
 	/**
 	 * "Texte : ".<br/>
@@ -169,6 +200,8 @@ public class RegexTest {
 	 * (chaine qui commence par le motif, motif) retourne true.</li>
 	 * <li>garantit que texteCommenceParMotif
 	 * (chaine qui ne commence pas par le motif, motif) retourne false.</li>
+	 * <li>garantit que le constructeur complet et le constructeur 
+	 * d'arité nulle avec Setters ont le même comportement.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception 
@@ -179,7 +212,7 @@ public class RegexTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -198,13 +231,23 @@ public class RegexTest {
 		
 		/* Instanciation d'un Regex. */
 		final IRegex regexValable = new Regex(chaineValable, motifValable);
+		final IRegex regexValableNu = new Regex();
+		regexValableNu.setChaineATester(chaineValable);
+		regexValableNu.setMotifJava(motifValable);
 		final IRegex regexNonValable = new Regex(chaineNonValable, motifValable);
+		final IRegex regexNonValableNu = new Regex();
+		regexNonValableNu.setChaineATester(chaineNonValable);
+		regexNonValableNu.setMotifJava(motifValable);
 		
 		final boolean resultatValable 
 			= regexValable.texteCommenceParMotif();
+		final boolean resultatValableNu 
+		= regexValableNu.texteCommenceParMotif();
 		
 		final boolean resultatNonValable 
 			= regexNonValable.texteCommenceParMotif();
+		final boolean resultatNonValableNu 
+			= regexNonValableNu.texteCommenceParMotif();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -216,7 +259,11 @@ public class RegexTest {
 			System.out.println(LA_STRING + chaineValable 
 					+ COMMENCE_PAR_MOTIF 
 					+ motifValable + INTERROGATION + resultatValable);
+			System.out.println(LA_STRING + chaineValable 
+					+ COMMENCE_PAR_MOTIF 
+					+ motifValable + INTERROGATION + resultatValableNu);
 			System.out.println("Occurences : " + regexValable.afficherListOccurences(regexValable.getListeOccurencesMotif()));
+			System.out.println("Occurences avec le Constructeur nu : " + regexValableNu.afficherListOccurences(regexValableNu.getListeOccurencesMotif()));
 			
 			System.out.println();
 			System.out.println("CAS D'UNE STRING COMMENCANT NE COMMENCANT PAS PAR LE MOTIF  -----------------");
@@ -226,7 +273,11 @@ public class RegexTest {
 			System.out.println(LA_STRING + chaineNonValable 
 					+ COMMENCE_PAR_MOTIF 
 					+ motifValable + INTERROGATION + resultatNonValable);
+			System.out.println(LA_STRING + chaineNonValable 
+					+ COMMENCE_PAR_MOTIF 
+					+ motifValable + INTERROGATION + resultatNonValableNu);
 			System.out.println("Occurences : " + regexNonValable.afficherListOccurences(regexNonValable.getListeOccurencesMotif()));
+			System.out.println("Occurences avec le Constructeur nu : " + regexNonValableNu.afficherListOccurences(regexNonValableNu.getListeOccurencesMotif()));
 		}
 
 		/* garantit que texteCommenceParMotif(chaine qui 
@@ -240,8 +291,19 @@ public class RegexTest {
 		assertFalse(
 				"la chaine non valable ne commence pas par le motif : "
 					, resultatNonValable);
+		
+		/* garantit que le constructeur complet et le constructeur d'arité nulle avec Setters ont le même comportement. */
+		assertEquals(
+				CONSTRUCTEUR_SIMILAIRES
+				, regexValable.getListeOccurencesMotif()
+					, regexValableNu.getListeOccurencesMotif());
+		
+		assertEquals(
+				CONSTRUCTEUR_SIMILAIRES
+				, regexNonValable.getListeOccurencesMotif()
+					, regexNonValableNu.getListeOccurencesMotif());
 
-	} // Fin de testTexteCommenceParMotif()._______________________________
+	} // Fin de testTexteCommenceParMotifNu()._____________________________
 	
 
 	
@@ -317,6 +379,144 @@ public class RegexTest {
 
 	
 	/**
+	 * Teste la méthode trouverOccurences().<br/>
+	 * <ul>
+	 * <li>garantit que trouverOccurences(motifNonValable) 
+	 * retourne une liste vide mais non null.</li>
+	 * <li>garantit que trouverOccurences(motifNonValable) 
+	 * retourne une liste vide.</li>
+	 * <li>garantit que trouverOccurences(motif existant) 
+	 * retourne une liste non null.</li>
+	 * <li>garantit que trouverOccurences(motif existant) 
+	 * retourne une liste non vide.</li>
+	 * <li>garantit que le constructeur complet et le constructeur 
+	 * d'arité nulle avec Setters ont le même comportement.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testTrouverOccurencesNu() throws Exception {
+						
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE RegexTest - méthode testTrouverOccurencesNu() ********** ");
+		}
+		
+		// **********************************
+		final String motifValable = "avec";
+		final String motifNonValable = "toto";
+		
+		final String chaineValable = "avec le temps et avec l'argent tout s'en va\nles roses aavec leur pétales m'ennuient";
+		// **********************************
+
+		/* Instanciation d'un Regex. */
+		final IRegex regexValable = new Regex(chaineValable, motifValable);
+		final IRegex regexValableNu = new Regex();
+		regexValableNu.setChaineATester(chaineValable);
+		regexValableNu.setMotifJava(motifValable);
+		
+		final IRegex regexNonValable = new Regex(chaineValable, motifNonValable);
+		final IRegex regexNonValableNu = new Regex();
+		regexNonValableNu.setChaineATester(chaineValable);
+		regexNonValableNu.setMotifJava(motifNonValable);
+		
+		
+		final List<IOccurence> occurencesListValable 
+			= regexValable.trouverOccurences();
+		final List<IOccurence> occurencesListValableNu 
+			= regexValableNu.trouverOccurences();
+		
+		final List<IOccurence> occurencesListNonValable 
+			= regexNonValable.trouverOccurences();
+		final List<IOccurence> occurencesListNonValableNu 
+			= regexNonValableNu.trouverOccurences();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS D'UN MOTIF NON VALABLE --------------------");
+			System.out.println(TEXTE + chaineValable);
+			System.out.println(MOTIF + motifNonValable);
+			System.out.println();
+			System.out.println(CONTIENT_MOTIF + regexNonValable.texteContientMotif());
+			System.out.println(CONTIENT_MOTIF + regexNonValableNu.texteContientMotif());
+			System.out.println(LISTE_OCCURENCES_VIDE + occurencesListNonValable.isEmpty());
+			System.out.println(LISTE_OCCURENCES_VIDE + occurencesListNonValableNu.isEmpty());
+			System.out.println(LISTE_OCCURENCES + regexNonValable.afficherListOccurences(occurencesListNonValable));
+			System.out.println(LISTE_OCCURENCES + regexNonValableNu.afficherListOccurences(occurencesListNonValable));
+		}
+
+		/* garantit que trouverOccurences() 
+		 * retourne une liste vide mais non null. */
+		assertNotNull(
+				LISTE_OCCURENCES_PAS_NULL
+					, occurencesListNonValable);
+		
+		/* garantit que trouverOccurences() 
+		 * retourne une liste vide.*/
+		assertTrue(
+				"la liste d'occurences doit être vide : "
+					, occurencesListNonValable.isEmpty());
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS D'UN MOTIF VALABLE ---------------------------------");
+			System.out.println(TEXTE + chaineValable);
+			System.out.println(MOTIF + motifValable);
+			System.out.println();
+			System.out.println(CONTIENT_MOTIF + regexValable.texteContientMotif());
+			System.out.println(CONTIENT_MOTIF + regexValableNu.texteContientMotif());
+			System.out.println(LISTE_OCCURENCES_VIDE + occurencesListValable.isEmpty());
+			System.out.println(LISTE_OCCURENCES_VIDE + occurencesListValableNu.isEmpty());
+			System.out.println(LISTE_OCCURENCES + regexValable.afficherListOccurences(occurencesListValable));
+			System.out.println(LISTE_OCCURENCES + regexValableNu.afficherListOccurences(occurencesListValableNu));
+		}
+		
+		/* garantit que trouverOccurences(motif existant) 
+		 * retourne une liste non null. */
+		assertNotNull(
+				LISTE_OCCURENCES_PAS_NULL
+					, occurencesListValable);
+		
+		assertNotNull(
+				LISTE_OCCURENCES_PAS_NULL
+					, occurencesListValableNu);
+		
+		/* garantit que trouverOccurences() 
+		 * retourne une liste non vide.*/
+		assertFalse(
+				"la liste d'occurences ne doit pas être vide : "
+					, occurencesListValable.isEmpty());
+		
+		assertFalse(
+				"la liste d'occurences ne doit pas être vide : "
+					, occurencesListValableNu.isEmpty());
+		
+		/* garantit que le constructeur complet et le constructeur d'arité nulle avec Setters ont le même comportement. */
+		assertEquals(
+				CONSTRUCTEUR_SIMILAIRES
+				, regexValable.getListeOccurencesMotif()
+					, regexValableNu.getListeOccurencesMotif());
+		
+		assertEquals(
+				CONSTRUCTEUR_SIMILAIRES
+				, regexNonValable.getListeOccurencesMotif()
+					, regexNonValableNu.getListeOccurencesMotif());
+
+	} // Fin de testTrouverOccurencesNu()._________________________________
+	
+
+	
+	/**
 	 * Teste la méthode trouverOccurences(...).<br/>
 	 * <ul>
 	 * <li>garantit que trouverOccurences(texte, motifNonValable) 
@@ -367,15 +567,15 @@ public class RegexTest {
 			System.out.println(TEXTE + chaineValable);
 			System.out.println(MOTIF + motifNonValable);
 			System.out.println();
-			System.out.println("Le texte contient-il le motif : " + regex.texteContientMotif(chaineValable, motifNonValable));
-			System.out.println("la liste d'occurences est-elle vide ? : " + occurencesListNonValable.isEmpty());
-			System.out.println("liste d'occurences : \n" + regex.afficherListOccurences(occurencesListNonValable));
+			System.out.println(CONTIENT_MOTIF + regex.texteContientMotif(chaineValable, motifNonValable));
+			System.out.println(LISTE_OCCURENCES_VIDE + occurencesListNonValable.isEmpty());
+			System.out.println(LISTE_OCCURENCES + regex.afficherListOccurences(occurencesListNonValable));
 		}
 
 		/* garantit que trouverOccurences(texte, motifNonValable) 
 		 * retourne une liste vide mais non null. */
 		assertNotNull(
-				"la liste d'occurences ne doit pas être null : "
+				LISTE_OCCURENCES_PAS_NULL
 					, occurencesListNonValable);
 		
 		/* garantit que trouverOccurences(texte, motifNonValable) 
@@ -391,9 +591,9 @@ public class RegexTest {
 			System.out.println(TEXTE + chaineValable);
 			System.out.println(MOTIF + motifValable);
 			System.out.println();
-			System.out.println("Le texte contient-il le motif : " + regex.texteContientMotif(chaineValable, motifValable));
-			System.out.println("la liste d'occurences est-elle vide ? : " + occurencesListValable.isEmpty());
-			System.out.println("liste d'occurences : \n" + regex.afficherListOccurences(occurencesListValable));
+			System.out.println(CONTIENT_MOTIF + regex.texteContientMotif(chaineValable, motifValable));
+			System.out.println(LISTE_OCCURENCES_VIDE + occurencesListValable.isEmpty());
+			System.out.println(LISTE_OCCURENCES + regex.afficherListOccurences(occurencesListValable));
 		}
 		
 	} // Fin de testTrouverOccurences().___________________________________
@@ -422,7 +622,7 @@ public class RegexTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE RegexTest - méthode testMotifRespecteSyntaxeRegex() ********** ");
+			System.out.println("********** CLASSE RegexTest - méthode testTexteCorrespondEntierementAMotif()() ********** ");
 		}
 
 
@@ -480,13 +680,13 @@ public class RegexTest {
 						
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE RegexTest - méthode testMotifRespecteSyntaxeRegex() ********** ");
+			System.out.println("********** CLASSE RegexTest - méthode testTexteCorrespondEntierementAMotif2() ********** ");
 		}
 
 
