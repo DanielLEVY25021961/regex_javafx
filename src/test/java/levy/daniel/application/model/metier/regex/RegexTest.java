@@ -86,10 +86,10 @@ public class RegexTest {
 		= "la liste d'occurences est-elle vide ? : ";
 	
 	/**
-	 * "liste d'occurences : \n".<br/>
+	 * "liste des occurences du motif : \n".<br/>
 	 */
 	public static final String LISTE_OCCURENCES 
-		= "liste d'occurences : \n";
+		= "liste des occurences du motif : \n";
 	
 	/**
 	 * "la liste d'occurences ne doit pas être null : ".<br/>
@@ -107,6 +107,17 @@ public class RegexTest {
 	 * "Texte : ".<br/>
 	 */
 	public static final String TEXTE = "Texte : ";
+	
+	/**
+	 * "Le motif '".<br/>
+	 */
+	public static final String LE_MOTIF = "Le motif '";
+	
+	/**
+	 * "' respecte-t-il la syntaxe Regex ? : ".<br/>
+	 */
+	public static final String RESPECTE_SYNTAXE_REGEX 
+		= "' respecte-t-il la syntaxe Regex ? : ";
 	
 	/**
 	 * "Motif Regex : ".<br/>
@@ -141,10 +152,12 @@ public class RegexTest {
 	 * <li>garantit que la méthode retourne false 
 	 * si le motif est incorrect.</li>
 	 * </ul>
+	 * 
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testMotifRespecteSyntaxeRegex() {
+	public void testMotifRespecteSyntaxeRegex() throws Exception {
 						
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -173,8 +186,8 @@ public class RegexTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("Le motif '" + motifValable + "' respecte-t-il la syntaxe Regex ? : " + resultatValable);
-			System.out.println("Le motif '" + motifNonValable + "' respecte-t-il la syntaxe Regex ? : " + resultatNonValable);
+			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + resultatValable);
+			System.out.println(LE_MOTIF + motifNonValable + RESPECTE_SYNTAXE_REGEX + resultatNonValable);
 		}
 		
 		/* garantit que la méthode retourne true 
@@ -255,6 +268,8 @@ public class RegexTest {
 			System.out.println("CAS D'UNE STRING COMMENCANT PAR LE MOTIF  -----------------");
 			System.out.println(TEXTE + chaineValable);
 			System.out.println(MOTIF + motifValable);
+			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexValable.isMotifJavaRespecteSyntaxe());
+			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexValableNu.isMotifJavaRespecteSyntaxe());
 			System.out.println();
 			System.out.println(LA_STRING + chaineValable 
 					+ COMMENCE_PAR_MOTIF 
@@ -269,6 +284,8 @@ public class RegexTest {
 			System.out.println("CAS D'UNE STRING COMMENCANT NE COMMENCANT PAS PAR LE MOTIF  -----------------");
 			System.out.println(TEXTE + chaineNonValable);
 			System.out.println(MOTIF + motifValable);
+			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexNonValable.isMotifJavaRespecteSyntaxe());
+			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexNonValableNu.isMotifJavaRespecteSyntaxe());
 			System.out.println();
 			System.out.println(LA_STRING + chaineNonValable 
 					+ COMMENCE_PAR_MOTIF 
@@ -445,6 +462,8 @@ public class RegexTest {
 			System.out.println("CAS D'UN MOTIF NON VALABLE --------------------");
 			System.out.println(TEXTE + chaineValable);
 			System.out.println(MOTIF + motifNonValable);
+			System.out.println(LE_MOTIF + motifNonValable + RESPECTE_SYNTAXE_REGEX + regexNonValable.isMotifJavaRespecteSyntaxe());
+			System.out.println(LE_MOTIF + motifNonValable + RESPECTE_SYNTAXE_REGEX + regexNonValableNu.isMotifJavaRespecteSyntaxe());
 			System.out.println();
 			System.out.println(CONTIENT_MOTIF + regexNonValable.texteContientMotif());
 			System.out.println(CONTIENT_MOTIF + regexNonValableNu.texteContientMotif());
@@ -472,6 +491,8 @@ public class RegexTest {
 			System.out.println("CAS D'UN MOTIF VALABLE ---------------------------------");
 			System.out.println(TEXTE + chaineValable);
 			System.out.println(MOTIF + motifValable);
+			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexValable.isMotifJavaRespecteSyntaxe());
+			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexValableNu.isMotifJavaRespecteSyntaxe());
 			System.out.println();
 			System.out.println(CONTIENT_MOTIF + regexValable.texteContientMotif());
 			System.out.println(CONTIENT_MOTIF + regexValableNu.texteContientMotif());
@@ -622,7 +643,7 @@ public class RegexTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE RegexTest - méthode testTexteCorrespondEntierementAMotif()() ********** ");
+			System.out.println("********** CLASSE RegexTest - méthode testTexteCorrespondEntierementAMotif() ************ ");
 		}
 
 
@@ -732,6 +753,57 @@ public class RegexTest {
 
 	} // Fin de testTexteCorrespondEntierementAMotif2().___________________
 
+
+	
+	/**
+	 * teste la méthode texteMatcheMotif(...).<br/>
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testTexteMatcheMotif() throws Exception {
+						
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE RegexTest - méthode testTexteMatcheMotif() ********** ");
+		}
+		
+		// **********************************
+		final String motifValable = "^(\\d{1,3})([a-zA-Z]{1,5})(.*)$";
+		final String motifNonValable = "toto";
+		
+		final String chaineValable = "27tirailleurs sénégalais";
+		final String chaineNonValable = "avec le temps et avec l'argent tout s'en va\nles roses aavec leur pétales m'ennuient";
+		// **********************************
+
+		final IRegex regexValable = new Regex(chaineValable, motifValable);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS D'UN MOTIF QUI MATCHE ------------------");
+			System.out.println(TEXTE + chaineValable);
+			System.out.println(MOTIF + motifValable);
+			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexValable.isMotifJavaRespecteSyntaxe());
+			System.out.println();
+			System.out.println(TEXTE + chaineValable + " commence-t-il par le motif " + motifValable + INTERROGATION + regexValable.texteCommenceParMotif());
+			System.out.println(TEXTE + chaineValable + " contient-il le motif " + motifValable + INTERROGATION + regexValable.texteContientMotif());
+			System.out.println(LISTE_OCCURENCES + regexValable.afficherListOccurences(regexValable.getListeOccurencesMotif()));
+			System.out.println("Liste des groupes capturant : \n" + regexValable.afficherListOccurences(regexValable.texteMatcheMotif(chaineValable, motifValable)));
+		}
+		
+	} // Fin de testTexteMatcheMotif().____________________________________
+	
 	
 	
 } // FIN DE LA CLASSE RegexTest.---------------------------------------------

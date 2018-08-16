@@ -301,6 +301,37 @@ public interface IRegex {
 				, String pMotif) 
 							throws Exception;
 
+
+	
+	/**
+	 * retourne la liste des occurences 
+	 * des <b>groupes capturant</b> de pMotif dans pTexte<br/>
+	 * <ul>
+	 * <li><b>retourne une liste vide si le matcher 
+	 * ne matches pas</b>.</li>
+	 * <li>utilise <code>matcher.matches()</code></li>
+	 * <li>utilise <code>matcher.groupCount()</code></li>
+	 * <li>utilise <code>matcher.group(i)</code></li>
+	 * </ul>
+	 * - retourne null si pTexte est blank.<br/>
+	 * - retourne null si pMotif est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pTexte : String : 
+	 * texte dont on veut savoir si il matche entièrement avec pMotif.<br/>
+	 * @param pMotif String : motif Regex Java.<br/>
+	 * 
+	 * @return : List&lt;IOccurence&gt; : 
+	 * liste des occurences des <b>groupes capturant</b> de pMotif dans pTexte.<br/>
+	 * 
+	 * @throws Exception si le pattern pMotif n'est pas 
+	 * conforme à la syntaxe des Regex Java.<br/>
+	 */
+	List<IOccurence> texteMatcheMotif(
+			String pTexte
+				, String pMotif) 
+						throws Exception;
+	
 	
 	
 	/**
@@ -404,6 +435,16 @@ public interface IRegex {
 	 */
 	String getSignificationMotif();
 
+	
+	
+	/**
+	 * Getter du boolean qui détermine si <code>this.motifJava</code> 
+	 * respecte la syntaxe des expressions régulières (RegEx) Java.<br/>
+	 *
+	 * @return this.motifJavaRespecteSyntaxe : boolean.<br/>
+	 */
+	boolean isMotifJavaRespecteSyntaxe();
+	
 	
 	
 	/**

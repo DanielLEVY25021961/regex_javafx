@@ -20,9 +20,21 @@ import levy.daniel.application.model.metier.regex.IRegex;
  * Expressions Régulières (RegEx) en Java.<br/>
  * <br/>
  * <ul>
+ * <li>le CONSTRUCTEUR COMPLET permet d'instancier un Regex 
+ * en lui passant le texte et le motif Regex.<br/>
+ * Le constructeur calcule automatiquement :
+ * <ul>
+ * <li><code>this.motifJavaScript</code>,</li>
+ * <li><code>this.significationMotif</code>,</li>
+ * <li><code>this.motifJavaRespecteSyntaxe</code>,</li> 
+ * <li><code>this.listeOccurencesMotif</code>.</li>
+ * </ul>
+ * </li>
+ * <li>Les Setters utilisés avec le CONSTRUCTEUR D'ARITE NULLE 
+ * font exactement la même chose.</li>
  * <li>la méthode <code>determinerSiMotifConforme()</code> 
  * permet de savoir si le Pattern Regex <code>this.motifJava</code> 
- * est <b>conforme à la syntaxe des Regex</b>.</li>
+ * est <b>conforme à la syntaxe des Regex Java</b>.</li>
  * <li>la méthode <code>motifRespecteSyntaxeRegex(String pMotif)</code> 
  * permet de savoir si le motif pMotif <b>respecte 
  * la syntaxe des Regex Java</b>.</li>
@@ -44,6 +56,16 @@ import levy.daniel.application.model.metier.regex.IRegex;
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
+ * <code><i>// instancie un Regex en lui passant le texte et le motif à rechercher.</i></code><br/>
+ * <code><b>IRegex regex = new Regex(texte, motif);</b></code><br/>
+ * <code><i>// Détermine si le motif respecte la syntaxe RegEx Java.</i></code><br/>
+ * <code><b>boolean respecteMotif = regex.isMotifJavaRespecteSyntaxe();</b></code><br/>
+ * <code><i>// Détermine si le texte contient le motif.</i></code><br/>
+ * <code><b>boolean contientMotif = regex.texteContientMotif();</b></code><br/>
+ * <code><i>// Récupère la liste des occurences du motif.</i></code><br/>
+ * <code><b>List&lt;IOccurence&gt; occurences = regex.trouverOccurences();</b></code><br/>
+ * <code><i>// .</i></code><br/>
+ * <code><b></b></code><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
@@ -59,6 +81,7 @@ import levy.daniel.application.model.metier.regex.IRegex;
  *
  */
 public class Regex implements IRegex {
+	
 	// ************************ATTRIBUTS************************************/
 
 	/**
@@ -95,7 +118,7 @@ public class Regex implements IRegex {
 	
 	/**
 	 * boolean qui détermine si <code>this.motifJava</code> 
-	 * respecte la syntaxe des expressions régulières (RegEx).<br/>
+	 * respecte la syntaxe des expressions régulières (RegEx) Java.<br/>
 	 */
 	private transient boolean motifJavaRespecteSyntaxe;
 	
@@ -119,7 +142,7 @@ public class Regex implements IRegex {
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public Regex() {
+	public Regex() throws Exception {
 		this(null, null);
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -131,6 +154,7 @@ public class Regex implements IRegex {
 	 * <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
 	 * si <code>this.motifJava</code> respecte la syntaxe 
 	 * des RegEx Java.</li>
+	 * <li>alimente <code>this.listeOccurencesMotif</code>.</li>
 	 * </ul>
 	 *
 	 * @param pChaineATester : String : 
@@ -139,11 +163,14 @@ public class Regex implements IRegex {
 	 * de l'expression régulière.<br/>
 	 * @param pMotifJava : String : 
 	 * Motif de l'expression régulière applicable en Java.<br/>
-	 * Par exemple : "[0-9]" ou "\\d" en java pour un chiffre. 
+	 * Par exemple : "[0-9]" ou "\\d" en java pour un chiffre.
+	 *  
+	 * @throws Exception si le pattern <code>this.motifJava</code> 
+	 * n'est pas conforme à la syntaxe des Regex Java.<br/>
 	 */
 	public Regex(
 			final String pChaineATester
-				, final String pMotifJava) {
+				, final String pMotifJava) throws Exception {
 		
 		super();
 		
@@ -153,6 +180,10 @@ public class Regex implements IRegex {
 		/* alimente this.motifJavaRespecteSyntaxe à true si 
 		 * this.motifJava respecte la syntaxe des RegEx Java. */
 		this.determinerSiMotifConforme();
+		
+		/* alimente this.listeOccurencesMotif. */
+		this.listeOccurencesMotif 
+			= this.trouverOccurences(this.chaineATester, this.motifJava);
 		
 	} // Fin du  CONSTRUCTEUR COMPLET._____________________________________
 	
@@ -434,6 +465,60 @@ public class Regex implements IRegex {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public List<IOccurence> texteMatcheMotif(
+			final String pTexte
+				, final String pMotif) 
+						throws Exception {
+		
+		/* retourne null si pTexte est blank. */
+		if (StringUtils.isBlank(pTexte)) {
+			return null;
+		}
+		
+		/* retourne null si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		final Pattern pattern = Pattern.compile(pMotif);
+		final Matcher matcher = pattern.matcher(pTexte);
+		
+		final boolean booleanMatches = matcher.matches();
+		
+		List<IOccurence> resultat = null;
+		
+		if (booleanMatches) {
+			
+			
+			resultat = new LinkedList<IOccurence>();
+			
+			final int nombreOccurences = matcher.groupCount();
+			
+			for (int i = 1; i <= nombreOccurences; i++) {
+				
+				final int numero = i;
+				final String contenu =  matcher.group(i);
+				final int posDebut = matcher.start(i);
+				final int posFin = matcher.end(i);
+								
+				final IOccurence occurence 
+					= new Occurence(
+							numero, contenu, posDebut, posFin);
+				
+				resultat.add(occurence);
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de texteMatcheMotif(...)._____________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final String afficherListOccurences(
 			final List<IOccurence> pList)	{
 		
@@ -540,6 +625,16 @@ public class Regex implements IRegex {
 	public String getSignificationMotif() {
 		return this.significationMotif;
 	} // Fin de getSignificationMotif().___________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean isMotifJavaRespecteSyntaxe() {
+		return this.motifJavaRespecteSyntaxe;
+	} // Fin de isMotifJavaRespecteSyntaxe().______________________________
 
 
 
