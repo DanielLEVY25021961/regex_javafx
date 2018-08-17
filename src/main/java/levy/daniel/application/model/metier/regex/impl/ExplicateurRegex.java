@@ -1,5 +1,7 @@
 package levy.daniel.application.model.metier.regex.impl;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
@@ -8,6 +10,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import levy.daniel.application.model.metier.regex.IExplicateurRegex;
+import levy.daniel.application.model.metier.regex.IOccurence;
 
 
 /**
@@ -30,7 +35,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 14 août 2018
  *
  */
-public class ExplicateurRegex {
+public class ExplicateurRegex implements IExplicateurRegex {
 	
 	
 	// ************************ATTRIBUTS************************************/
@@ -42,6 +47,38 @@ public class ExplicateurRegex {
 	 */
 	public static final String NEWLINE 
 		= System.getProperty("line.separator");
+	
+	/**
+	 * "^(\\^{0,1})(\\({0,1})(.*)(\\){0,1})(\\${0,1})$".<br/>
+	 * Motif permettant de capturer le groupe capturant ZERO 
+	 * automatiquement créé par Java dès lors qu'il y a un 
+	 * groupe capturant dans un motif.<br/>
+	 * Le groupe capturant ZERO correspond à la totalité du motif.<br/>
+	 * <ul>
+	 * <li>1 accent optionnel en début de motif pour exprimer le début de motif -------------> ^(\\^{0,1})</li>
+	 * <li>1 parenthèse de début optionnelle pour grouper la totalité du motif ---------------> (\\({0,1})</li>
+	 * <li>n'importe quels caractères décrivant le motif -----------------------------------------> (.*)</li>
+	 * <li>1 parenthèse de fin optionnelle pour grouper la totalité du motif -------------------> (\\){0,1})</li>
+	 * <li>1 dollar optionnel en fin de motif pour exprimer la fin du motif ---------------------> (\\${0,1})$</li>
+	 * </ul>
+	 */
+	public static final String MOTIF_GROUPE_CAPTURANT_ZERO 
+		= "^(\\^{0,1})(\\({0,1})(.*)(\\){0,1})(\\${0,1})$";
+	
+	/**
+	 * "(\\({1})([^\\(\\)]*)(\\){1})".<br/>
+	 * Motif permettant de capturer les groupes capturants internes 
+	 * (hors groupe 0) dans une Regex.<br/>
+	 * DEFINITION D'UN GROUPE CAPTURANT
+	 * <ul>
+	 * <li> 1 parenthèse obligatoire de début '(' --------------------------> (\\({1})</li>
+	 * <li> n'importe quoi sauf une parenthèse début '(' ou de fin ')' -----> ([^\\(\\)]*)</li>
+	 * <li> 1 parenthèse obligatoire de fin ')' ----------------------------> (\\){1})</li>
+	 * </ul>
+	 */
+	public static final String MOTIF_GROUPES_CAPTURANTS_INTERNES 
+		= "(\\({1})([^\\(\\)]*)(\\){1})";
+	
 	
 	/**
 	 * Map&lt;String, String&gt; des méta-caractères 
@@ -112,47 +149,32 @@ public class ExplicateurRegex {
 	// *************************METHODES************************************/
 
 	/**
-	 * .<br/>
-	 * <ul>
-	 * <li>.</li>
-	 * </ul>
-	 *
-	 * @param pMotif
-	 * @param pI
-	 * @return :  :  .<br/>
+	 * {@inheritDoc}
 	 */
-	public String extraireSousMotif(String pMotif, int pI) {
+	@Override
+	public String extraireSousMotif(
+			final String pMotif
+				, final int pI) {
 		
 		String resultat = null;
 		
 		if (pI == 0) {
+			
 			resultat = pMotif;
+			
 		} else {
 			
-			if (pI == 1) {
-				
-				final String motifRegGroupeComplet = "^(\\^{0,1})(\\({1})(\\(.*\\)*)(\\){1})(\\${0,1})$";
-				final Pattern pattern = Pattern.compile(motifRegGroupeComplet);
-				final Matcher matcher = pattern.matcher(pMotif);
-				
-				if (matcher.matches()) {
-					System.out.println("MATCHE");
-					resultat = pMotif;
-				} else {
-					System.out.println("NE MATCHE PAS");
-				}
-				
-				
-			} else {
-				System.out.println("i supérieur à 1");
-			}
+			final List<IOccurence> list 
+				= this.trouverGroupesCapturantsInternes(pMotif);
 			
+			resultat = list.get(pI).getContenu();
 		}
 		
 		return resultat;
-	}
+		
+	} // Fin de extraireSousMotif(...).____________________________________
 	
-	
+
 	
 	/**
 	 * .<br/>
@@ -161,8 +183,110 @@ public class ExplicateurRegex {
 	 * </ul>
 	 *
 	 * @param pMotif
-	 * @return : String :  .<br/>
+	 * @return : List<IOccurence> :  .<br/>
 	 */
+	public final List<IOccurence> trouverGroupeCapturantZero(
+			final String pMotif) {
+		
+		/* retourne null si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		final Pattern pattern 
+			= Pattern.compile(MOTIF_GROUPE_CAPTURANT_ZERO);
+		final Matcher matcher 
+			= pattern.matcher(pMotif);
+		
+		int i = 0;
+		
+		final List<IOccurence> resultat = new LinkedList<IOccurence>();
+		
+		/* détecte toutes les occurences du motif. */
+		while (matcher.find()) {
+			
+			/* incrémente le numéro (1-based). */
+			i++;
+			
+			/* extrait le contenu. */
+			final String trouve = matcher.group();
+			
+			/* extrait la position de début. */
+			final int positionDebut = matcher.start();
+			
+			/* extrait la position de fin. */
+			final int positionFin = matcher.end();
+			
+			/* instancie une Occurence (pure fabrication). */
+			final IOccurence occurence 
+				= new Occurence(
+						i, trouve, pMotif, positionDebut, positionFin);
+			
+			/* ajoute l'Occurence au résultat. */
+			resultat.add(occurence);
+		}
+		
+		return resultat;
+
+	} // Fin de trouverGroupeCapturantZero(...).___________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final List<IOccurence> trouverGroupesCapturantsInternes(
+			final String pMotif) {
+		
+		/* retourne null si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		final Pattern pattern 
+			= Pattern.compile(MOTIF_GROUPES_CAPTURANTS_INTERNES);
+		final Matcher matcher 
+			= pattern.matcher(pMotif);
+		
+		int i = 0;
+		
+		final List<IOccurence> resultat = new LinkedList<IOccurence>();
+		
+		/* détecte toutes les occurences du motif. */
+		while (matcher.find()) {
+			
+			/* incrémente le numéro (1-based). */
+			i++;
+			
+			/* extrait le contenu. */
+			final String trouve = matcher.group();
+			
+			/* extrait la position de début. */
+			final int positionDebut = matcher.start();
+			
+			/* extrait la position de fin. */
+			final int positionFin = matcher.end();
+			
+			/* instancie une Occurence (pure fabrication). */
+			final IOccurence occurence 
+				= new Occurence(
+						i, trouve, pMotif, positionDebut, positionFin);
+			
+			/* ajoute l'Occurence au résultat. */
+			resultat.add(occurence);
+		}
+		
+		return resultat;
+
+	} // Fin de trouverGroupesCapturantsInternes(...)._____________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String expliquerMotif(
 			final String pMotif) {
 		
@@ -207,6 +331,31 @@ public class ExplicateurRegex {
 		
 		return resultat;
 	}
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String afficherListOccurences(
+			final List<IOccurence> pList)	{
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final IOccurence occurence : pList) {
+			stb.append(occurence.toString());
+			stb.append(NEWLINE);
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherListOccurences(...)._______________________________
 
 	
 	
@@ -264,11 +413,9 @@ public class ExplicateurRegex {
 
 	
 	/**
-	 * Getter .<br/>
-	 * <br/>
-	 *
-	 * @return significationMotif : String.<br/>
+	 * {@inheritDoc}
 	 */
+	@Override
 	public String getSignificationMotif() {
 		return this.significationMotif;
 	} // Fin de getSignificationMotif().___________________________________

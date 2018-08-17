@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.model.metier.regex.IExplicateurRegex;
 import levy.daniel.application.model.metier.regex.IOccurence;
 import levy.daniel.application.model.metier.regex.IRegex;
 
@@ -513,7 +514,7 @@ public class Regex implements IRegex {
 				}
 				else if (i == 1) {
 				
-					final ExplicateurRegex explicateur = new ExplicateurRegex();
+					final IExplicateurRegex explicateur = new ExplicateurRegex();
 					occurence 
 						= new Occurence(
 								numero, contenu, explicateur.extraireSousMotif(pMotif, i), posDebut, posFin);
