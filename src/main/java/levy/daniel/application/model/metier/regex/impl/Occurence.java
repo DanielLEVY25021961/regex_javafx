@@ -17,17 +17,27 @@ import levy.daniel.application.model.metier.regex.IOccurence;
  * dans le texte :<br/>
  * <b>avec</b> le temps, <b>avec</b> le temps va...<br/>
  * <b>Occurence</b> va servir à encapsuler toutes les occurences 
- * <b>(numéro, contenu, position de début, position de fin)</b> 
+ * <b>(numéro, contenu, motifRegx, position de début, position de fin)</b> 
  * du motif "avec" dans le texte.<br/>
  * <br/>
  * <br/>
+ * <img src="../../../../../../../../../../javadoc/images/diagramme_classes_occurence.png" 
+ * alt="diagramme des classes Occurence" border="1" align="center" />
+ * <br/><br/>
+ * <br/>
  *
  * - Exemple d'utilisation :<br/>
- * <code><i>// instanciation d'occurences dans la boucle de la méthode find() d'un Matcher.</i></code><br/>
- * <code>IOccurence occurence = new Occurence(i, trouve, positionDebut, positionFin);</code><br/>
+ * <code><i>// instanciation d'occurences dans la boucle 
+ * de la méthode find() d'un Matcher.</i></code><br/>
+ * <code>IOccurence occurence = new Occurence(i, "texte_trouvé"
+ * , "motifRegex", positionDebut, positionFin);</code><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * Expression régulière, expression reguliere, RegEx, Regex, regex, <br/>
+ * pure fabrication, encapsulation, ordre occurence, ordre apparition, <br/>
+ * position occurence, début occurence, debut occurence, motif, pattern,<br/>
+ * fin occurence, position fin, position début, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -54,6 +64,11 @@ public class Occurence implements IOccurence {
 	 * contenu de l'occurence du motif dans le texte.<br/>
 	 */
 	public transient String contenu;
+	
+	/**
+	 * motif Regex Java.<br/>
+	 */
+	public transient String motifRegex;
 	
 	/**
 	 * position (0-based) du début de l'occurence du motif.<br/>
@@ -86,6 +101,7 @@ public class Occurence implements IOccurence {
 	 * (1ère occurence, 2nde occurence, ...)
 	 * @param pContenu : String : 
 	 * contenu de l'occurence du motif dans le texte.<br/>
+	 * @param pMotifRegex : String : motif Regex Java.<br/> 
 	 * @param pIndexDebut : int : 
 	 * position (0-based) du début de l'occurence du motif.<br/>
 	 * @param pIndexFin : int : 
@@ -94,13 +110,15 @@ public class Occurence implements IOccurence {
 	public Occurence(
 			final int pNumero
 				, final String pContenu
-					, final int pIndexDebut
-						, final int pIndexFin) {
+					, final String pMotifRegex
+						, final int pIndexDebut
+							, final int pIndexFin) {
 		
 		super();
 		
 		this.numero = pNumero;
 		this.contenu = pContenu;
+		this.motifRegex = pMotifRegex;
 		this.indexDebut = pIndexDebut;
 		this.indexFin = pIndexFin;
 		
@@ -216,6 +234,7 @@ public class Occurence implements IOccurence {
 		
 		occurenceClone.numero = this.numero;
 		occurenceClone.contenu = this.contenu;
+		occurenceClone.motifRegex = this.motifRegex;
 		occurenceClone.indexDebut = this.indexDebut;
 		occurenceClone.indexFin = this.indexFin;
 		
@@ -247,6 +266,15 @@ public class Occurence implements IOccurence {
 		}
 		builder.append(VIRGULE);
 		
+		builder.append("motifRegex=");
+		if (this.motifRegex != null) {			
+			builder.append(this.motifRegex);
+			
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
 		builder.append("indexDebut=");
 		builder.append(this.indexDebut);
 		
@@ -267,7 +295,7 @@ public class Occurence implements IOccurence {
 	@Transient
 	@Override
 	public final String getEnTeteCsv() {
-		return "numéro;contenu;indexDebut;indexFin;";
+		return "numéro;contenu;motifRegex;indexDebut;indexFin;";
 	} // Fin de getEnTeteCsv().____________________________________________
 
 
@@ -286,6 +314,10 @@ public class Occurence implements IOccurence {
 		
 		/* contenu. */
 		stb.append(this.contenu);
+		stb.append(POINT_VIRGULE);
+		
+		/* motifRegex. */
+		stb.append(this.motifRegex);
 		stb.append(POINT_VIRGULE);
 		
 		/* indexDebut. */
@@ -321,12 +353,16 @@ public class Occurence implements IOccurence {
 		case 1:
 			entete = "contenu";
 			break;
-			
+		
 		case 2:
-			entete = "indexDebut";
+			entete = "motifRegex";
 			break;
 			
 		case 3:
+			entete = "indexDebut";
+			break;
+			
+		case 4:
 			entete = "indexFin";
 			break;
 			
@@ -365,10 +401,16 @@ public class Occurence implements IOccurence {
 			break;
 			
 		case 2:
-			valeur = String.valueOf(this.indexDebut);
+			if (this.motifRegex != null) {
+				valeur = this.motifRegex;
+			}			
 			break;
 			
 		case 3:
+			valeur = String.valueOf(this.indexDebut);
+			break;
+			
+		case 4:
 			valeur = String.valueOf(this.indexFin);
 			break;
 			
@@ -403,7 +445,17 @@ public class Occurence implements IOccurence {
 	} // Fin de getContenu().______________________________________________
 
 
-	
+		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getMotifRegex() {
+		return this.motifRegex;
+	} // Fin de getMotifRegex().___________________________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */

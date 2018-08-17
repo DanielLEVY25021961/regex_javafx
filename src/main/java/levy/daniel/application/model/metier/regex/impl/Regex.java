@@ -47,7 +47,7 @@ import levy.daniel.application.model.metier.regex.IRegex;
  * d'un motif dans un texte.<br/> 
  * Utilise des {@link IOccurence}</li>
  * <li>la méthode <code>texteCorrespondEntierementAMotif(...)</code> 
- * permet de savoir si un texte <b<correspond entièrement</b> 
+ * permet de savoir si un texte <b>correspond entièrement</b> 
  * à un motif.</li>
  * <li>la méthode <code></code> </li>
  * <li>la méthode <code></code> </li>
@@ -411,7 +411,7 @@ public class Regex implements IRegex {
 			
 			/* instancie une Occurence (pure fabrication). */
 			final IOccurence occurence 
-				= new Occurence(i, trouve, positionDebut, positionFin);
+				= new Occurence(i, trouve, pMotif, positionDebut, positionFin);
 			
 			/* ajoute l'Occurence au résultat. */
 			resultat.add(occurence);
@@ -497,17 +497,33 @@ public class Regex implements IRegex {
 			
 			final int nombreOccurences = matcher.groupCount();
 			
-			for (int i = 1; i <= nombreOccurences; i++) {
+			for (int i = 0; i <= nombreOccurences; i++) {
 				
 				final int numero = i;
 				final String contenu =  matcher.group(i);
 				final int posDebut = matcher.start(i);
 				final int posFin = matcher.end(i);
-								
-				final IOccurence occurence 
-					= new Occurence(
-							numero, contenu, posDebut, posFin);
 				
+				IOccurence occurence = null;
+				
+				if (i == 0) {
+					occurence 
+						= new Occurence(
+							numero, contenu, pMotif, posDebut, posFin);
+				}
+				else if (i == 1) {
+				
+					final ExplicateurRegex explicateur = new ExplicateurRegex();
+					occurence 
+						= new Occurence(
+								numero, contenu, explicateur.extraireSousMotif(pMotif, i), posDebut, posFin);
+				
+				} else {
+					occurence 
+						= new Occurence(
+							numero, contenu, null, posDebut, posFin);
+				}
+								
 				resultat.add(occurence);
 			}
 		}

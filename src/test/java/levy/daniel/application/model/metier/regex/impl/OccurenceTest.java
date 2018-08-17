@@ -76,7 +76,7 @@ public class OccurenceTest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient Occurence objet1 
-		= new Occurence(1, AVEC, 2, 4);
+		= new Occurence(1, AVEC, AVEC, 2, 4);
 	
 	/**
 	 * objet1MemeInstance doit être la même instance que objet1.<br/>
@@ -88,14 +88,14 @@ public class OccurenceTest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient Occurence objet2EqualsObj1 
-		= new Occurence(1, AVEC, 2, 4);
+		= new Occurence(1, AVEC, AVEC, 2, 4);
 	
 	/**
 	 * new Occurence(1, "avec", 2, 4).<br/>
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient Occurence objet3EqualsObj1 
-		= new Occurence(1, AVEC, 2, 4);
+		= new Occurence(1, AVEC, AVEC, 2, 4);
 	
 	/**
 	 * new Occurence(0, null, 0, 0).<br/>
@@ -104,7 +104,7 @@ public class OccurenceTest {
 	 * tous les attributs aux valeurs par défaut.
 	 */
 	public static transient Occurence objetNull1 
-		= new Occurence(0, null, 0, 0);
+		= new Occurence(0, null, null, 0, 0);
 	
 	/**
 	 * new Occurence(0, null, 0, 0).<br/>
@@ -113,7 +113,7 @@ public class OccurenceTest {
 	 * tous les attributs aux valeurs par défaut.
 	 */
 	public static transient Occurence objetNull2 
-		= new Occurence(0, null, 0, 0);
+		= new Occurence(0, null, null, 0, 0);
 	
 	/**
 	 * new Occurence(7, null, 40, 45).<br/>
@@ -121,7 +121,7 @@ public class OccurenceTest {
 	 * doivent être equals() et avoir certains attributs à null.
 	 */
 	public static transient IOccurence objet1AvecNull 
-		= new Occurence(7, null, 40, 45);
+		= new Occurence(7, null, null, 40, 45);
 	
 	/**
 	 * new Occurence(7, null, 40, 45).<br/>
@@ -129,21 +129,21 @@ public class OccurenceTest {
 	 * doivent être equals() et avoir certains attributs à null.
 	 */
 	public static transient IOccurence objet2EqualsObjet1AvecNull 
-		= new Occurence(7, null, 40, 45);
+		= new Occurence(7, null, null, 40, 45);
 	
 	/**
 	 * new Occurence(7, "avec", 10, 15).<br/>
 	 * objetDiff1 doit être différent de objetDiff2
 	 */
 	public static transient IOccurence objetDiff1 
-		= new Occurence(7, AVEC, 10, 15);
+		= new Occurence(7, AVEC, AVEC, 10, 15);
 	
 	/**
 	 * new Occurence(17, "avec", 40, 45).<br/>
 	 * objetDiff2 doit être différent de objetDiff1
 	 */
 	public static transient IOccurence objetDiff2 
-		= new Occurence(17, AVEC, 40, 45);
+		= new Occurence(17, AVEC, AVEC, 40, 45);
 	
 	/**
 	 * new Occurence(7, null, 10, 15).<br/>
@@ -151,7 +151,7 @@ public class OccurenceTest {
 	 * objetDiff1AvecNull et objetDiff2AvecNull doivent avoir des attributs null.
 	 */
 	public static transient IOccurence objetDiff1AvecNull 
-		= new Occurence(7, null, 10, 15);
+		= new Occurence(7, null, null, 10, 15);
 	
 	/**
 	 * new Occurence(17, null, 40, 45).<br/>
@@ -159,21 +159,21 @@ public class OccurenceTest {
 	 * objetDiff1AvecNull et objetDiff2AvecNull doivent avoir des attributs null.
 	 */
 	public static transient IOccurence objetDiff2AvecNull 
-		= new Occurence(17, null, 40, 45);
+		= new Occurence(17, null, null, 40, 45);
 	
 	/**
 	 * new Occurence(1, AVEC, 0, 2).<br/>
 	 * objetCompAvant doit être AVANT objetCompApres.
 	 */
 	public static transient Occurence objetCompAvant 
-		= new Occurence(1, AVEC, 0, 2);
+		= new Occurence(1, AVEC, AVEC, 0, 2);
 	
 	/**
 	 * new Occurence(2, AVEC, 5, 7).<br/>
 	 * objetCompApres doit être APRES objetCompAvant.
 	 */
 	public static transient Occurence objetCompApres 
-		= new Occurence(2, AVEC, 5, 7);
+		= new Occurence(2, AVEC, AVEC, 5, 7);
 	
 	/**
 	 * clone de objetNull1.<br/>
@@ -651,7 +651,7 @@ public class OccurenceTest {
 		
 		/* garantit que les null sont bien gérés dans toString(). */
 		assertEquals("objetNull1.toString() retourne une chaine : "
-				, "Occurence [numero=0, contenu=null, indexDebut=0, indexFin=0]"
+				, "Occurence [numero=0, contenu=null, motifRegex=null, indexDebut=0, indexFin=0]"
 						, objetNull1.toString());
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -662,7 +662,7 @@ public class OccurenceTest {
 		
 		/* garantit le bon affichage de toString(). */
 		assertEquals("affichage : "
-				, "Occurence [numero=1, contenu=avec, indexDebut=2, indexFin=4]"
+				, "Occurence [numero=1, contenu=avec, motifRegex=avec, indexDebut=2, indexFin=4]"
 						, objet1.toString());
 				
 	} // Fin de testToString().____________________________________________
@@ -705,7 +705,7 @@ public class OccurenceTest {
 		}
 		
 		assertEquals("en-tête csv : "
-				, "numéro;contenu;indexDebut;indexFin;"
+				, "numéro;contenu;motifRegex;indexDebut;indexFin;"
 					, entete);
 				
 	} // Fin de testgetEnTeteCsv().________________________________________
@@ -749,7 +749,7 @@ public class OccurenceTest {
 		}
 
 		assertEquals("ligne csv null : "
-				, "0;null;0;0;"
+				, "0;null;null;0;0;"
 					, ligneCsvNull);
 		
 						
@@ -766,7 +766,7 @@ public class OccurenceTest {
 		}
 
 		assertEquals("ligne csv : "
-				, "1;avec;2;4;"
+				, "1;avec;avec;2;4;"
 					, ligneCsv);
 				
 	} // Fin de testToStringCsv()._________________________________________
@@ -878,7 +878,6 @@ public class OccurenceTest {
 		assertEquals("valeurNull0 ((String) objetNull1.getValeurColonne(0)) : ", "0", valeurNull0);
 		assertEquals("valeurNull1 ((String) objetNull1.getValeurColonne(1)) : ", null, valeurNull1);
 
-
 		
 		/* garantit que getValeurColonne(int pI) retourne 
 		 * la bonne en-tête de colonne. */
@@ -894,12 +893,10 @@ public class OccurenceTest {
 			System.out.println("valeur0 ((String) objet1.getValeurColonne(0)) : " + valeur0);
 			System.out.println("valeur1 ((String) objet1.getValeurColonne(1)) : " + valeur1);			
 		}
-
 		
 		assertEquals("valeur0 ((String) objet1.getValeurColonne(0)) : ", "1", valeur0);		
 		assertEquals("valeur1 ((String) objet1.getValeurColonne(1)) : ", "avec", valeur1);
 		
-
 	} // Fin de testGetValeurColonne().____________________________________
 	
 

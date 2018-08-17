@@ -11,17 +11,27 @@ package levy.daniel.application.model.metier.regex;
  * dans le texte :<br/>
  * <b>avec</b> le temps, <b>avec</b> le temps va...<br/>
  * <b>Occurence</b> va servir à encapsuler toutes les occurences 
- * <b>(numéro, contenu, position de début, position de fin)</b> 
+ * <b>(numéro, contenu, motifRegex, position de début, position de fin)</b> 
  * du motif "avec" dans le texte.<br/>
  * <br/>
  * <br/>
+ * <img src="../../../../../../../../../javadoc/images/diagramme_classes_occurence.png" 
+ * alt="diagramme des classes Occurence" border="1" align="center" />
+ * <br/><br/>
+ * <br/>
  *
  * - Exemple d'utilisation :<br/>
- * <code><i>// instanciation d'occurences dans la boucle de la méthode find() d'un Matcher.</i></code><br/>
- * <code>IOccurence occurence = new Occurence(i, trouve, positionDebut, positionFin);</code><br/>
+ * <code><i>// instanciation d'occurences dans la boucle 
+ * de la méthode find() d'un Matcher.</i></code><br/>
+ * <code>IOccurence occurence = new Occurence(i, "texte_trouvé", "motifRegex"
+ * , positionDebut, positionFin);</code><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * Expression régulière, expression reguliere, RegEx, Regex, regex, <br/>
+ * pure fabrication, encapsulation, ordre occurence, ordre apparition, <br/>
+ * position occurence, début occurence, debut occurence, motif, pattern,<br/>
+ * fin occurence, position fin, position début, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -91,7 +101,7 @@ public interface IOccurence extends
 	 * {@inheritDoc}
 	 * <br/>
 	 * <b>en-tête csv pour un Occurence</b> :<br/>
-	 * "numéro;contenu;indexDebut;indexFin;".<br/>
+	 * "numéro;contenu;motifRegex;indexDebut;indexFin;".<br/>
 	 * <br/>
 	 */
 	@Override
@@ -103,7 +113,7 @@ public interface IOccurence extends
 	 * {@inheritDoc}
 	 * <br/>
 	 * <b>ligne csv pour un Occurence</b> :<br/>
-	 * "numéro;contenu;indexDebut;indexFin;".<br/>
+	 * "numéro;contenu;motifRegex;indexDebut;indexFin;".<br/>
 	 * <br/>
 	 */
 	@Override
@@ -115,7 +125,7 @@ public interface IOccurence extends
 	 * {@inheritDoc}
 	 * <br/>
 	 * <b>en-tête Jtable pour un Occurence</b> :<br/>
-	 * "numéro;contenu;indexDebut;indexFin;".<br/>
+	 * "numéro;contenu;motifRegex;indexDebut;indexFin;".<br/>
 	 * <br/>
 	 */
 	@Override
@@ -127,7 +137,7 @@ public interface IOccurence extends
 	 * {@inheritDoc}
 	 * <br/>
 	 * <b>ligne Jtable pour un Occurence</b> :<br/>
-	 * "numéro;contenu;indexDebut;indexFin;".<br/>
+	 * "numéro;contenu;motifRegex;indexDebut;indexFin;".<br/>
 	 * <br/>
 	 */
 	@Override
@@ -154,7 +164,16 @@ public interface IOccurence extends
 	String getContenu();
 	
 	
-
+	
+	/**
+	 * Getter du motif Regex Java.<br/>
+	 *
+	 * @return this.motifRegex : String.<br/>
+	 */
+	String getMotifRegex();
+	
+	
+	
 	/**
 	 * Getter de la position (0-based) du début 
 	 * de l'occurence du motif.<br/>

@@ -779,7 +779,7 @@ public class RegexTest {
 		}
 		
 		// **********************************
-		final String motifValable = "^(\\d{1,3})([a-zA-Z]{1,5})(.*)$";
+		final String motifValable = "^((\\d{1,3})([a-zA-Z]{1,5})(.*))$";
 		final String motifNonValable = "toto";
 		
 		final String chaineValable = "27tirailleurs sénégalais";

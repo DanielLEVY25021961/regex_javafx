@@ -110,6 +110,49 @@ public class ExplicateurRegex {
 	
 	
 	// *************************METHODES************************************/
+
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * </ul>
+	 *
+	 * @param pMotif
+	 * @param pI
+	 * @return :  :  .<br/>
+	 */
+	public String extraireSousMotif(String pMotif, int pI) {
+		
+		String resultat = null;
+		
+		if (pI == 0) {
+			resultat = pMotif;
+		} else {
+			
+			if (pI == 1) {
+				
+				final String motifRegGroupeComplet = "^(\\^{0,1})(\\({1})(\\(.*\\)*)(\\){1})(\\${0,1})$";
+				final Pattern pattern = Pattern.compile(motifRegGroupeComplet);
+				final Matcher matcher = pattern.matcher(pMotif);
+				
+				if (matcher.matches()) {
+					System.out.println("MATCHE");
+					resultat = pMotif;
+				} else {
+					System.out.println("NE MATCHE PAS");
+				}
+				
+				
+			} else {
+				System.out.println("i supérieur à 1");
+			}
+			
+		}
+		
+		return resultat;
+	}
+	
+	
 	
 	/**
 	 * .<br/>
