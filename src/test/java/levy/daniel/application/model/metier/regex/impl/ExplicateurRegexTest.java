@@ -2,6 +2,7 @@ package levy.daniel.application.model.metier.regex.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -53,6 +54,11 @@ public class ExplicateurRegexTest {
 	public static final String MOTIF = "MOTIF : ";
 	
 	/**
+	 * "INDICE : ".<br/>
+	 */
+	public static final String INDICE = "INDICE : ";
+	
+	/**
 	 * "Liste des groupes capturants : \n".<br/>
 	 */
 	public static final String LISTE_GROUPES_CAPTURANT 
@@ -75,6 +81,162 @@ public class ExplicateurRegexTest {
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
+	/**
+	 * teste la méthode extraireSousGroupeCapturant(pMotif, i).<br/>
+	 * <ul>
+	 * <li>garantit que extraireSousGroupeCapturant(null, i)
+	 *  retourne toujours null.</li>
+	 * <li>garantit que extraireSousGroupeCapturant(motifSansGroupe, i) 
+	 * retourne toujours null.</li>
+	 * <li>garantit que extraireSousGroupeCapturant(motif, i hors borne)
+	 *  retourne toujours null.</li>
+	 * <li>garantit le bon fonctionnement de 
+	 * extraireSousGroupeCapturant(motif, pI).</li>
+	 * <li>garantit qu'un motif sans parenthèse globales de groupe 0 
+	 * retourne les mêmes valeurs qu'un motif avec parenthèses globales.</li>
+	 * </ul>
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testExtraireSousGroupeCapturant() {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE ExplicateurRegexTest - méthode testExtraireSousGroupeCapturant() ********** ");
+		}
+		
+		// INSTANCIATION D'UN ExplicateurRegex.
+		final IExplicateurRegex explicateur = new ExplicateurRegex();
+		
+		final String motif1 = "^((\\d{1,3})([a-zA-Z]{1,5})(.*))$";
+		final String motif11 = "^(\\d{1,3})([a-zA-Z]{1,5})(.*)$";
+		final String motif2 = "^\\d{1,3}[a-zA-Z]{1,5}.*$";
+		final int indiceZero = 0;
+		final int indice = 2;
+		final int indiceHorsBorne = 7;
+		
+		final String sousGroupeMotifNull 
+			= explicateur.extraireSousGroupeCapturant(null, indice);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS D'UN MOTIF NULL -------------------");
+			System.out.println(INDICE + indice);
+			System.out.println("SOUS-GROUPE SI MOTIF NULL : " + sousGroupeMotifNull);
+		}
+		
+		/* garantit que extraireSousGroupeCapturant(null, i) 
+		 * retourne toujours null. */
+		assertNull(
+				"extraireSousGroupeCapturant(null, i) doit toujours retourner null : "
+					, sousGroupeMotifNull);
+		
+		
+		final String sousGroupeMotifNonCapturant 
+			= explicateur.extraireSousGroupeCapturant(motif2, indice);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS D'UN MOTIF NE CONTENANT AUCUN GROUPE CAPTURANT -------------------");
+			System.out.println(MOTIF + motif2);
+			System.out.println(INDICE + indice);
+			System.out.println();
+			System.out.println("SOUS-GROUPE SI MOTIF NON CAPTURANT : " + sousGroupeMotifNonCapturant);
+		}
+		
+		/* garantit que extraireSousGroupeCapturant(motifSansGroupe, i) 
+		 * retourne toujours null. */
+		assertNull(
+				"extraireSousGroupeCapturant(motifSansGroupe, i) doit toujours retourner null : "
+					, sousGroupeMotifNonCapturant);
+		
+		final String sousGroupeIndiceHorsBorne 
+			= explicateur.extraireSousGroupeCapturant(motif1, indiceHorsBorne);
+	
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS D'UN INDICE SUPERIEUR AU NOMBRE DE SOUS-GROUPES -------------------");
+			System.out.println(MOTIF + motif1);
+			System.out.println(INDICE + indiceHorsBorne);
+			System.out.println();
+			System.out.println("SOUS-GROUPE SI INDICE HORS BORNE : " + sousGroupeIndiceHorsBorne);
+		}
+		
+		/* garantit que extraireSousGroupeCapturant(motif, i hors borne) 
+		 * retourne toujours null. */
+		assertNull(
+				"extraireSousGroupeCapturant(motif, i hors borne) doit toujours retourner null : "
+					, sousGroupeIndiceHorsBorne);
+		
+		final String sousGroupemotif1IndiceZero 
+			= explicateur.extraireSousGroupeCapturant(motif1, indiceZero);
+		
+		final String sousGroupemotif11IndiceZero 
+			= explicateur.extraireSousGroupeCapturant(motif11, indiceZero);
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS D'UN INDICE ZERO AVEC GROUPE 0 -------------------");
+			System.out.println(MOTIF + motif1);
+			System.out.println(INDICE + indiceZero);
+			System.out.println();
+			System.out.println("SOUS-GROUPE 0 AVEC GROUPE CAPTURANT 0 : " + sousGroupemotif1IndiceZero);
+			System.out.println("indice 0 : " + explicateur.extraireSousGroupeCapturant(motif1, 0));
+			System.out.println("indice 1 : " + explicateur.extraireSousGroupeCapturant(motif1, 1));
+			System.out.println("indice 2 : " + explicateur.extraireSousGroupeCapturant(motif1, 2));
+			System.out.println("indice 3 : " + explicateur.extraireSousGroupeCapturant(motif1, 3));
+			System.out.println("indice 4 : " + explicateur.extraireSousGroupeCapturant(motif1, 4));
+			System.out.println();
+			System.out.println("CAS D'UN INDICE ZERO SANS GROUPE 0 -------------------");
+			System.out.println(MOTIF + motif11);
+			System.out.println(INDICE + indiceZero);
+			System.out.println();
+			System.out.println("SOUS-GROUPE 0 SANS GROUPE CAPTURANT 0 : " + sousGroupemotif11IndiceZero);
+			System.out.println("indice 0 : " + explicateur.extraireSousGroupeCapturant(motif11, 0));
+			System.out.println("indice 1 : " + explicateur.extraireSousGroupeCapturant(motif11, 1));
+			System.out.println("indice 2 : " + explicateur.extraireSousGroupeCapturant(motif11, 2));
+			System.out.println("indice 3 : " + explicateur.extraireSousGroupeCapturant(motif11, 3));
+			System.out.println("indice 4 : " + explicateur.extraireSousGroupeCapturant(motif11, 4));
+		}
+		
+		/* garantit le bon fonctionnement de 
+		 * extraireSousGroupeCapturant(motif, pI). */
+		assertEquals(
+				"le groupeO doit toujours valoir le motif"
+					, motif1
+						, sousGroupemotif1IndiceZero);
+		assertEquals(
+				"le groupeO doit toujours valoir le motif"
+					, motif11
+						, sousGroupemotif11IndiceZero);
+		
+		assertEquals("le groupe1 doit valoir d{1,3} : "
+				, "(\\d{1,3})"
+					, explicateur.extraireSousGroupeCapturant(motif1, 1));
+		assertEquals("le groupe1 doit valoir d{1,3} : "
+				, "(\\d{1,3})"
+					, explicateur.extraireSousGroupeCapturant(motif11, 1));
+		
+		/* garantit qu'un motif sans parenthèse globales de groupe 0 
+		 * retourne les mêmes valeurs qu'un motif 
+		 * avec parenthèses globales. */
+		assertEquals("un motif avec parenthèses globales doit retourner les mêmes valeurs qu'un motif sans : "
+				, explicateur.extraireSousGroupeCapturant(motif1, 1)
+					, explicateur.extraireSousGroupeCapturant(motif11, 1));
+		
+	} // Fin de testExtraireSousGroupeCapturant()._________________________
+	
+	
 	
 	/**
 	 * teste la méthode trouverGroupeCapturantZero(String pMotif).<br/>
@@ -106,6 +268,7 @@ public class ExplicateurRegexTest {
 		final String motif1 = "^((\\d{1,3})([a-zA-Z]{1,5})(.*))$";
 		final String motif2 = "^\\d{1,3}[a-zA-Z]{1,5}.*$";
 		
+		// INSTANCIATION D'UN ExplicateurRegex.
 		final IExplicateurRegex explicateur = new ExplicateurRegex();
 		
 		final List<IOccurence> list1 

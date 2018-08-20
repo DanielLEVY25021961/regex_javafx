@@ -65,6 +65,8 @@ public interface IRegex {
 	 * </ul>
 	 * - retourne false si <code>this.chaineATester</code> est blank.<br/>
 	 * - retourne false si <code>this.motifJava</code> est blank.<br/>
+	 * - retourne false si <code>this.motifJava</code> ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 *
 	 * @return : boolean : true si le texte 
@@ -88,6 +90,8 @@ public interface IRegex {
 	 * </ul>
 	 * - retourne false si pTexte est blank.<br/>
 	 * - retourne false si pMotif est blank.<br/>
+	 * - retourne false si pMotif ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 *
 	 * @param pTexte : String : Le texte dont on veut savoir 
@@ -127,6 +131,8 @@ public interface IRegex {
 	 * </ul>
 	 * - return false si <code>this.chaineATester</code> est blank.<br/>
 	 * - return false si <code>this.motifJava</code> est blank.<br/>
+	 * - retourne false si <code>this.motifJava</code> ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 *
 	 * @return : boolean : true si le texte contient 
@@ -156,6 +162,8 @@ public interface IRegex {
 	 * </ul>
 	 * - return false si pTexte est blank.<br/>
 	 * - return false si pMotif est blank.<br/>
+	 * - retourne false si pMotif ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 *
 	 * @param pTexte : String : texte dont on veut savoir 
@@ -197,6 +205,8 @@ public interface IRegex {
 	 * </ul>
 	 * - return null si <code>this.chaineATester</code> est blank.<br/>
 	 * - return null si <code>this.motifJava</code> est blank.<br/>
+	 * - return null si <code>this.motifJava</code> ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 * 
 	 * @return List&lt;IOccurence&gt; : liste des {@link Occurence} 
@@ -229,6 +239,8 @@ public interface IRegex {
 	 * </ul>
 	 * - return null si pTexte est blank.<br/>
 	 * - return null si pMotif est blank.<br/>
+	 * - return null si pMotif ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 *
 	 * @param pTexte : String : texte dans lequel on veut 
@@ -257,8 +269,10 @@ public interface IRegex {
 	 * <li>utilise <code>Pattern.matches(pMotif, pTexte);</code></li>
 	 * <li>retourne true si le texte respecte entièrement le pattern.</li>
 	 * </ul>
-	 * - retourne false si this.chaineATester est blank.<br/>
-	 * - retourne false si this.motifJava est blank.<br/>
+	 * - retourne false si <code>this.chaineATester</code> est blank.<br/>
+	 * - retourne false si <code>this.motifJava</code> est blank.<br/>
+	 * - retourne false si <code>this.motifJava</code> ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 *	 
 	 * @return : boolean : true si le texte respecte 
@@ -284,6 +298,8 @@ public interface IRegex {
 	 * </ul>
 	 * - retourne false si pTexte est blank.<br/>
 	 * - retourne false si pMotif est blank.<br/>
+	 * - retourne false si pMotif ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 *
 	 * @param pTexte : String : Le texte dont on veut savoir 
@@ -305,16 +321,79 @@ public interface IRegex {
 	
 	/**
 	 * retourne la liste des occurences 
-	 * des <b>groupes capturant</b> de pMotif dans pTexte<br/>
+	 * des <b>sous-groupes capturant</b> de <code>this.motifJava</code> 
+	 * dans <code>this.chaineATester</code><br/>
+	 * Par exemple : <br/>
+	 * Texte : 27 ans<br/>
+	 * motif : "(\d{2}) (ans)"<br/>
+	 * <code>
+	 * retourne :<br/>
+	 * Liste des groupes capturant : <br/>
+	 * Occurence [numero=0, contenu=27 ans, motifRegex=(\d{2}) (ans), indexDebut=0, indexFin=6]<br/>
+	 * Occurence [numero=1, contenu=27, motifRegex=(\d{2}), indexDebut=0, indexFin=2]<br/>
+	 * Occurence [numero=2, contenu=ans, motifRegex=(ans), indexDebut=3, indexFin=6]<br/>
+	 * </code>
 	 * <ul>
 	 * <li><b>retourne une liste vide si le matcher 
-	 * ne matches pas</b>.</li>
+	 * ne matches pas</b>, 
+	 * c'est à dire si <code>this.chaineATester</code> ne correspond 
+	 * pas entièrement à <code>this.motifJava</code>.</li>
+	 * <li>ATTENTION, motifRegex dans les Occurence contient le 
+	 * sous-groupes capturant d'indice (1-based) i.</li>
+	 * <li>retire les éventuelles parenthèses englobantes de 
+	 * <code>this.motifJava</code> 
+	 * pour trouver les sous-groupes capturants.</li>
+	 * <li>utilise <code>matcher.matches()</code></li>
+	 * <li>utilise <code>matcher.groupCount()</code></li>
+	 * <li>utilise <code>matcher.group(i)</code></li>
+	 * </ul>
+	 * - retourne null si <code>this.chaineATester</code> est blank.<br/>
+	 * - retourne null si <code>this.motifJava</code> est blank.<br/>
+	 * - retourne null si <code>this.motifJava</code> ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
+	 * <br/>
+	 *
+	 * @return : List&lt;IOccurence&gt; : 
+	 * liste des occurences des <b>groupes capturant</b> de 
+	 * <code>this.motifJava</code> dans <code>this.chaineATester</code>.<br/>
+	 * 
+	 * @throws Exception si le pattern <code>this.motifJava</code> 
+	 * n'est pas conforme à la syntaxe des Regex Java.<br/>
+	 */
+	List<IOccurence> texteMatcheMotif() 
+									throws Exception;
+	
+	
+	
+	/**
+	 * retourne la liste des occurences 
+	 * des <b>sous-groupes capturant</b> de pMotif dans pTexte<br/>
+	 * Par exemple : <br/>
+	 * Texte : 27 ans<br/>
+	 * motif : "(\d{2}) (ans)"<br/>
+	 * <code>
+	 * retourne :<br/>
+	 * Liste des groupes capturant : <br/>
+	 * Occurence [numero=0, contenu=27 ans, motifRegex=(\d{2}) (ans), indexDebut=0, indexFin=6]<br/>
+	 * Occurence [numero=1, contenu=27, motifRegex=(\d{2}), indexDebut=0, indexFin=2]<br/>
+	 * Occurence [numero=2, contenu=ans, motifRegex=(ans), indexDebut=3, indexFin=6]<br/>
+	 * </code>
+	 * <ul>
+	 * <li><b>retourne une liste vide si le matcher 
+	 * ne matches pas</b>, 
+	 * c'est à dire si pTexte ne correspond pas entièrement à pMotif.</li>
+	 * <li>ATTENTION, motifRegex dans les Occurence contient le 
+	 * sous-groupes capturant d'indice (1-based) i.</li>
+	 * <li>retire les éventuelles parenthèses englobantes de pMotif 
+	 * pour trouver les sous-groupes capturants.</li>
 	 * <li>utilise <code>matcher.matches()</code></li>
 	 * <li>utilise <code>matcher.groupCount()</code></li>
 	 * <li>utilise <code>matcher.group(i)</code></li>
 	 * </ul>
 	 * - retourne null si pTexte est blank.<br/>
 	 * - retourne null si pMotif est blank.<br/>
+	 * - retourne null si pMotif ne respecte pas 
+	 * la syntaxe des Regex Java.<br/>
 	 * <br/>
 	 *
 	 * @param pTexte : String : 

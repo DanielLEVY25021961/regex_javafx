@@ -758,7 +758,9 @@ public class RegexTest {
 	/**
 	 * teste la méthode texteMatcheMotif(...).<br/>
 	 * <ul>
-	 * <li></li>
+	 * <li>garantit que le motifRegex de l'Occurence(0) 
+	 * contient toujours le motif (groupe capturant (0)).</li>
+	 * <li>garantit que texteMatcheMotif(...) fonctionne bien.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
@@ -769,7 +771,7 @@ public class RegexTest {
 						
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -779,16 +781,21 @@ public class RegexTest {
 		}
 		
 		// **********************************
+		final String motifValable = "^(\\d{2}) (ans)$";
 //		final String motifValable = "^((\\d{1,3})([a-zA-Z]{1,5})(.*))$";
-		final String motifValable = "^(\\^{0,1})(\\({1})(\\(.*\\)*)(\\){1})(\\${0,1})$";
-		final String motifNonValable = "toto";
+//		final String motifValable = "^(\\d{1,3})([a-zA-Z]{1,5})(.*)$";
+//		final String motifValable = "^(\\^{0,1})(\\({1})(\\(.*\\)*)(\\){1})(\\${0,1})$";
+
 		
+		final String chaineValable = "27 ans";
 //		final String chaineValable = "27tirailleurs sénégalais";
-		final String chaineValable = "^((\\d{1,3})([a-zA-Z]{1,5})(.*))$";
-		final String chaineNonValable = "avec le temps et avec l'argent tout s'en va\nles roses aavec leur pétales m'ennuient";
+//		final String chaineValable = "^((\\d{1,3})([a-zA-Z]{1,5})(.*))$";
 		// **********************************
 
 		final IRegex regexValable = new Regex(chaineValable, motifValable);
+		
+		final List<IOccurence> liste 
+			= regexValable.texteMatcheMotif(chaineValable, motifValable);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -801,8 +808,25 @@ public class RegexTest {
 			System.out.println(TEXTE + chaineValable + " commence-t-il par le motif " + motifValable + INTERROGATION + regexValable.texteCommenceParMotif());
 			System.out.println(TEXTE + chaineValable + " contient-il le motif " + motifValable + INTERROGATION + regexValable.texteContientMotif());
 			System.out.println(LISTE_OCCURENCES + regexValable.afficherListOccurences(regexValable.getListeOccurencesMotif()));
-			System.out.println("Liste des groupes capturant : \n" + regexValable.afficherListOccurences(regexValable.texteMatcheMotif(chaineValable, motifValable)));
+			System.out.println("Liste des groupes capturant : \n" + regexValable.afficherListOccurences(liste));
 		}
+		
+		/* garantit que le motifRegex de l'Occurence(0) 
+		 * contient toujours le motif. */
+		assertTrue(
+				"le motifRegex de l'Occurence(0) contient toujours le motif : "
+					, liste.get(0).getMotifRegex().equals(motifValable));
+		
+		/* garantit que texteMatcheMotif(...) fonctionne bien. */
+		assertEquals(
+				"le contenu(1) doit valoir 27 : "
+					, "27"
+						, liste.get(1).getContenu());
+		
+		assertEquals(
+				"le motif regex(1) doit valoir (\\d{2}) : "
+					, "(\\d{2})"
+						, liste.get(1).getMotifRegex());
 		
 	} // Fin de testTexteMatcheMotif().____________________________________
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -72,14 +73,14 @@ public class ExplicateurRegex implements IExplicateurRegex {
 	 * DEFINITION D'UN GROUPE CAPTURANT
 	 * <ul>
 	 * <li> 1 parenthèse obligatoire de début '(' --------------------------> (\\({1})</li>
-	 * <li> n'importe quoi sauf une parenthèse début '(' ou de fin ')' -----> ([^\\(\\)]*)</li>
+	 * <li> n'importe quoi sauf une parenthèse début '(' ou de fin ')' -----> ([^\\(\\)]*?)</li>
 	 * <li> 1 parenthèse obligatoire de fin ')' ----------------------------> (\\){1})</li>
 	 * </ul>
 	 */
 	public static final String MOTIF_GROUPES_CAPTURANTS_INTERNES 
-		= "(\\({1})([^\\(\\)]*)(\\){1})";
-	
-	
+		= "(\\({1})([^\\(\\)]*?)(\\){1})";
+
+		
 	/**
 	 * Map&lt;String, String&gt; des méta-caractères 
 	 * (symboles remplaçant d'autres caractères).<br/>
@@ -152,9 +153,20 @@ public class ExplicateurRegex implements IExplicateurRegex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String extraireSousMotif(
+	public final String extraireSousGroupeCapturant(
 			final String pMotif
 				, final int pI) {
+		
+		/* retourne null si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		/* retourne null si pMotif ne respecte pas la 
+		 * syntaxe des RegEx Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
+			return null;
+		}
 		
 		String resultat = null;
 		
@@ -167,7 +179,14 @@ public class ExplicateurRegex implements IExplicateurRegex {
 			final List<IOccurence> list 
 				= this.trouverGroupesCapturantsInternes(pMotif);
 			
-			resultat = list.get(pI).getContenu();
+			try {
+				
+				resultat = list.get(pI - 1).getContenu();
+				
+			} catch (IndexOutOfBoundsException e) {
+				resultat = null;
+			}
+			
 		}
 		
 		return resultat;
@@ -177,19 +196,20 @@ public class ExplicateurRegex implements IExplicateurRegex {
 
 	
 	/**
-	 * .<br/>
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 *
-	 * @param pMotif
-	 * @return : List<IOccurence> :  .<br/>
+	 * {@inheritDoc}
 	 */
+	@Override
 	public final List<IOccurence> trouverGroupeCapturantZero(
 			final String pMotif) {
 		
 		/* retourne null si pMotif est blank. */
 		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		/* retourne null si pMotif ne respecte pas la 
+		 * syntaxe des RegEx Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
 			return null;
 		}
 		
@@ -241,6 +261,12 @@ public class ExplicateurRegex implements IExplicateurRegex {
 		
 		/* retourne null si pMotif est blank. */
 		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		/* retourne null si pMotif ne respecte pas la 
+		 * syntaxe des RegEx Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
 			return null;
 		}
 		
@@ -334,6 +360,37 @@ public class ExplicateurRegex implements IExplicateurRegex {
 
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean motifRespecteSyntaxeRegex(
+			final String pMotif) {
+		
+		/* retourne false si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return false;
+		}
+		
+		boolean resultat = false;
+		
+		try {
+			
+			Pattern.compile(pMotif);
+			
+			resultat = true;
+			
+		} catch (PatternSyntaxException e) {
+			
+			resultat = false;
+		}
+		
+		return resultat;
+		
+	} // Fin de motifRespecteSyntaxeRegex(...).____________________________
+
+	
+
 	/**
 	 * {@inheritDoc}
 	 */

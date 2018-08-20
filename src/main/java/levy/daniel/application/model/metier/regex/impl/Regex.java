@@ -91,6 +91,35 @@ public class Regex implements IRegex {
 	 */
 	public static final String NEWLINE 
 		= System.getProperty("line.separator");
+
+	/**
+	 * "^(\\^{0,1})(?:\\({1})(.*)(?:\\){1})(\\${0,1})$".<br/>
+	 * Motif permettant de capturer le motif à l'intérieur 
+	 * de parenthèses englobantes.<br/>
+	 * Le groupe capturant ZERO correspond à la totalité du motif.<br/>
+	 * <ul>
+	 * <li>1 accent optionnel en début de motif pour exprimer le début de motif -------------> ^(\\^{0,1})</li>
+	 * <li>1 parenthèse de début obligatoire pour grouper la totalité du motif ---------------> (\\({1})</li>
+	 * <li>n'importe quels caractères décrivant le motif -----------------------------------------> (.*)</li>
+	 * <li>1 parenthèse de fin pbligatoire pour grouper la totalité du motif -------------------> (\\){1})</li>
+	 * <li>1 dollar optionnel en fin de motif pour exprimer la fin du motif ---------------------> (\\${0,1})$</li>
+	 * </ul>
+	 */
+	public static final String MOTIF_PARENTHESES_ENGLOBANTES 
+		= "^(\\^{0,1})(?:\\({1})(.*)(?:\\){1})(\\${0,1})$";
+	
+	/**
+	 * "^(\\^{0,1})(\\({0,1})(.*)(\\){0,1})(\\${0,1})$".<br/>
+	 * Motif permettant de capturer le coeur du motif à l'intérieur 
+	 * d'eventuelles ancres.<br/>
+	 * <ul>
+	 * <li>1 accent optionnel en début de motif pour exprimer le début de motif -------------> ^(\\^{0,1})</li>
+	 * <li>n'importe quels caractères décrivant le motif -----------------------------------------> (.*?)</li>
+	 * <li>1 dollar optionnel en fin de motif pour exprimer la fin du motif ---------------------> (\\${0,1})$</li>
+	 * </ul>
+	 */
+	public static final String MOTIF_COEUR_MOTIF 
+		= "^(\\^{0,1})(.*?)(\\${0,1})$";
 	
 	/**
 	 * chaine de caractères dont on veut savoir 
@@ -128,6 +157,12 @@ public class Regex implements IRegex {
 	 * dans <code>this.chaineATester</code>.<br/>
 	 */
 	private transient List<IOccurence> listeOccurencesMotif;
+	
+	/**
+	 * ExplicateurRegex.<br/>
+	 */
+	private final transient IExplicateurRegex explicateur 
+		= new ExplicateurRegex();
 	
 	/**
 	 * LOG : Log : 
@@ -219,7 +254,92 @@ public class Regex implements IRegex {
 	} // Fin de determinerSiMotifConforme()._______________________________
 	
 
-	
+		
+	/**
+	 * <b>retire les parenthèses globales (juste à côté des ancres)</b> 
+	 * à un motif Regex Java.<br/>
+	 * Ces parenthèses globales pour créer un groupe capturant 
+	 * sont inutiles puisque le group(0) créé automatiquement
+	 * par Java reprend toujours l'intégralité du motif.<br/>
+	 * Les parenthèses globales rajoutent un group(1) en sus du group(0) 
+	 * qui reprend l'intégralité du motif sans les éventuelles ancres.<br/>
+	 * Par exemple :<br/>
+	 * <code>
+	 * <b>(</b>(abc)()(abc)<b>)</b> -----> (abc)()(abc)<br/>
+	 * ^<b>(</b>(abc)()(abc)<b>)</b> ----> ^(abc)()(abc)<br/>
+	 * (abc)()(abc) -------> (abc)()(abc)<br/>
+	 * (abc)()(abc) -------> ^(abc)()(abc)$<br/>
+	 * </code>
+	 * <ul>
+	 * <li>Ne concerne que les motifs commençant et se terminant 
+	 * par des parenthèses (hormis les éventuelles ancres).</li>
+	 * <li>retourne null si pMotif ne respecte pas 
+	 * MOTIF_PARENTHESES_ENGLOBANTES.</li>
+	 * </ul>
+	 * - retourne null si pMotif est blank.<br/>
+	 * - retourne null si pMotif ne respecte pas la 
+	 * syntaxe des RegEx Java.<br/>
+	 * <br/>
+	 *
+	 * @param pMotif : String : 
+	 * motif RegEx Java dont on veut retirer les 
+	 * parenthèses englobantes.<br/>
+	 * 
+	 * @return : String : le motif pMotif éventuellement débarassé 
+	 * de ses parenthèses englobantes.<br/>
+	 */
+	private String enleverParenthesesGlobales(
+			final String pMotif) {
+		
+		/* retourne null si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		/* retourne null si pMotif ne respecte pas la 
+		 * syntaxe des RegEx Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
+			return null;
+		}
+		
+						
+		final Pattern pattern 
+			= Pattern.compile(MOTIF_PARENTHESES_ENGLOBANTES);
+		final Matcher matcher 
+			= pattern.matcher(pMotif);
+		
+		String resultat = null;
+				
+		if (matcher.matches()) {
+			
+			final String ancreDebut = matcher.group(1);
+			final String motifMatche = matcher.group(2);
+			final String ancreFin = matcher.group(3);
+			
+			final StringBuilder stb = new StringBuilder();
+												
+			if (!motifRespecteSyntaxeRegex(motifMatche)) {
+				stb.append(pMotif);
+			} else {
+				if (!StringUtils.isBlank(ancreDebut)) {
+					stb.append(ancreDebut);
+					stb.append(motifMatche);
+				} else {
+					stb.append(motifMatche);
+				}
+				
+				if (!StringUtils.isBlank(ancreFin)) {
+					stb.append(ancreFin);
+				}
+				
+			}
+			
+			resultat = stb.toString();
+		}
+		
+		return resultat;
+
+	} // Fin de enleverParenthesesGlobales(...).___________________________
 	
 	
 	
@@ -290,6 +410,12 @@ public class Regex implements IRegex {
 			return false;
 		}
 		
+		/* retourne false si pMotif ne respecte pas 
+		 * la syntaxe des Regex Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
+			return false;
+		}
+		
 		boolean resultat = false;
 		
 		final Pattern pattern = Pattern.compile(pMotif);
@@ -339,6 +465,13 @@ public class Regex implements IRegex {
 			return false;
 		}
 		
+		/* retourne false si pMotif ne respecte pas 
+		 * la syntaxe des Regex Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
+			return false;
+		}
+
+		
 		boolean resultat = false;
 		
 		final Pattern pattern = Pattern.compile(pMotif);
@@ -385,6 +518,11 @@ public class Regex implements IRegex {
 		
 		/* return null si pMotif est blank. */
 		if (StringUtils.isBlank(pMotif)) {
+			return null;
+		}
+		
+		/* return null si pMotif ne respecte pas la syntaxe des Regex Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
 			return null;
 		}
 		
@@ -455,6 +593,12 @@ public class Regex implements IRegex {
 			return false;
 		}
 		
+		/* retourne false si pMotif ne respecte pas 
+		 * la syntaxe des Regex Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
+			return false;
+		}
+		
 		boolean resultat = false;
 		
 		resultat = Pattern.matches(pMotif, pTexte);
@@ -464,6 +608,19 @@ public class Regex implements IRegex {
 	} // Fin de texteCorrespondEntierementAMotif(...)._____________________
 	
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final List<IOccurence> texteMatcheMotif() 
+								throws Exception {
+		
+		return this.texteMatcheMotif(this.chaineATester, this.motifJava);
+		
+	} // Fin de texteMatcheMotif().________________________________________
+	
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -484,7 +641,16 @@ public class Regex implements IRegex {
 			return null;
 		}
 		
-		final Pattern pattern = Pattern.compile(pMotif);
+		/* retourne null si pMotif ne respecte pas 
+		 * la syntaxe des Regex Java. */
+		if (!this.motifRespecteSyntaxeRegex(pMotif)) {
+			return null;
+		}
+		
+		/* retire les éventuelles parenthèses englobantes de pMotif pour trouver les sous-groupes capturants. */
+		final String motif = this.enleverParenthesesGlobales(pMotif);
+		
+		final Pattern pattern = Pattern.compile(motif);
 		final Matcher matcher = pattern.matcher(pTexte);
 		
 		final boolean booleanMatches = matcher.matches();
@@ -492,8 +658,7 @@ public class Regex implements IRegex {
 		List<IOccurence> resultat = null;
 		
 		if (booleanMatches) {
-			
-			
+						
 			resultat = new LinkedList<IOccurence>();
 			
 			final int nombreOccurences = matcher.groupCount();
@@ -505,26 +670,13 @@ public class Regex implements IRegex {
 				final int posDebut = matcher.start(i);
 				final int posFin = matcher.end(i);
 				
-				IOccurence occurence = null;
-				
-				if (i == 0) {
-					occurence 
-						= new Occurence(
-							numero, contenu, pMotif, posDebut, posFin);
-				}
-				else if (i == 1) {
-				
-					final IExplicateurRegex explicateur = new ExplicateurRegex();
-					occurence 
-						= new Occurence(
-								numero, contenu, explicateur.extraireSousMotif(pMotif, i), posDebut, posFin);
-				
-				} else {
-					occurence 
-						= new Occurence(
-							numero, contenu, null, posDebut, posFin);
-				}
-								
+				final IOccurence occurence 
+					= new Occurence(
+							numero
+							, contenu
+							, this.explicateur.extraireSousGroupeCapturant(motif, i)
+							, posDebut, posFin);
+										
 				resultat.add(occurence);
 			}
 		}
