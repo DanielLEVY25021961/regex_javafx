@@ -80,6 +80,12 @@ public class RegexTest {
 		= "' contient-il le motif '";
 	
 	/**
+	 * "' matche-t-il entièrement avec le motif '".<br/>
+	 */
+	public static final String MATCHE_MOTIF 
+		= "' matche-t-il entièrement avec le motif '";
+	
+	/**
 	 * "la liste d'occurences est-elle vide ? : ".<br/>
 	 */
 	public static final String LISTE_OCCURENCES_VIDE 
@@ -90,6 +96,12 @@ public class RegexTest {
 	 */
 	public static final String LISTE_OCCURENCES 
 		= "liste des occurences du motif : \n";
+	
+	/**
+	 * "liste des occurences des groupes capturants du motif : \n".<br/>
+	 */
+	public static final String LISTE_GROUPES 
+		= "liste des occurences des groupes capturants du motif : \n";
 	
 	/**
 	 * "la liste d'occurences ne doit pas être null : ".<br/>
@@ -153,7 +165,7 @@ public class RegexTest {
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testFonctionnement() throws Exception {
+	public void testFonctionnementSetters() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -163,33 +175,111 @@ public class RegexTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE RegexTest - méthode testFonctionnement() ********** ");
+			System.out.println("********** CLASSE RegexTest - méthode testFonctionnementSetters() ********** ");
 		}
 		
+		IRegex regex = null;
+		String texte = null;
+		String motif = null;
+		boolean motifRespecteSyntaxe = false;
+		boolean texteCommenceParMotif = false;
+		boolean texteContientMotif = false;
+		List<IOccurence> occurencesMotif = null;		
+		boolean texteMatcheMotif = false;
+		List<IOccurence> occurencesGroupes = null;
+		
+		// ***********************************************************
 		/* Instanciation d'un Regex avec le constructeur d'arité nulle. */
-		final IRegex regex = new Regex();
-		final String texte = regex.getChaineATester();
-		final String motif = regex.getMotifJava();
-		final boolean motifRespecteSyntaxe = regex.isMotifJavaRespecteSyntaxe();
-		final boolean texteCommenceParMotif = regex.texteCommenceParMotif();
-		final boolean texteContientMotif = regex.texteContientMotif();
+		regex = new Regex();
+		texte = regex.getChaineATester();
+		motif = regex.getMotifJava();
+		motifRespecteSyntaxe = regex.isMotifJavaRespecteSyntaxe();
+		texteCommenceParMotif = regex.texteCommenceParMotif();
+		texteContientMotif = regex.texteContientMotif();
+		occurencesMotif = regex.trouverOccurences();		
+		texteMatcheMotif = regex.texteCorrespondEntierementAMotif();
+		occurencesGroupes = regex.getListeOccurencesGroupesCapturant();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println("CAS DE LA SIMPLE INSTANCIATION D'UN REGEX AVEC LE CONSTRUCTEUR D'ARITE NULLE -----------------");
+			System.out.println("IRegex regex = new Regex();");
 			System.out.println(TEXTE + texte);
 			System.out.println(MOTIF + motif);
 			System.out.println();
 			System.out.println(LE_MOTIF + motif + RESPECTE_SYNTAXE_REGEX + motifRespecteSyntaxe);
-			System.out.println(LE_TEXTE + texte 
-					+ COMMENCE_PAR_MOTIF 
-					+ motif + INTERROGATION + texteCommenceParMotif);
+			System.out.println(LE_TEXTE + texte + COMMENCE_PAR_MOTIF + motif + INTERROGATION + texteCommenceParMotif);
 			System.out.println(LE_TEXTE + texte + CONTIENT_MOTIF + motif + INTERROGATION + texteContientMotif);
+			System.out.println(LISTE_OCCURENCES + regex.afficherListOccurences(occurencesMotif));
+			System.out.println(LE_TEXTE + texte + MATCHE_MOTIF + motif + INTERROGATION + texteMatcheMotif);
+			System.out.println(LISTE_GROUPES + regex.afficherListOccurences(occurencesGroupes));
+		}
+
+		// ***********************************************************
+		/* Passage d'un texte via un Setter. */
+		final String textePasse = "27 ans et 23 piges d'âge mental !";
+		regex.setChaineATester(textePasse);
+		
+		texte = regex.getChaineATester();
+		motif = regex.getMotifJava();
+		motifRespecteSyntaxe = regex.isMotifJavaRespecteSyntaxe();
+		texteCommenceParMotif = regex.texteCommenceParMotif();
+		texteContientMotif = regex.texteContientMotif();
+		occurencesMotif = regex.trouverOccurences();		
+		texteMatcheMotif = regex.texteCorrespondEntierementAMotif();
+		occurencesGroupes = regex.getListeOccurencesGroupesCapturant();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS DE L'UTILISTION DU SETTER DU TEXTE -----------------");
+			System.out.println("String textePasse = \"27 ans et 23 piges d'âge mental !\";");
+			System.out.println("regex.setChaineATester(textePasse);");
+			System.out.println(TEXTE + texte);
+			System.out.println(MOTIF + motif);
+			System.out.println();
+			System.out.println(LE_MOTIF + motif + RESPECTE_SYNTAXE_REGEX + motifRespecteSyntaxe);
+			System.out.println(LE_TEXTE + texte + COMMENCE_PAR_MOTIF + motif + INTERROGATION + texteCommenceParMotif);
+			System.out.println(LE_TEXTE + texte + CONTIENT_MOTIF + motif + INTERROGATION + texteContientMotif);
+			System.out.println(LISTE_OCCURENCES + regex.afficherListOccurences(occurencesMotif));
+			System.out.println(LE_TEXTE + texte + MATCHE_MOTIF + motif + INTERROGATION + texteMatcheMotif);
+			System.out.println(LISTE_GROUPES + regex.afficherListOccurences(occurencesGroupes));
+		}
+		
+		// ***********************************************************
+		/* Passage d'un motif via un Setter. */
+		final String motifPasse = "(\\d{1,3} \\D*)+?";
+		regex.setMotifJava(motifPasse);
+		
+		texte = regex.getChaineATester();
+		motif = regex.getMotifJava();
+		motifRespecteSyntaxe = regex.isMotifJavaRespecteSyntaxe();
+		texteCommenceParMotif = regex.texteCommenceParMotif();
+		texteContientMotif = regex.texteContientMotif();
+		occurencesMotif = regex.trouverOccurences();		
+		texteMatcheMotif = regex.texteCorrespondEntierementAMotif();
+		occurencesGroupes = regex.getListeOccurencesGroupesCapturant();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS DE L'UTILISTION DU SETTER DU MOTIF -----------------");
+			System.out.println("String motifPasse = \"(\\\\d{1,3} \\\\D*)+?\";");
+			System.out.println("regex.setMotifJava(motifPasse);");
+			System.out.println(TEXTE + texte);
+			System.out.println(MOTIF + motif);
+			System.out.println();
+			System.out.println(LE_MOTIF + motif + RESPECTE_SYNTAXE_REGEX + motifRespecteSyntaxe);
+			System.out.println(LE_TEXTE + texte + COMMENCE_PAR_MOTIF + motif + INTERROGATION + texteCommenceParMotif);
+			System.out.println(LE_TEXTE + texte + CONTIENT_MOTIF + motif + INTERROGATION + texteContientMotif);
+			System.out.println(LISTE_OCCURENCES + regex.afficherListOccurences(occurencesMotif));
+			System.out.println(LE_TEXTE + texte + MATCHE_MOTIF + motif + INTERROGATION + texteMatcheMotif);
+			System.out.println(LISTE_GROUPES + regex.afficherListOccurences(occurencesGroupes));
 		}
 
 			
-	} // Fin de testFonctionnement().______________________________________
+	} // Fin de testFonctionnementSetters()._______________________________
 	
 	
 	
