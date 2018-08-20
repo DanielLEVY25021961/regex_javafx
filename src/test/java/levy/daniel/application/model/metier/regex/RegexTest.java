@@ -185,7 +185,7 @@ public class RegexTest {
 			System.out.println(LE_TEXTE + texte 
 					+ COMMENCE_PAR_MOTIF 
 					+ motif + INTERROGATION + texteCommenceParMotif);
-			System.out.println(LE_TEXTE + texte + CONTIENT_MOTIF + motif + "' ? : " + texteContientMotif);
+			System.out.println(LE_TEXTE + texte + CONTIENT_MOTIF + motif + INTERROGATION + texteContientMotif);
 		}
 
 			
@@ -717,8 +717,8 @@ public class RegexTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(LE_TEXTE + texteValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatValable);
-			System.out.println(LE_TEXTE + texteNonValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatNonValable);
+			System.out.println(LE_TEXTE + texteValable + "' respecte-t-il entièrement le motif '" + motif + INTERROGATION + resultatValable);
+			System.out.println(LE_TEXTE + texteNonValable + "' respecte-t-il entièrement le motif '" + motif + INTERROGATION + resultatNonValable);
 			
 		}
 		
@@ -786,9 +786,9 @@ public class RegexTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(LE_TEXTE + texte + "' respecte-t-il entièrement le motif '" + motifTest + "' ? : " + resultat);
-//			System.out.println(LE_TEXTE + texteValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatValable);
-//			System.out.println(LE_TEXTE + texteNonValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatNonValable);
+			System.out.println(LE_TEXTE + texte + "' respecte-t-il entièrement le motif '" + motifTest + INTERROGATION + resultat);
+//			System.out.println(LE_TEXTE + texteValable + "' respecte-t-il entièrement le motif '" + motif + INTERROGATION + resultatValable);
+//			System.out.println(LE_TEXTE + texteNonValable + "' respecte-t-il entièrement le motif '" + motif + INTERROGATION + resultatNonValable);
 			
 		}
 		
