@@ -447,7 +447,10 @@ public interface IRegex {
 	* si elle contient ou matche le motif 
 	* de l'expression régulière.<br/>
 	* <ul>
-	* <li><b>alimente <code>this.listeOccurencesMotif</code></b>.</li>
+	* <li><b>alimente 
+	* <code>this.listeOccurencesMotif</code></b>.</li>
+	* <li><b>alimente 
+	* <code>this.listeOccurencesGroupesCapturant</code>.</b></li>
 	* </ul>
 	* - ne fait rien si pChaineATester.equals(this.chaineATester).<br/>
 	* <br/>
@@ -481,7 +484,10 @@ public interface IRegex {
 	* <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
 	* si <code>this.motifJava</code> respecte la syntaxe 
 	* des RegEx Java.</li>
-	* <li><b>alimente <code>this.listeOccurencesMotif</code></b>.</li>
+	* <li><b>alimente 
+	* <code>this.listeOccurencesMotif</code></b>.</li>
+	* <li><b>alimente 
+	* <code>this.listeOccurencesGroupesCapturant</code>.</b></li>
 	* </ul>
 	* - ne fait rien si pMotifJava.equals(this.motifJava).<br/>
 	* <br/>
@@ -533,6 +539,19 @@ public interface IRegex {
 	 * @return this.listeOccurencesMotif : List&lt;IOccurence&gt;.<br/>
 	 */
 	List<IOccurence> getListeOccurencesMotif();
+	
+
+	
+	/**
+	 * Getter de la Liste des occurences des sous-groupes capturant de 
+	 * <code>this.motifJava</code> 
+	 * dans <code>this.chaineATester</code>.
+	 * <br/>
+	 *
+	 * @return this.listeOccurencesGroupesCapturant : 
+	 * List&lt;IOccurence&gt;.<br/>
+	 */
+	List<IOccurence> getListeOccurencesGroupesCapturant();
 	
 	
 	

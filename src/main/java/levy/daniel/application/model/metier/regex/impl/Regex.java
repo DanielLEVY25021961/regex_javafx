@@ -159,6 +159,13 @@ public class Regex implements IRegex {
 	private transient List<IOccurence> listeOccurencesMotif;
 	
 	/**
+	 * Liste des occurences des sous-groupes capturant de 
+	 * <code>this.motifJava</code> 
+	 * dans <code>this.chaineATester</code>.<br/>
+	 */
+	private transient List<IOccurence> listeOccurencesGroupesCapturant;
+	
+	/**
 	 * ExplicateurRegex.<br/>
 	 */
 	private final transient IExplicateurRegex explicateur 
@@ -194,6 +201,7 @@ public class Regex implements IRegex {
 	 * si <code>this.motifJava</code> respecte la syntaxe 
 	 * des RegEx Java.</li>
 	 * <li>alimente <code>this.listeOccurencesMotif</code>.</li>
+	 * <li>alimente <code>this.listeOccurencesGroupesCapturant</code>.</li>
 	 * </ul>
 	 *
 	 * @param pChaineATester : String : 
@@ -222,7 +230,11 @@ public class Regex implements IRegex {
 		
 		/* alimente this.listeOccurencesMotif. */
 		this.listeOccurencesMotif 
-			= this.trouverOccurences(this.chaineATester, this.motifJava);
+			= this.trouverOccurences();
+		
+		/* alimente this.listeOccurencesGroupesCapturant. */
+		this.listeOccurencesGroupesCapturant 
+			= this.texteMatcheMotif();
 		
 	} // Fin du  CONSTRUCTEUR COMPLET._____________________________________
 	
@@ -273,7 +285,7 @@ public class Regex implements IRegex {
 	 * <ul>
 	 * <li>Ne concerne que les motifs commençant et se terminant 
 	 * par des parenthèses (hormis les éventuelles ancres).</li>
-	 * <li>retourne null si pMotif ne respecte pas 
+	 * <li>retourne pMotif inchangé si pMotif ne respecte pas 
 	 * MOTIF_PARENTHESES_ENGLOBANTES.</li>
 	 * </ul>
 	 * - retourne null si pMotif est blank.<br/>
@@ -335,6 +347,12 @@ public class Regex implements IRegex {
 			}
 			
 			resultat = stb.toString();
+			
+		} else {
+			
+			/* retourne pMotif inchangé si pMotif ne respecte pas 
+			 * MOTIF_PARENTHESES_ENGLOBANTES.*/
+			resultat = pMotif;
 		}
 		
 		return resultat;
@@ -736,8 +754,11 @@ public class Regex implements IRegex {
 			
 			/* alimente this.listeOccurencesMotif. */
 			this.listeOccurencesMotif 
-				= this.trouverOccurences(
-						this.chaineATester, this.motifJava);
+				= this.trouverOccurences();
+			
+			/* alimente this.listeOccurencesGroupesCapturant. */
+			this.listeOccurencesGroupesCapturant 
+				= this.texteMatcheMotif();
 			
 		}
 				
@@ -773,7 +794,11 @@ public class Regex implements IRegex {
 			
 			/* alimente this.listeOccurencesMotif. */
 			this.listeOccurencesMotif 
-				= this.trouverOccurences(this.chaineATester, this.motifJava);
+				= this.trouverOccurences();
+			
+			/* alimente this.listeOccurencesGroupesCapturant. */
+			this.listeOccurencesGroupesCapturant 
+				= this.texteMatcheMotif();
 		}
 				
 	} // Fin de setMotifJava(...)._________________________________________
@@ -817,6 +842,16 @@ public class Regex implements IRegex {
 	public final List<IOccurence> getListeOccurencesMotif() {
 		return this.listeOccurencesMotif;
 	} // Fin de getListeOccurencesMotif()._________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final List<IOccurence> getListeOccurencesGroupesCapturant() {
+		return this.listeOccurencesGroupesCapturant;
+	} // Fin de getListeOccurencesGroupesCapturant().______________________
 	
 		
 	

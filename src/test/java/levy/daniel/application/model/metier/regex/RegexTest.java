@@ -58,26 +58,26 @@ public class RegexTest {
 	public static final String DEUX_POINTS = "' : ";
 	
 	/**
-	 * "la String : '".<br/>
+	 * "Le Texte '".<br/>
 	 */
-	public static final String LA_STRING = "la String : '";
+	public static final String LE_TEXTE = "Le Texte '";
 	
 	/**
-	 * " ? : ".<br/>
+	 * "' ? : ".<br/>
 	 */
-	public static final String INTERROGATION = " ? : ";
+	public static final String INTERROGATION = "' ? : ";
 	
 	/**
-	 * "' commence-t-elle par un chiffre et respecte-t-elle le motif ".<br/>
+	 * "' commence-t-il par le motif '".<br/>
 	 */
 	public static final String COMMENCE_PAR_MOTIF 
-		= "' commence-t-elle par un chiffre et respecte-t-elle le motif ";
+		= "' commence-t-il par le motif '";
 	
 	/**
-	 * "Le texte contient-il le motif : ".<br/>
+	 * "' contient-il le motif '".<br/>
 	 */
 	public static final String CONTIENT_MOTIF 
-		= "Le texte contient-il le motif : ";
+		= "' contient-il le motif '";
 	
 	/**
 	 * "la liste d'occurences est-elle vide ? : ".<br/>
@@ -143,6 +143,55 @@ public class RegexTest {
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
+	/**
+	 * teste le fonctionnement global d'un Regex.<br/>
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFonctionnement() throws Exception {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE RegexTest - méthode testFonctionnement() ********** ");
+		}
+		
+		/* Instanciation d'un Regex avec le constructeur d'arité nulle. */
+		final IRegex regex = new Regex();
+		final String texte = regex.getChaineATester();
+		final String motif = regex.getMotifJava();
+		final boolean motifRespecteSyntaxe = regex.isMotifJavaRespecteSyntaxe();
+		final boolean texteCommenceParMotif = regex.texteCommenceParMotif();
+		final boolean texteContientMotif = regex.texteContientMotif();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CAS DE LA SIMPLE INSTANCIATION D'UN REGEX AVEC LE CONSTRUCTEUR D'ARITE NULLE -----------------");
+			System.out.println(TEXTE + texte);
+			System.out.println(MOTIF + motif);
+			System.out.println();
+			System.out.println(LE_MOTIF + motif + RESPECTE_SYNTAXE_REGEX + motifRespecteSyntaxe);
+			System.out.println(LE_TEXTE + texte 
+					+ COMMENCE_PAR_MOTIF 
+					+ motif + INTERROGATION + texteCommenceParMotif);
+			System.out.println(LE_TEXTE + texte + CONTIENT_MOTIF + motif + "' ? : " + texteContientMotif);
+		}
+
+			
+	} // Fin de testFonctionnement().______________________________________
+	
+	
 	
 	/**
 	 * teste la méthode motifRespecteSyntaxeRegex(String).<br/>
@@ -225,7 +274,7 @@ public class RegexTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -271,14 +320,16 @@ public class RegexTest {
 			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexValable.isMotifJavaRespecteSyntaxe());
 			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexValableNu.isMotifJavaRespecteSyntaxe());
 			System.out.println();
-			System.out.println(LA_STRING + chaineValable 
+			System.out.println(LE_TEXTE + chaineValable 
 					+ COMMENCE_PAR_MOTIF 
 					+ motifValable + INTERROGATION + resultatValable);
-			System.out.println(LA_STRING + chaineValable 
+			System.out.println(LE_TEXTE + chaineValable 
 					+ COMMENCE_PAR_MOTIF 
 					+ motifValable + INTERROGATION + resultatValableNu);
 			System.out.println("Occurences : " + regexValable.afficherListOccurences(regexValable.getListeOccurencesMotif()));
 			System.out.println("Occurences avec le Constructeur nu : " + regexValableNu.afficherListOccurences(regexValableNu.getListeOccurencesMotif()));
+			System.out.println("Occurences groupes capturant : " + regexValable.afficherListOccurences(regexValable.getListeOccurencesGroupesCapturant()));
+			System.out.println("Occurences groupes capturant avec le Constructeur nu : " + regexValableNu.afficherListOccurences(regexValableNu.getListeOccurencesGroupesCapturant()));
 			
 			System.out.println();
 			System.out.println("CAS D'UNE STRING COMMENCANT NE COMMENCANT PAS PAR LE MOTIF  -----------------");
@@ -287,14 +338,16 @@ public class RegexTest {
 			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexNonValable.isMotifJavaRespecteSyntaxe());
 			System.out.println(LE_MOTIF + motifValable + RESPECTE_SYNTAXE_REGEX + regexNonValableNu.isMotifJavaRespecteSyntaxe());
 			System.out.println();
-			System.out.println(LA_STRING + chaineNonValable 
+			System.out.println(LE_TEXTE + chaineNonValable 
 					+ COMMENCE_PAR_MOTIF 
 					+ motifValable + INTERROGATION + resultatNonValable);
-			System.out.println(LA_STRING + chaineNonValable 
+			System.out.println(LE_TEXTE + chaineNonValable 
 					+ COMMENCE_PAR_MOTIF 
 					+ motifValable + INTERROGATION + resultatNonValableNu);
 			System.out.println("Occurences : " + regexNonValable.afficherListOccurences(regexNonValable.getListeOccurencesMotif()));
 			System.out.println("Occurences avec le Constructeur nu : " + regexNonValableNu.afficherListOccurences(regexNonValableNu.getListeOccurencesMotif()));
+			System.out.println("Occurences groupes capturant : " + regexNonValable.afficherListOccurences(regexNonValable.getListeOccurencesGroupesCapturant()));
+			System.out.println("Occurences groupes capturant avec le Constructeur nu : " + regexNonValableNu.afficherListOccurences(regexNonValableNu.getListeOccurencesGroupesCapturant()));
 		}
 
 		/* garantit que texteCommenceParMotif(chaine qui 
@@ -370,11 +423,11 @@ public class RegexTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			
-			System.out.println(LA_STRING + chaineValable 
+			System.out.println(LE_TEXTE + chaineValable 
 					+ COMMENCE_PAR_MOTIF 
 					+ motifValable + INTERROGATION + resultatValable);
 			
-			System.out.println(LA_STRING + chaineNonValable 
+			System.out.println(LE_TEXTE + chaineNonValable 
 					+ COMMENCE_PAR_MOTIF 
 					+ motifValable + INTERROGATION + resultatNonValable);
 		}
@@ -664,8 +717,8 @@ public class RegexTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("Le texte '" + texteValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatValable);
-			System.out.println("Le texte '" + texteNonValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatNonValable);
+			System.out.println(LE_TEXTE + texteValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatValable);
+			System.out.println(LE_TEXTE + texteNonValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatNonValable);
 			
 		}
 		
@@ -733,9 +786,9 @@ public class RegexTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("Le texte '" + texte + "' respecte-t-il entièrement le motif '" + motifTest + "' ? : " + resultat);
-//			System.out.println("Le texte '" + texteValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatValable);
-//			System.out.println("Le texte '" + texteNonValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatNonValable);
+			System.out.println(LE_TEXTE + texte + "' respecte-t-il entièrement le motif '" + motifTest + "' ? : " + resultat);
+//			System.out.println(LE_TEXTE + texteValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatValable);
+//			System.out.println(LE_TEXTE + texteNonValable + "' respecte-t-il entièrement le motif '" + motif + "' ? : " + resultatNonValable);
 			
 		}
 		
