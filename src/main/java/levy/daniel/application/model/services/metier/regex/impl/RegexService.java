@@ -17,6 +17,17 @@ import levy.daniel.application.model.services.metier.regex.IRegexService;
  * Classe fournissant les <b>services</b> des 
  * Expressions Régulières (RegEx) en Java.<br/>
  * <br/>
+ * Les fonctionnalités des Regex sont les suivantes :
+ * <br/>
+ * <br/>
+ * <img src="../../../../../../../../../../../javadoc/images/fonctionnalités_Regex.png" 
+ * alt="fonctionnalités des Regex" border="1" align="center" />
+ * <br/>
+ * <br/>
+ * <img src="../../../../../../../../../../../javadoc/images/fonctionnalités_edition.png" 
+ * alt="fonctionnalités d'édition des Regex" border="1" align="center" />
+ * <br/><br/>
+ * <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
@@ -36,6 +47,13 @@ import levy.daniel.application.model.services.metier.regex.IRegexService;
 public class RegexService implements IRegexService {
 	
 	// ************************ATTRIBUTS************************************/
+
+	/**
+	 * Saut de ligne spécifique de la plateforme.<br/>
+	 * System.getProperty("line.separator").<br/>
+	 */
+	public static final String NEWLINE 
+		= System.getProperty("line.separator");
 
 	/**
 	 * chaine de caractères (éventuellement multi-lignes) 
@@ -152,6 +170,7 @@ public class RegexService implements IRegexService {
 	 * <code>
 	 * <ul> 
 	 * <br/>
+	 * <li>this.motifJavaRespecteSyntaxe</li>
 	 * <li>this.texteCommenceParMotif,</li>
 	 * <li>this.texteContientMotif,</li> 
 	 * <li>this.listeOccurencesMotif,</li>
@@ -169,6 +188,8 @@ public class RegexService implements IRegexService {
 	 */
 	private void rafraichirAttributsCalcules() throws Exception {
 		
+		this.motifJavaRespecteSyntaxe 
+			= this.regex.isMotifJavaRespecteSyntaxe();
 		this.texteCommenceParMotif 
 		= this.regex.texteCommenceParMotif();
 		this.texteContientMotif 
@@ -181,6 +202,31 @@ public class RegexService implements IRegexService {
 			= this.regex.getListeOccurencesGroupesCapturant();
 		
 	} // Fin de rafraichirAttributsCalcules()._____________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String afficherListOccurences(
+			final List<IOccurence> pList)	{
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final IOccurence occurence : pList) {
+			stb.append(occurence.toString());
+			stb.append(NEWLINE);
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherListOccurences(...)._______________________________
 	
 
 	

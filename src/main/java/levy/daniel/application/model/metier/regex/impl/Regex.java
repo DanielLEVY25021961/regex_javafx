@@ -136,12 +136,14 @@ public class Regex implements IRegex {
 	
 	/**
 	 * Motif de l'expression régulière applicable en JavaScript.<br/>
+	 * <b>champ calculé</b>.<br/>
 	 * Par exemple : 
 	 */
 	private transient String motifJavaScript;
 	
 	/**
 	 * Signification du motif de l'expression régulière.<br/>
+	 * <b>champ calculé</b>.<br/>
 	 * Par exemple : 
 	 */
 	private transient String significationMotif;
@@ -149,12 +151,14 @@ public class Regex implements IRegex {
 	/**
 	 * boolean qui détermine si <code>this.motifJava</code> 
 	 * respecte la syntaxe des expressions régulières (RegEx) Java.<br/>
+	 * <b>champ calculé</b>.<br/>
 	 */
 	private transient boolean motifJavaRespecteSyntaxe;
 	
 	/**
 	 * Liste des occurences de <code>this.motifJava</code> 
 	 * dans <code>this.chaineATester</code>.<br/>
+	 * <b>champ calculé</b>.<br/>
 	 */
 	private transient List<IOccurence> listeOccurencesMotif;
 	
@@ -162,6 +166,7 @@ public class Regex implements IRegex {
 	 * Liste des occurences des sous-groupes capturant de 
 	 * <code>this.motifJava</code> 
 	 * dans <code>this.chaineATester</code>.<br/>
+	 * <b>champ calculé</b>.<br/>
 	 */
 	private transient List<IOccurence> listeOccurencesGroupesCapturant;
 	
@@ -224,6 +229,28 @@ public class Regex implements IRegex {
 		this.chaineATester = pChaineATester;
 		this.motifJava = pMotifJava;
 		
+		/* rafraîchit tous les attributs calculés. */
+		this.rafraichirAttributsCalcules();
+		
+	} // Fin du  CONSTRUCTEUR COMPLET._____________________________________
+	
+
+	
+	/**
+	 * <b>rafraîchit tous les attributs calculés 
+	 * à chaque appel de cette méthode</b>.<br/>
+	 * <ul>
+	 * <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
+	 * si <code>this.motifJava</code> respecte la syntaxe 
+	 * des RegEx Java.</li>
+	 * <li>alimente <code>this.listeOccurencesMotif</code>.</li>
+	 * <li>alimente <code>this.listeOccurencesGroupesCapturant</code>.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
+	 */
+	private void rafraichirAttributsCalcules() throws Exception {
+		
 		/* alimente this.motifJavaRespecteSyntaxe à true si 
 		 * this.motifJava respecte la syntaxe des RegEx Java. */
 		this.determinerSiMotifConforme();
@@ -236,9 +263,9 @@ public class Regex implements IRegex {
 		this.listeOccurencesGroupesCapturant 
 			= this.texteMatcheMotif();
 		
-	} // Fin du  CONSTRUCTEUR COMPLET._____________________________________
+	} // Fin de rafraichirAttributsCalcules()._____________________________
 	
-
+	
 	
 	/**
 	 * Détermine si <code>this.motifJava</code> respecte la syntaxe 
@@ -752,13 +779,8 @@ public class Regex implements IRegex {
 			
 			this.chaineATester = pChaineATester;
 			
-			/* alimente this.listeOccurencesMotif. */
-			this.listeOccurencesMotif 
-				= this.trouverOccurences();
-			
-			/* alimente this.listeOccurencesGroupesCapturant. */
-			this.listeOccurencesGroupesCapturant 
-				= this.texteMatcheMotif();
+			/* rafraîchit tous les attributs calculés. */
+			this.rafraichirAttributsCalcules();
 			
 		}
 				
@@ -788,17 +810,8 @@ public class Regex implements IRegex {
 			
 			this.motifJava = pMotifJava;
 			
-			/* alimente this.motifJavaRespecteSyntaxe à true si 
-			 * this.motifJava respecte la syntaxe des RegEx Java. */
-			this.determinerSiMotifConforme();
-			
-			/* alimente this.listeOccurencesMotif. */
-			this.listeOccurencesMotif 
-				= this.trouverOccurences();
-			
-			/* alimente this.listeOccurencesGroupesCapturant. */
-			this.listeOccurencesGroupesCapturant 
-				= this.texteMatcheMotif();
+			/* rafraîchit tous les attributs calculés. */
+			this.rafraichirAttributsCalcules();
 		}
 				
 	} // Fin de setMotifJava(...)._________________________________________

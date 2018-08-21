@@ -18,7 +18,10 @@ import levy.daniel.application.model.metier.regex.IOccurence;
 
 /**
  * CLASSE <b>ExplicateurRegex</b> :<br/>
- * .<br/>
+ * classe utilitaire ayant pour but d'expliciter une Regex Java.<br/>
+ * Par exemple : le motif "\\d{1,3}?" signifie : 
+ * 'entre 1 et 3 chiffres réticent (rechercher le plus petit motif 
+ * possible dans le texte)'.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

@@ -9,6 +9,17 @@ import levy.daniel.application.model.metier.regex.IRegex;
  * INTERFACE <b>IRegexService</b> :<br/>
  * Interface factorisant les comportements des RegexService.<br/>
  * <br/>
+ * <br/>
+ * Les fonctionnalités des Regex sont les suivantes :
+ * <br/>
+ * <br/>
+ * <img src="../../../../../../../../../../javadoc/images/fonctionnalités_Regex.png" 
+ * alt="fonctionnalités des Regex" border="1" align="center" />
+ * <br/>
+ * <br/>
+ * <img src="../../../../../../../../../../javadoc/images/fonctionnalités_edition.png" 
+ * alt="fonctionnalités d'édition des Regex" border="1" align="center" />
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
@@ -28,6 +39,24 @@ import levy.daniel.application.model.metier.regex.IRegex;
 public interface IRegexService {
 
 	
+	
+	/**
+	 * retourne une String pour l'affichage 
+	 * d'une List&lt;IOccurence&gt;.<br/>
+	 * <ul>
+	 * <li>retourne une String vide si pList est vide.</li>
+	 * </ul>
+	 * - retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;IOccurence&gt; : 
+	 * Liste {@link IOccurence}.
+	 * 
+	 * @return : String : String pour affichage.<br/>
+	 */
+	String afficherListOccurences(List<IOccurence> pList);
+	
+
 	
 	/**
 	 * Getter de la chaine de caractères (éventuellement multi-lignes) 

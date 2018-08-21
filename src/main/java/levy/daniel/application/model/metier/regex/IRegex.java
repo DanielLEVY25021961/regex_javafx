@@ -504,6 +504,7 @@ public interface IRegex {
 
 	/**
 	 * Getter .<br/>
+	 * <b>champ calculé</b>.<br/>
 	 * <br/>
 	 *
 	 * @return motifJavaScript : String.<br/>
@@ -514,6 +515,7 @@ public interface IRegex {
 
 	/**
 	 * Getter .<br/>
+	 * <b>champ calculé</b>.<br/>
 	 * <br/>
 	 *
 	 * @return significationMotif : String.<br/>
@@ -525,6 +527,7 @@ public interface IRegex {
 	/**
 	 * Getter du boolean qui détermine si <code>this.motifJava</code> 
 	 * respecte la syntaxe des expressions régulières (RegEx) Java.<br/>
+	 * <b>champ calculé</b>.<br/>
 	 *
 	 * @return this.motifJavaRespecteSyntaxe : boolean.<br/>
 	 */
@@ -535,6 +538,7 @@ public interface IRegex {
 	/**
 	 * Getter de la Liste des occurences de <code>this.motifJava</code> 
 	 * dans <code>this.chaineATester</code>.<br/>
+	 * <b>champ calculé</b>.<br/>
 	 *
 	 * @return this.listeOccurencesMotif : List&lt;IOccurence&gt;.<br/>
 	 */
@@ -545,8 +549,8 @@ public interface IRegex {
 	/**
 	 * Getter de la Liste des occurences des sous-groupes capturant de 
 	 * <code>this.motifJava</code> 
-	 * dans <code>this.chaineATester</code>.
-	 * <br/>
+	 * dans <code>this.chaineATester</code>.<br/>
+	 * <b>champ calculé</b>.<br/>
 	 *
 	 * @return this.listeOccurencesGroupesCapturant : 
 	 * List&lt;IOccurence&gt;.<br/>
