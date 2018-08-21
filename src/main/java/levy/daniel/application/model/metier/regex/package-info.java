@@ -1,5 +1,6 @@
 /**
  * CLASSE package-info :<br/>
+ * METIER.<br/>
  * Package contenant toutes les classes et abstractions 
  * nécessaires aux expressions régulières (Regex).<br/>
  * <br/>

@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 18 août 2018
  *
  */
-public class Test {
+public final class Test {
 	// ************************ATTRIBUTS************************************/
 
 	/**
@@ -37,6 +37,16 @@ public class Test {
 	private static final Log LOG = LogFactory.getLog(Test.class);
 
 
+	// *************************METHODES************************************/
+	
+	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 */
+	private Test() {
+		super();
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
 
 	/**
 	 * .<br/>
@@ -71,5 +81,7 @@ public class Test {
 		    }
 		}
 	}
-	// *************************METHODES************************************/
+
+	
+	
 }

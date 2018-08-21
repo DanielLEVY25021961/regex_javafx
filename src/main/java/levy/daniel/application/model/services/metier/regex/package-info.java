@@ -1,6 +1,7 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package de niveau SERVICE contient toutes les classes nécessaires à l'appel des classes métier de Regex.<br/>
+ * Ce package de niveau SERVICE contient toutes les classes 
+ * nécessaires à l'appel des classes métier de Regex.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
