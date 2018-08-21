@@ -35,6 +35,7 @@ import levy.daniel.application.model.metier.regex.impl.Regex;
  *
  */
 public class RegexTest {
+	
 	// ************************ATTRIBUTS************************************/
 	
 	/**
@@ -58,10 +59,31 @@ public class RegexTest {
 	public static final String DEUX_POINTS = "' : ";
 	
 	/**
+	 * "Texte : ".<br/>
+	 */
+	public static final String TEXTE = "Texte : ";
+	
+	/**
 	 * "Le Texte '".<br/>
 	 */
 	public static final String LE_TEXTE = "Le Texte '";
 	
+	/**
+	 * "Motif Regex : ".<br/>
+	 */
+	public static final String MOTIF = "Motif Regex : ";
+	
+	/**
+	 * "Le motif '".<br/>
+	 */
+	public static final String LE_MOTIF = "Le motif '";
+	
+	/**
+	 * "' respecte-t-il la syntaxe Regex ? : ".<br/>
+	 */
+	public static final String RESPECTE_SYNTAXE_REGEX 
+		= "' respecte-t-il la syntaxe Regex ? : ";
+
 	/**
 	 * "' ? : ".<br/>
 	 */
@@ -86,12 +108,6 @@ public class RegexTest {
 		= "' matche-t-il entièrement avec le motif '";
 	
 	/**
-	 * "la liste d'occurences est-elle vide ? : ".<br/>
-	 */
-	public static final String LISTE_OCCURENCES_VIDE 
-		= "la liste d'occurences est-elle vide ? : ";
-	
-	/**
 	 * "liste des occurences du motif : \n".<br/>
 	 */
 	public static final String LISTE_OCCURENCES 
@@ -102,6 +118,12 @@ public class RegexTest {
 	 */
 	public static final String LISTE_GROUPES 
 		= "liste des occurences des groupes capturants du motif : \n";
+
+	/**
+	 * "la liste d'occurences est-elle vide ? : ".<br/>
+	 */
+	public static final String LISTE_OCCURENCES_VIDE 
+		= "la liste d'occurences est-elle vide ? : ";
 	
 	/**
 	 * "la liste d'occurences ne doit pas être null : ".<br/>
@@ -114,27 +136,6 @@ public class RegexTest {
 	 */
 	public static final String CONSTRUCTEUR_SIMILAIRES 
 		= "le constructeur complet et le constructeur d'arité nulle avec Setters doivent avoir le même comportement : ";
-	
-	/**
-	 * "Texte : ".<br/>
-	 */
-	public static final String TEXTE = "Texte : ";
-	
-	/**
-	 * "Le motif '".<br/>
-	 */
-	public static final String LE_MOTIF = "Le motif '";
-	
-	/**
-	 * "' respecte-t-il la syntaxe Regex ? : ".<br/>
-	 */
-	public static final String RESPECTE_SYNTAXE_REGEX 
-		= "' respecte-t-il la syntaxe Regex ? : ";
-	
-	/**
-	 * "Motif Regex : ".<br/>
-	 */
-	public static final String MOTIF = "Motif Regex : ";
 	
 	
 	/**
@@ -215,6 +216,15 @@ public class RegexTest {
 			System.out.println(LE_TEXTE + texte + MATCHE_MOTIF + motif + INTERROGATION + texteMatcheMotif);
 			System.out.println(LISTE_GROUPES + regex.afficherListOccurences(occurencesGroupes));
 		}
+		
+		assertFalse("le motif ne doit pas respecter la syntaxe : "
+				, motifRespecteSyntaxe);
+		
+		assertFalse("le texte ne doit pas commencer par le motif : "
+				, texteCommenceParMotif);
+		
+		assertFalse("le texte ne doit pas contenir le motif : "
+				, texteContientMotif);
 
 		// ***********************************************************
 		/* Passage d'un texte via un Setter. */
