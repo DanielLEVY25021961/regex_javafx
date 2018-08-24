@@ -19,7 +19,7 @@ import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencess
 
 
 /**
- * <b>CLASSE SaisieTexteVueController</b> :<br/>
+ * CLASSE <b>SaisieTexteVueController</b> :<br/>
  * CONTROLLER de la VUE <b>{@link SaisieTexteVueFxml}</b> 
  * créée par le chargement du fichier XML <b>SaisieTexteVue.fxml</b>.<br/>
  * <ul>
