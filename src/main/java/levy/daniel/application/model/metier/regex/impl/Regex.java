@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.model.dto.regexdto.IRegexRequestDto;
 import levy.daniel.application.model.metier.regex.IExplicateurRegex;
 import levy.daniel.application.model.metier.regex.IOccurence;
 import levy.daniel.application.model.metier.regex.IRegex;
@@ -205,6 +206,7 @@ public class Regex implements IRegex {
 	 * <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
 	 * si <code>this.motifJava</code> respecte la syntaxe 
 	 * des RegEx Java.</li>
+	 * <li>rafraîchit tous les éléments calculés.<br/>
 	 * <li>alimente <code>this.listeOccurencesMotif</code>.</li>
 	 * <li>alimente <code>this.listeOccurencesGroupesCapturant</code>.</li>
 	 * </ul>
@@ -236,10 +238,43 @@ public class Regex implements IRegex {
 	
 
 	
+	 /**
+	 * CONSTRUCTEUR COMPLET AVEC DTO.<br/>
+	 * <ul>
+	 * <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
+	 * si <code>this.motifJava</code> respecte la syntaxe 
+	 * des RegEx Java.</li>
+	 * <li>rafraîchit tous les éléments calculés.<br/>
+	 * <li>alimente <code>this.listeOccurencesMotif</code>.</li>
+	 * <li>alimente <code>this.listeOccurencesGroupesCapturant</code>.</li>
+	 * </ul>
+	 *
+	 * @param pRegexRequestDto : IRegexRequestDto : 
+	 * encapsulation du texte et du motif Regex.<br/>
+	 * 
+	 * @throws Exception si le pattern <code>this.motifJava</code> 
+	 * n'est pas conforme à la syntaxe des Regex Java.<br/>
+	 */
+	public Regex(
+			final IRegexRequestDto pRegexRequestDto) throws Exception {
+		
+		super();
+		
+		this.chaineATester = pRegexRequestDto.getTexte();
+		this.motifJava = pRegexRequestDto.getMotifJava();
+		
+		/* rafraîchit tous les attributs calculés. */
+		this.rafraichirAttributsCalcules();
+		
+	} // Fin de CONSTRUCTEUR COMPLET AVEC DTO._____________________________
+	
+	
+	
 	/**
 	 * <b>rafraîchit tous les attributs calculés 
 	 * à chaque appel de cette méthode</b>.<br/>
 	 * <ul>
+	 * <li>rafraîchit tous les éléments calculés.</li>
 	 * <li>alimente <code>this.motifJavaRespecteSyntaxe</code> à true 
 	 * si <code>this.motifJava</code> respecte la syntaxe 
 	 * des RegEx Java.</li>

@@ -13,7 +13,7 @@ import levy.daniel.application.model.services.metier.regex.IRegexService;
 
 
 /**
- * CLASSE RegexService :<br/>
+ * CLASSE <b>RegexService</b> :<br/>
  * Classe fournissant les <b>services</b> des 
  * Expressions Régulières (RegEx) en Java.<br/>
  * <br/>
