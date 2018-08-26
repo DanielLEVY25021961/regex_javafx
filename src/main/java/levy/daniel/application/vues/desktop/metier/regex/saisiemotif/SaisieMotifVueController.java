@@ -246,7 +246,7 @@ public class SaisieMotifVueController {
 		/* crée un Stream vers l'image. */
 		final InputStream inputStreamOK 
 			= getClass().getResourceAsStream(
-					"/icones/check_ok_accept_apply_256_256.png");
+					"/static/icones/check_ok_accept_apply_256_256.png");
 		
 		/* crée une image redimensionnée. */
 		final Image imageOK 
@@ -280,7 +280,7 @@ public class SaisieMotifVueController {
 		/* crée un Stream vers l'image. */
 		final InputStream inputStreamKO 
 			= getClass().getResourceAsStream(
-					"/icones/dialog-error-3_256_256.png");
+					"/static/icones/dialog-error-3_256_256.png");
 		
 		/* crée une image redimensionnée. */
 		final Image imageKO 
