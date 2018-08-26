@@ -30,6 +30,109 @@ import levy.daniel.application.model.metier.regex.IOccurence;
 public interface IRegexResponseDto {
 
 	
+		
+	/**
+	 * NULL : String :<br/>
+	 * "null".<br/>
+	 */
+	String NULL = "null";
+
+	
+	
+	/**
+	 * ", ".<br/>
+	 */
+	String VIRGULE = ", ";
+
+
+	
+	/**
+	 * Saut de ligne spécifique de la plateforme.<br/>
+	 * System.getProperty("line.separator").<br/>
+	 */
+	String NEWLINE 
+		= System.getProperty("line.separator");
+	
+
+	
+	/**
+	 * "texte=".<br/>
+	 */
+	String TEXTE = "texte=";
+	
+	
+	/**
+	 * "motifJava=".<br/>
+	 */
+	String MOTIFJAVA = "motifJava=";
+	
+	
+	
+	/**
+	 * "motifJavaScript=".<br/>
+	 */
+	String MOTIFJAVASCRIPT = "motifJavaScript=";
+	
+
+	
+	/**
+	 * "significationMotif=".<br/>
+	 */
+	String SIGNIFICATIONMOTIF = "significationMotif=";
+
+
+	
+	/**
+	 * "motifJavaRespecteSyntaxe=".<br/>
+	 */
+	String MOTIFJAVARESPECTESYNTAXE = "motifJavaRespecteSyntaxe=";
+	
+	
+	
+	/**
+	 * "texteCommenceParMotif=".<br/>
+	 */
+	String TEXTECOMMENCEPARMOTIF = "texteCommenceParMotif=";
+	
+
+	
+	/**
+	 * "texteContientMotif=".<br/>
+	 */
+	String TEXTECONTIENTMOTIF = "texteContientMotif=";
+
+
+	
+	/**
+	 * "listeOccurencesMotif=".<br/>
+	 */
+	String LISTEOCCURENCESMOTIF = "listeOccurencesMotif=";
+	
+
+	
+	/**
+	 * "texteMatcheMotif=".<br/>
+	 */
+	String TEXTEMATCHEMOTIF = "texteMatcheMotif=";
+	
+
+	
+	/**
+	 * "listeOccurencesGroupesCapturant=".<br/>
+	 */
+	String LISTEOCCURENCESGROUPESCAPTURANT 
+		= "listeOccurencesGroupesCapturant=";
+	
+	
+	
+	/**
+	 * retourne une String pour affichage ligne par ligne.<br/>
+	 *
+	 * @return : String : affichage ligne par ligne.<br/>
+	 */
+	String afficherLigneParLigne();
+	
+	
 	
 	/**
 	 * Getter de la chaine de caractères (éventuellement multi-lignes) 

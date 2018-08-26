@@ -154,6 +154,7 @@ public class RegexTest {
 	public RegexTest() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+
 	
 
 	/**

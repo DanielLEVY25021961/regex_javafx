@@ -1,13 +1,22 @@
 package levy.daniel.application.vues.desktop.metier.regex.saisiemotif;
 
+import java.io.InputStream;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import levy.daniel.application.MainApplication;
+import levy.daniel.application.model.services.metier.regex.IRegexServiceStateless;
+import levy.daniel.application.model.services.metier.regex.impl.RegexServiceStateless;
 
 
 /**
@@ -72,7 +81,19 @@ public class SaisieMotifVueController {
 	 */
 	@FXML
 	private TextField textField;
-		
+	
+	/**
+	 * label contenant une icône spécifiant si le motif est correct.<br/>
+	 */
+	@FXML
+	private Label labelIcone;
+			
+	/**
+	 * IRegexServiceStateless chargé de sélectionner 
+	 * l'image à afficher dans labelIcone.<br/>
+	 */
+	private final transient IRegexServiceStateless service;
+	
 	/**
 	 * classe applicative.<br/>
 	 * fournie par la Vue par Callback.
@@ -100,10 +121,18 @@ public class SaisieMotifVueController {
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * Automatiquement appelé en premier 
 	 * lors du chargement du FXMLLoader.<br/>
-	 * <br/>
+	 * <ul>
+	 * <li>instancie</li>
+	 * </ul>
+	 * 
+	 * @throws Exception 
 	 */
-	public SaisieMotifVueController() {		
+	public SaisieMotifVueController() throws Exception {
+		
 		super();		
+		
+		this.service = new RegexServiceStateless();
+		
 	} // Fin du CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
@@ -116,17 +145,157 @@ public class SaisieMotifVueController {
 	 * le FXML ait été chargé (juste après le constructeur)</b>.</li>
 	 * <li><b>permet d'instancier des modèles (contenu de JTable par exemple) 
 	 * et de préparer les composants à afficher dans la VUE.</b></li>
+	 * <li>permet de préparer les listeners (évènementiel).</li>
 	 * </ul>
 	 * @throws Exception 
 	 */
 	@FXML
     private void initialize() throws Exception {
 		
-		/**/
+		/* suit les changements dans this.textField. */
+		this.ajouterPropertyChangeListenenerATextField();
+		
+		this.choisirIcone(false);
 		
 	} // Fin de initialize().______________________________________________
 
 
+	
+	/**
+	 * <b>suit les changements dans this.textField</b>.<br/>
+	 * <ul>
+	 * <li>ajoute un ChangeListener à la textProperty 
+	 * de this.textField.</li>
+	 * <li>interroge le SERVICE pour connaitre l'image 
+	 * à attribuer à this.labelIcone.</li>
+	 * <li>sélectionne l'image en fonction de la réponse du SERVICE.</li>
+	 * </ul>
+	 */
+	private void ajouterPropertyChangeListenenerATextField() {
+		
+		/* ajoute un ChangeListener à la textProperty de this.textField. */
+		this.textField.textProperty().addListener(
+				new ChangeListener<String>() {
+
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public void changed(
+					final ObservableValue<? extends String> pObservable
+						, final String pOldValue
+							, final String pNewValue) {
+				
+				/* interroge le SERVICE pour connaitre l'image 
+				 * à attribuer à this.labelIcone. */
+				final boolean motifRespecte 
+					= SaisieMotifVueController
+						.this.service.motifRespecteSyntaxeRegex(pNewValue);
+				
+				/* sélectionne l'image en fonction de la 
+				 * réponse du SERVICE. */
+				SaisieMotifVueController
+					.this.choisirIcone(motifRespecte);
+				
+			} // Fin de changed(...)._____________________________
+			
+		}); // Fin de new ChangeListener<String>()._________________
+		
+	} // Fin de ajouterPropertyChangeListenenerATextField()._______________
+	
+
+	
+	/**
+	 * Sélectionne l'icône à afficher dans this.labelIcone 
+	 * en fonction d'un boolean passé en paramètre.<br/>
+	 * <ul>
+	 * <li>affiche l'imageOK si pAfficherOK vaut true.</li>
+	 * </ul>
+	 *
+	 * @param pAfficherOK : boolean.<br/>
+	 */
+	private void choisirIcone(
+			final boolean pAfficherOK) {
+		
+		if (pAfficherOK) {
+			this.labelIcone.setText("OK");
+			this.labelIcone.setGraphic(this.fournirImageOK());
+		} else {
+			this.labelIcone.setText("KO");
+			this.labelIcone.setGraphic(this.fournirImageKO());
+		}
+		
+	} // Fin de choisirIcone(...)._________________________________________
+
+	
+	
+	/**
+	 * <b>crée et retourne l'image à afficher dans this.label 
+	 * si this.afficherOK vaut true</b>.<br/>
+	 * <ul>
+	 * <li>crée un Stream vers l'image.</li>
+	 * <li>crée une image redimensionnée.</li>
+	 * <li>crée un ImageView.</li>
+	 * <li>retourne l'ImageView.</li>
+	 * </ul>
+	 *
+	 * @return : ImageView : imageViewOK.<br/>
+	 */
+	private ImageView fournirImageOK() {
+		
+		/* crée un Stream vers l'image. */
+		final InputStream inputStreamOK 
+			= getClass().getResourceAsStream(
+					"/icones/check_ok_accept_apply_256_256.png");
+		
+		/* crée une image redimensionnée. */
+		final Image imageOK 
+			= new Image(inputStreamOK, 100d, 50d, true, true);
+		
+		/* crée un ImageView. */
+		final ImageView imageViewOK 
+			= new ImageView(imageOK);
+		
+		/* retourne l'ImageView. */
+		return imageViewOK;
+		
+	} // Fin de fournirImageOK().__________________________________________
+	
+
+	
+	/**
+	 * <b>crée et retourne l'image à afficher dans this.label 
+	 * si this.afficherOK vaut false</b>.<br/>
+	 * <ul>
+	 * <li>crée un Stream vers l'image.</li>
+	 * <li>crée une image redimensionnée.</li>
+	 * <li>crée un ImageView.</li>
+	 * <li>retourne l'ImageView.</li>
+	 * </ul>
+	 *
+	 * @return : ImageView : imageViewKO.<br/>
+	 */
+	private ImageView fournirImageKO() {
+		
+		/* crée un Stream vers l'image. */
+		final InputStream inputStreamKO 
+			= getClass().getResourceAsStream(
+					"/icones/dialog-error-3_256_256.png");
+		
+		/* crée une image redimensionnée. */
+		final Image imageKO 
+			= new Image(inputStreamKO, 100d, 50d, true, true);
+		
+		/* crée un ImageView. */
+		final ImageView imageViewKO
+			= new ImageView(imageKO);
+		
+		/* retourne l'ImageView. */
+		return imageViewKO;
+		
+	} // Fin de fournirImageKO().__________________________________________
+	
+	
 	
 	/**
 	 * retourne le contenu de <code>this.textField</code>.<br/>
@@ -184,7 +353,33 @@ public class SaisieMotifVueController {
 	} // Fin de setTextField(...)._________________________________________
 
 	
+		
+	/**
+	 * Getter du label contenant une icône spécifiant 
+	 * si le motif est correct.<br/>
+	 *
+	 * @return this.labelIcone : Label.<br/>
+	 */
+	public Label getLabelIcone() {
+		return this.labelIcone;
+	} // Fin de getLabelIcone().___________________________________________
+
+
 	
+	/**
+	* Setter du label contenant une icône spécifiant 
+	* si le motif est correct.<br/>
+	*
+	* @param pLabelIcone : Label : 
+	* valeur à passer à this.labelIcone.<br/>
+	*/
+	public void setLabelIcone(
+			final Label pLabelIcone) {
+		this.labelIcone = pLabelIcone;
+	} // Fin de setLabelIcone(...).________________________________________
+
+
+
 	/**
 	 * Getter de la classe applicative.<br/>
 	 * <br/>

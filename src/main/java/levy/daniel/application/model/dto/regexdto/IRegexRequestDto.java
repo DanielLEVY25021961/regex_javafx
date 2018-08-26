@@ -27,6 +27,53 @@ public interface IRegexRequestDto {
 	
 	
 	/**
+	 * NULL : String :<br/>
+	 * "null".<br/>
+	 */
+	String NULL = "null";
+
+	
+	
+	/**
+	 * ", ".<br/>
+	 */
+	String VIRGULE = ", ";
+	
+	
+
+	/**
+	 * Saut de ligne spécifique de la plateforme.<br/>
+	 * System.getProperty("line.separator").<br/>
+	 */
+	String NEWLINE 
+		= System.getProperty("line.separator");
+
+
+	
+	/**
+	 * "texte=".<br/>
+	 */
+	String TEXTE = "texte=";
+	
+
+	
+	/**
+	 * "motifJava=".<br/>
+	 */
+	String MOTIFJAVA = "motifJava=";
+	
+	
+
+	/**
+	 * retourne une String pour affichage ligne par ligne.<br/>
+	 *
+	 * @return : String : affichage ligne par ligne.<br/>
+	 */
+	String afficherLigneParLigne();
+	
+
+	
+	/**
 	 * Getter de la chaine de caractères (éventuellement multi-lignes) 
 	 * dont on veut savoir si elle contient ou matche le motif 
 	 * RegEx Java de l'expression régulière.<br/>

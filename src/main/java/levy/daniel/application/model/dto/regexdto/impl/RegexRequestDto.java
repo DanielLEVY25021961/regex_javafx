@@ -91,6 +91,78 @@ public class RegexRequestDto implements IRegexRequestDto {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public String toString() {
+		
+		final StringBuilder builder = new StringBuilder();
+		
+		builder.append("RegexRequestDto [");
+		
+		/* texte. */
+		if (this.texte != null) {
+			builder.append(TEXTE);
+			builder.append(this.texte);
+			
+		} else {
+			builder.append(TEXTE);
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* motifJava. */
+		if (this.motifJava != null) {
+			builder.append(MOTIFJAVA);
+			builder.append(this.motifJava);
+		} else {
+			builder.append(MOTIFJAVA);
+			builder.append(NULL);
+		}
+		
+		builder.append(']');
+		
+		return builder.toString();
+		
+	} // Fin de toString().________________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String afficherLigneParLigne() {
+		
+		final StringBuilder builder = new StringBuilder();
+		
+		/* texte. */
+		if (this.texte != null) {
+			builder.append(TEXTE);
+			builder.append(this.texte);
+			
+		} else {
+			builder.append(TEXTE);
+			builder.append(NULL);
+		}
+		builder.append(NEWLINE);
+		
+		/* motifJava. */
+		if (this.motifJava != null) {
+			builder.append(MOTIFJAVA);
+			builder.append(this.motifJava);
+		} else {
+			builder.append(MOTIFJAVA);
+			builder.append(NULL);
+		}
+		
+		return builder.toString();
+
+	} // Fin de afficherLigneParLigne().___________________________________
+	
+	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String getTexte() {
 		return this.texte;
 	} // Fin de getTexte().________________________________________________

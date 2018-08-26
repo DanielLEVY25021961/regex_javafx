@@ -1,5 +1,7 @@
 package levy.daniel.application.model.services.metier.regex;
 
+import java.util.regex.Pattern;
+
 import levy.daniel.application.model.dto.regexdto.IRegexRequestDto;
 import levy.daniel.application.model.dto.regexdto.IRegexResponseDto;
 import levy.daniel.application.model.metier.regex.IRegex;
@@ -55,7 +57,29 @@ public interface IRegexServiceStateless {
 													throws Exception;
 
 
+	
+	/**
+	 * Détermine si un motif (pattern) pMotif <b>respecte la syntaxe</b> 
+	 * des Expressions régulières (regex) en Java.<br/>
+	 * <ul>
+	 * <li>retourne true si pMotif respecte la syntaxe RegEx Java.</li>
+	 * <li>utilise {@link Pattern}</li>
+	 * <li>utilise <code>Pattern.compile(pMotif);</code></li>
+	 * <li>traite la <code>PatternSyntaxException</code> levée 
+	 * si la syntaxe est incorrecte.</li>
+	 * </ul>
+	 * - retourne false si pMotif est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pMotif : String : le pattern regex Java dont on veut savoir 
+	 * si la syntaxe est correcte.<br/>
+	 * 
+	 * @return : boolean : true si la syntaxe est régulière.<br/>
+	 */
+	boolean motifRespecteSyntaxeRegex(String pMotif);
 
+	
+	
 	/**
 	 * Getter du METIER Regex.
 	 *

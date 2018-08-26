@@ -1,7 +1,10 @@
 package levy.daniel.application.model.services.metier.regex.impl;
 
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -124,6 +127,37 @@ public class RegexServiceStateless implements IRegexServiceStateless {
 		return response;
 		
 	} // Fin de soumettre(...).____________________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean motifRespecteSyntaxeRegex(
+			final String pMotif) {
+		
+		/* retourne false si pMotif est blank. */
+		if (StringUtils.isBlank(pMotif)) {
+			return false;
+		}
+		
+		boolean resultat = false;
+		
+		try {
+			
+			Pattern.compile(pMotif);
+			
+			resultat = true;
+			
+		} catch (PatternSyntaxException e) {
+			
+			resultat = false;
+		}
+		
+		return resultat;
+		
+	} // Fin de motifRespecteSyntaxeRegex(...).____________________________
 	
 	
 	

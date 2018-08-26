@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import levy.daniel.application.controllers.desktop.accueil.IAccueilVueController;
 import levy.daniel.application.vues.desktop.accueil.AccueilVueFxml;
+import levy.daniel.application.vues.desktop.metier.regex.saisiemotif.SaisieMotifVueFxml;
 import levy.daniel.application.vues.desktop.metier.regex.saisietexte.SaisieTexteVueFxml;
 
 /**
@@ -225,7 +226,11 @@ public class MainApplication extends Application {
 		final AnchorPane saisieTexte 
 			= new SaisieTexteVueFxml(this).getSaisieTexteAnchorPane();
 		
+		final AnchorPane saisieMotif 
+			= new SaisieMotifVueFxml(this).getSaisieMotifAnchorPane();
+		
 		this.root.setCenter(saisieTexte);
+		this.root.setBottom(saisieMotif);
    		
    		/* *********************************************** */
    		/* FABRIQUE LA SCENE EN LUI PASSANT LE PANNEAU 

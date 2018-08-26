@@ -207,6 +207,196 @@ public class RegexResponseDto implements IRegexResponseDto {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public String toString() {
+		
+		final StringBuilder builder = new StringBuilder();
+		
+		builder.append("RegexResponseDto [");
+		
+		/* texte. */
+		if (this.texte != null) {
+			builder.append(TEXTE);
+			builder.append(this.texte);
+		} else {
+			builder.append(TEXTE);
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* motifJava. */
+		if (this.motifJava != null) {
+			builder.append(MOTIFJAVA);
+			builder.append(this.motifJava);			
+		} else {
+			builder.append(MOTIFJAVA);
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* motifJavaScript. */
+		if (this.motifJavaScript != null) {
+			builder.append(MOTIFJAVASCRIPT);
+			builder.append(this.motifJavaScript);			
+		} else {
+			builder.append(MOTIFJAVASCRIPT);
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* significationMotif. */
+		if (this.significationMotif != null) {
+			builder.append(SIGNIFICATIONMOTIF);
+			builder.append(this.significationMotif);			
+		} else {
+			builder.append(SIGNIFICATIONMOTIF);
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* motifJavaRespecteSyntaxe. */
+		builder.append(MOTIFJAVARESPECTESYNTAXE);
+		builder.append(this.motifJavaRespecteSyntaxe);
+		
+		/* texteCommenceParMotif. */
+		builder.append(", texteCommenceParMotif=");
+		builder.append(this.texteCommenceParMotif);
+		
+		/* texteContientMotif. */
+		builder.append(", texteContientMotif=");
+		builder.append(this.texteContientMotif);
+		builder.append(VIRGULE);
+		
+		/* listeOccurencesMotif. */
+		if (this.listeOccurencesMotif != null) {
+			builder.append(LISTEOCCURENCESMOTIF);
+			builder.append(this.listeOccurencesMotif);
+			
+		} else {
+			builder.append(LISTEOCCURENCESMOTIF);
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* texteMatcheMotif. */
+		builder.append(TEXTEMATCHEMOTIF);
+		builder.append(this.texteMatcheMotif);
+		builder.append(VIRGULE);
+		
+		/* listeOccurencesGroupesCapturant. */
+		if (this.listeOccurencesGroupesCapturant != null) {
+			builder.append(LISTEOCCURENCESGROUPESCAPTURANT);
+			builder.append(this.listeOccurencesGroupesCapturant);
+		} else {
+			builder.append(LISTEOCCURENCESGROUPESCAPTURANT);
+			builder.append(NULL);
+		}
+		
+		builder.append(']');
+		
+		return builder.toString();
+		
+	} // Fin de toString().________________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String afficherLigneParLigne() {
+				
+		final StringBuilder builder = new StringBuilder();
+				
+		/* texte. */
+		if (this.texte != null) {
+			builder.append(TEXTE);
+			builder.append(this.texte);
+		} else {
+			builder.append(TEXTE);
+			builder.append(NULL);
+		}
+		builder.append(NEWLINE);
+		
+		/* motifJava. */
+		if (this.motifJava != null) {
+			builder.append(MOTIFJAVA);
+			builder.append(this.motifJava);			
+		} else {
+			builder.append(MOTIFJAVA);
+			builder.append(NULL);
+		}
+		builder.append(NEWLINE);
+		
+		/* motifJavaScript. */
+		if (this.motifJavaScript != null) {
+			builder.append(MOTIFJAVASCRIPT);
+			builder.append(this.motifJavaScript);			
+		} else {
+			builder.append(MOTIFJAVASCRIPT);
+			builder.append(NULL);
+		}
+		builder.append(NEWLINE);
+		
+		/* significationMotif. */
+		if (this.significationMotif != null) {
+			builder.append(SIGNIFICATIONMOTIF);
+			builder.append(this.significationMotif);			
+		} else {
+			builder.append(SIGNIFICATIONMOTIF);
+			builder.append(NULL);
+		}
+		builder.append(NEWLINE);
+		
+		/* motifJavaRespecteSyntaxe. */
+		builder.append(MOTIFJAVARESPECTESYNTAXE);
+		builder.append(this.motifJavaRespecteSyntaxe);
+		builder.append(NEWLINE);
+		
+		/* texteCommenceParMotif. */
+		builder.append(TEXTECOMMENCEPARMOTIF);
+		builder.append(this.texteCommenceParMotif);
+		builder.append(NEWLINE);
+		
+		/* texteContientMotif. */
+		builder.append(TEXTECONTIENTMOTIF);
+		builder.append(this.texteContientMotif);
+		builder.append(NEWLINE);
+		
+		/* listeOccurencesMotif. */
+		if (this.listeOccurencesMotif != null) {
+			builder.append(LISTEOCCURENCESMOTIF);
+			builder.append(this.listeOccurencesMotif);
+			
+		} else {
+			builder.append(LISTEOCCURENCESMOTIF);
+			builder.append(NULL);
+		}
+		builder.append(NEWLINE);
+		
+		/* texteMatcheMotif. */
+		builder.append(TEXTEMATCHEMOTIF);
+		builder.append(this.texteMatcheMotif);
+		builder.append(NEWLINE);
+		
+		/* listeOccurencesGroupesCapturant. */
+		if (this.listeOccurencesGroupesCapturant != null) {
+			builder.append(LISTEOCCURENCESGROUPESCAPTURANT);
+			builder.append(this.listeOccurencesGroupesCapturant);
+		} else {
+			builder.append(LISTEOCCURENCESGROUPESCAPTURANT);
+			builder.append(NULL);
+		}
+		
+		return builder.toString();
+		
+	} // Fin de afficherLigneParLigne().___________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String getTexte() {
 		return this.texte;
 	} // Fin de getTexte().________________________________________________
