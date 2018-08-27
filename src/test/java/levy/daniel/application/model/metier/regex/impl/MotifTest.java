@@ -11,12 +11,12 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import levy.daniel.application.model.metier.regex.IOccurence;
+import levy.daniel.application.model.metier.regex.IMotif;
 
 
 /**
- * CLASSE <b>OccurenceTest</b> :<br/>
- * Test JUnit de la classe Occurence.<br/>
+ * CLASSE <b>MotifTest</b> :<br/>
+ * Test JUnit de la classe Motif.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -33,10 +33,10 @@ import levy.daniel.application.model.metier.regex.IOccurence;
  *
  * @author dan Lévy
  * @version 1.0
- * @since 15 août 2018
+ * @since 27 août 2018
  *
  */
-public class OccurenceTest {
+public class MotifTest {
 	
 	// ************************ATTRIBUTS************************************/
 	
@@ -72,132 +72,189 @@ public class OccurenceTest {
 	public static final String AVEC = "avec";
 	
 	/**
-	 * new Occurence(1, "avec", 2, 4).<br/>
+	 * "commence par 1 à 3 chiffres".<br/>
+	 */
+	public static final String NOM_COMMENCE_PAR_1_A_3_CHIFFRES 
+		= "commence par 1 à 3 chiffres";
+	
+	/**
+	 * "^\\d{1,3}?".<br/>
+	 */
+	public static final String MOTIF_1_A_3_CHIFFRES 
+		= "^\\d{1,3}?";
+	
+	/**
+	 * "commence par 1 à 3 chiffres reluctant".<br/>
+	 */
+	public static final String SIGNIFICATION_COMMENCE_PAR_1_A_3_CHIFFRES_RELUCTANT 
+		= "commence par 1 à 3 chiffres reluctant";
+	
+	/**
+	 * "^[0-9]{1,3}?".<br/>
+	 */
+	public static final String ALIAS_1_A_3_CHIFFRES_RELUCTANT 
+		= "^[0-9]{1,3}?";
+	
+	/**
+	 * "/ ^\\d{1,3}? /".<br/>
+	 */
+	public static final String MOTIF_JAVASCRIPT_1_A_3_CHIFFRES 
+		= "/ ^\\d{1,3}? /";
+	
+	/**
+	 * new Motif(1L, "commence par 1 à 3 chiffres", "^\\d{1,3}?"
+	 * , "commence par 1 à 3 chiffres reluctant"
+	 * , "^[0-9]{1,3}?", "/ ^\\\\d{1,3}? /").<br/>
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
-	public static transient Occurence objet1 
-		= new Occurence(1, AVEC, AVEC, 2, 4);
+	public static transient IMotif objet1 
+		= new Motif(
+				1L
+				, NOM_COMMENCE_PAR_1_A_3_CHIFFRES
+					, MOTIF_1_A_3_CHIFFRES
+						, SIGNIFICATION_COMMENCE_PAR_1_A_3_CHIFFRES_RELUCTANT
+							, ALIAS_1_A_3_CHIFFRES_RELUCTANT
+								, MOTIF_JAVASCRIPT_1_A_3_CHIFFRES);
 	
 	/**
 	 * objet1MemeInstance doit être la même instance que objet1.<br/>
 	 */
-	public static transient Occurence objet1MemeInstance = objet1;
+	public static transient IMotif objet1MemeInstance = objet1;
 	
 	/**
-	 * new Occurence(1, "avec", 2, 4).<br/>
+	 * new Motif(3L, "commence par 1 à 3 chiffres", "^\\d{1,3}?"
+	 * , "commence par 1 à 3 chiffres reluctant"
+	 * , null, "/ ^\\\\d{1,3}? /").<br/>
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
-	public static transient Occurence objet2EqualsObj1 
-		= new Occurence(1, AVEC, AVEC, 2, 4);
+	public static transient IMotif objet2EqualsObj1 
+		= new Motif(
+				3L
+				, NOM_COMMENCE_PAR_1_A_3_CHIFFRES
+					, MOTIF_1_A_3_CHIFFRES
+						, SIGNIFICATION_COMMENCE_PAR_1_A_3_CHIFFRES_RELUCTANT
+							, null
+								, MOTIF_JAVASCRIPT_1_A_3_CHIFFRES);
 	
 	/**
-	 * new Occurence(1, "avec", 2, 4).<br/>
+	 * new Motif(4L, "commence par 1 à 3 chiffres", "^\\d{1,3}?"
+	 * , "commence par 1 à 3 chiffres reluctant"
+	 * , null, "/ ^\\\\d{1,3}? /").<br/>
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
-	public static transient Occurence objet3EqualsObj1 
-		= new Occurence(1, AVEC, AVEC, 2, 4);
+	public static transient IMotif objet3EqualsObj1 
+		= new Motif(
+				4L
+				, NOM_COMMENCE_PAR_1_A_3_CHIFFRES
+					, MOTIF_1_A_3_CHIFFRES
+						, SIGNIFICATION_COMMENCE_PAR_1_A_3_CHIFFRES_RELUCTANT
+							, null
+								, MOTIF_JAVASCRIPT_1_A_3_CHIFFRES);
 	
 	/**
-	 * new Occurence(0, null, 0, 0).<br/>
+	 * new Motif().<br/>
 	 * objetNull1 et objetNull2 doivent être instanciés 
 	 * avec le constructeur d'arité nulle ou avoir 
 	 * tous les attributs aux valeurs par défaut.
 	 */
-	public static transient Occurence objetNull1 
-		= new Occurence(0, null, null, 0, 0);
+	public static transient IMotif objetNull1 
+		= new Motif();
 	
 	/**
-	 * new Occurence(0, null, 0, 0).<br/>
+	 * new Motif().<br/>
 	 * objetNull1 et objetNull2 doivent être instanciés 
 	 * avec le constructeur d'arité nulle ou avoir 
 	 * tous les attributs aux valeurs par défaut.
 	 */
-	public static transient Occurence objetNull2 
-		= new Occurence(0, null, null, 0, 0);
+	public static transient IMotif objetNull2 
+		= new Motif();
 	
 	/**
-	 * new Occurence(7, null, 40, 45).<br/>
+	 * new Motif(null, null, null, null, null, null).<br/>
 	 * objet1AvecNull et objet2EqualsObjet1AvecNull 
 	 * doivent être equals() et avoir certains attributs à null.
 	 */
-	public static transient IOccurence objet1AvecNull 
-		= new Occurence(7, null, null, 40, 45);
+	public static transient IMotif objet1AvecNull 
+		= new Motif(null, null, null, null, null, null);
 	
 	/**
-	 * new Occurence(7, null, 40, 45).<br/>
+	 * new Motif(null, null, null, null, null, null).<br/>
 	 * objet1AvecNull et objet2EqualsObjet1AvecNull 
 	 * doivent être equals() et avoir certains attributs à null.
 	 */
-	public static transient IOccurence objet2EqualsObjet1AvecNull 
-		= new Occurence(7, null, null, 40, 45);
+	public static transient IMotif objet2EqualsObjet1AvecNull 
+		= new Motif(null, null, null, null, null, null);
 	
 	/**
-	 * new Occurence(7, "avec", 10, 15).<br/>
+	 * new Motif(7L, "1 chiffre", "\\d", "1 chiffre"
+	 * , "[0-9]", "/ \\d /").<br/>
 	 * objetDiff1 doit être différent de objetDiff2
 	 */
-	public static transient IOccurence objetDiff1 
-		= new Occurence(7, AVEC, AVEC, 10, 15);
+	public static transient IMotif objetDiff1 
+		= new Motif(7L, "1 chiffre", "\\d", "1 chiffre", "[0-9]", "/ \\d /");
 	
 	/**
-	 * new Occurence(17, "avec", 40, 45).<br/>
+	 * new Motif(8L, "1 lettre", "\\w", "1 lettre", "[a-z][A-Z]", "/ \\w /").<br/>
 	 * objetDiff2 doit être différent de objetDiff1
 	 */
-	public static transient IOccurence objetDiff2 
-		= new Occurence(17, AVEC, AVEC, 40, 45);
+	public static transient IMotif objetDiff2 
+		= new Motif(8L, "1 lettre", "\\w", "1 lettre", "[a-z][A-Z]", "/ \\w /");
 	
 	/**
-	 * new Occurence(7, null, 10, 15).<br/>
+	 * new Motif(null, "premier", null, null, null, null).<br/>
 	 * objetDiff1AvecNull doit être différent de objetDiff2AvecNull.<br/>
 	 * objetDiff1AvecNull et objetDiff2AvecNull doivent avoir des attributs null.
 	 */
-	public static transient IOccurence objetDiff1AvecNull 
-		= new Occurence(7, null, null, 10, 15);
+	public static transient IMotif objetDiff1AvecNull 
+		= new Motif(null, "premier", null, null, null, null);
 	
 	/**
-	 * new Occurence(17, null, 40, 45).<br/>
+	 * new Motif(null, "second", null, null, null, null).<br/>
 	 * objetDiff1AvecNull doit être différent de objetDiff2AvecNull.<br/>
 	 * objetDiff1AvecNull et objetDiff2AvecNull doivent avoir des attributs null.
 	 */
-	public static transient IOccurence objetDiff2AvecNull 
-		= new Occurence(17, null, null, 40, 45);
+	public static transient IMotif objetDiff2AvecNull 
+		= new Motif(null, "second", null, null, null, null);
 	
 	/**
-	 * new Occurence(1, AVEC, 0, 2).<br/>
+	 * new Motif(null, "aaa", "aaaa", "aaa", "aaa", "/ aaa /".<br/>
 	 * objetCompAvant doit être AVANT objetCompApres.
 	 */
-	public static transient Occurence objetCompAvant 
-		= new Occurence(1, AVEC, AVEC, 0, 2);
+	public static transient IMotif objetCompAvant 
+		= new Motif(null, "aaa", "aaaa", "aaaaa", "aaa", "/ aaa /");
 	
 	/**
-	 * new Occurence(2, AVEC, 5, 7).<br/>
+	 * new Motif(null, "bbb", "bbb", "bbb", "bbb", "/ bbb /").<br/>
 	 * objetCompApres doit être APRES objetCompAvant.
 	 */
-	public static transient Occurence objetCompApres 
-		= new Occurence(2, AVEC, AVEC, 5, 7);
+	public static transient IMotif objetCompApres 
+		= new Motif(null, "bbb", "bbbb", "bbbbb", "bbb", "/ bbb /");
 	
 	/**
 	 * clone de objetNull1.<br/>
 	 */
-	public static transient IOccurence objetNullClone1;
+	public static transient IMotif objetNullClone1;
 	
 	/**
 	 * clone de objet1.<br/>
 	 */
-	public static transient IOccurence objetClone1;
+	public static transient IMotif objetClone1;
 
-	
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(OccurenceTest.class);
+	private static final Log LOG = LogFactory.getLog(MotifTest.class);
+
 
 	// *************************METHODES************************************/
+	
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public OccurenceTest() {
+	public MotifTest() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -235,7 +292,7 @@ public class OccurenceTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-		System.out.println("********** CLASSE OccurenceTest - méthode testEquals() ********** ");
+		System.out.println("********** CLASSE MotifTest - méthode testEquals() ********** ");
 		}
 
 		/* AFFICHAGE A LA CONSOLE. */
@@ -432,7 +489,7 @@ public class OccurenceTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-		System.out.println("********** CLASSE OccurenceTest - méthode testCompareTo() ********** ");
+		System.out.println("********** CLASSE MotifTest - méthode testCompareTo() ********** ");
 		}
 
 		
@@ -561,7 +618,7 @@ public class OccurenceTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE OccurenceTest - méthode testClone() ********** ");
+			System.out.println("********** CLASSE MotifTest - méthode testClone() ********** ");
 		}
 
 		
@@ -640,7 +697,7 @@ public class OccurenceTest {
 	
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE OccurenceTest - méthode testToString() ********** ");
+			System.out.println("********** CLASSE MotifTest - méthode testToString() ********** ");
 		}
 	
 		/* AFFICHAGE A LA CONSOLE. */
@@ -651,7 +708,7 @@ public class OccurenceTest {
 		
 		/* garantit que les null sont bien gérés dans toString(). */
 		assertEquals("objetNull1.toString() retourne une chaine : "
-				, "Occurence [numero=0, contenu=null, motifRegex=null, indexDebut=0, indexFin=0]"
+				, "Motif [id=null, nom=null, motifJava=null, signification=null, alias=null, motifJavaScript=null]"
 						, objetNull1.toString());
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -662,7 +719,7 @@ public class OccurenceTest {
 		
 		/* garantit le bon affichage de toString(). */
 		assertEquals("affichage : "
-				, "Occurence [numero=1, contenu=avec, motifRegex=avec, indexDebut=2, indexFin=4]"
+				, "Motif [id=1, nom=commence par 1 à 3 chiffres, motifJava=^\\d{1,3}?, signification=commence par 1 à 3 chiffres reluctant, alias=^[0-9]{1,3}?, motifJavaScript=/ ^\\d{1,3}? /]"
 						, objet1.toString());
 				
 	} // Fin de testToString().____________________________________________
@@ -688,7 +745,7 @@ public class OccurenceTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE OccurenceTest - méthode testgetEnTeteCsv() ********** ");
+			System.out.println("********** CLASSE MotifTest - méthode testgetEnTeteCsv() ********** ");
 		}
 	
 
@@ -705,7 +762,7 @@ public class OccurenceTest {
 		}
 		
 		assertEquals("en-tête csv : "
-				, "numéro;contenu;motifRegex;indexDebut;indexFin;"
+				, "id;nom;motifJava;signification;alias;motifJavaScript;"
 					, entete);
 				
 	} // Fin de testgetEnTeteCsv().________________________________________
@@ -732,7 +789,7 @@ public class OccurenceTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE OccurenceTest - méthode testToStringCsv() ********** ");
+			System.out.println("********** CLASSE MotifTest - méthode testToStringCsv() ********** ");
 		}
 
 		/* garantit que les null sont gérés dans toStringCsv(). */
@@ -749,7 +806,7 @@ public class OccurenceTest {
 		}
 
 		assertEquals("ligne csv null : "
-				, "0;null;null;0;0;"
+				, "null;null;null;null;null;null;"
 					, ligneCsvNull);
 		
 						
@@ -766,7 +823,7 @@ public class OccurenceTest {
 		}
 
 		assertEquals("ligne csv : "
-				, "1;avec;avec;2;4;"
+				, "1;commence par 1 à 3 chiffres;^\\d{1,3}?;commence par 1 à 3 chiffres reluctant;^[0-9]{1,3}?;/ ^\\d{1,3}? /;"
 					, ligneCsv);
 				
 	} // Fin de testToStringCsv()._________________________________________
@@ -796,7 +853,7 @@ public class OccurenceTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE OccurenceTest - méthode testGetEnTeteColonne() ********** ");
+			System.out.println("********** CLASSE MotifTest - méthode testGetEnTeteColonne() ********** ");
 		}
 		
 		/* garantit que les null sont gérés 
@@ -823,11 +880,11 @@ public class OccurenceTest {
 			System.out.println("enteteNull1 (objetNull1.getEnTeteColonne(1)) : " + enteteNull1);			
 		}
 
-		assertEquals("entete0 : ", "numéro", entete0);
-		assertEquals("enteteNull0 : ", "numéro", enteteNull0);
+		assertEquals("entete0 : ", "id", entete0);
+		assertEquals("enteteNull0 : ", "id", enteteNull0);
 		
-		assertEquals("entete1 : ", "contenu", entete1);
-		assertEquals("enteteNull1 : ", "contenu", enteteNull1);
+		assertEquals("entete1 : ", "nom", entete1);
+		assertEquals("enteteNull1 : ", "nom", enteteNull1);
 				
 
 	} // Fin de testGetEnTeteColonne().____________________________________
@@ -857,7 +914,7 @@ public class OccurenceTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE OccurenceTest - méthode testGetValeurColonne() ********** ");
+			System.out.println("********** CLASSE MotifTest - méthode testGetValeurColonne() ********** ");
 		}
 		
 		/* garantit que les null sont gérés 
@@ -875,7 +932,7 @@ public class OccurenceTest {
 			System.out.println("valeurNull1 ((String) objetNull1.getValeurColonne(1)) : " + valeurNull1);			
 		}
 
-		assertEquals("valeurNull0 ((String) objetNull1.getValeurColonne(0)) : ", "0", valeurNull0);
+		assertEquals("valeurNull0 ((String) objetNull1.getValeurColonne(0)) : ", "null", valeurNull0);
 		assertEquals("valeurNull1 ((String) objetNull1.getValeurColonne(1)) : ", null, valeurNull1);
 
 		
@@ -895,7 +952,7 @@ public class OccurenceTest {
 		}
 		
 		assertEquals("valeur0 ((String) objet1.getValeurColonne(0)) : ", "1", valeur0);		
-		assertEquals("valeur1 ((String) objet1.getValeurColonne(1)) : ", "avec", valeur1);
+		assertEquals("valeur1 ((String) objet1.getValeurColonne(1)) : ", "commence par 1 à 3 chiffres", valeur1);
 		
 	} // Fin de testGetValeurColonne().____________________________________
 	
@@ -911,13 +968,13 @@ public class OccurenceTest {
 	 * @throws CloneNotSupportedException 
 	 */
 	@BeforeClass
-    public static void avantTests() throws CloneNotSupportedException {
+   public static void avantTests() throws CloneNotSupportedException {
 		
 		objetNullClone1 = objetNull1.clone();
 		objetClone1 = objet1.clone();
 		
 	} // Fin de avantTests().______________________________________________
 	
-		
+
 	
-} // FIN DE LA CLASSE OccurenceTest.-----------------------------------------
+} // FIN DE LA CLASSE MotifTest.---------------------------------------------

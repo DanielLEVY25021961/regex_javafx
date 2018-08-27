@@ -11,7 +11,8 @@ import levy.daniel.application.model.metier.regex.IOccurence;
 /**
  * CLASSE <b>Occurence</b> :<br/>
  * Encapsulation et pure fabrication java.<br/>
- * Modélisation de l'occurence d'un motif RegEx Java dans un texte.<br/>
+ * Modélisation de l'<b>occurence d'un motif RegEx Java 
+ * dans un texte</b>.<br/>
  * Par exemple : <br/>
  * pour le motif Regex Java <code>"avec"</code> 
  * dans le texte :<br/>

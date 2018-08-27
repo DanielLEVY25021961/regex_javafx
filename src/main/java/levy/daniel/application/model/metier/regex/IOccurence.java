@@ -88,7 +88,7 @@ public interface IOccurence extends
 	int compareTo(IOccurence pObject);
 	
 	
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
