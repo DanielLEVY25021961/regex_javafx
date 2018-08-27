@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
@@ -9,8 +10,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Tooltip?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="levy.daniel.application.vues.desktop.metier.regex.saisiemotif.SaisieMotifVueController">
+<AnchorPane fx:id="saisieMotifAnchorPane" stylesheets="static/css/dan_style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="levy.daniel.application.vues.desktop.metier.regex.saisiemotif.SaisieMotifVueController">
    <children>
       <SplitPane fx:id="splitpaneHorizontal" dividerPositions="0.6152542372881356" layoutY="1.0" orientation="VERTICAL" prefHeight="583.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -57,12 +59,21 @@
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
+                                 <tooltip>
+                        			<Tooltip text="Saisissez votre motif Regex dans ce champ de texte. Vous pouvez également vous aider du générateur de motif ci-dessus." />
+                     			</tooltip>
                               </TextField>
                               <Label fx:id="labelIcone" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="100.0" text="Label" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Label>
+                              <Button fx:id="buttonEffacerTextField" mnemonicParsing="false" onAction="#effacerTextField" prefHeight="50.0" prefWidth="100.0" text="effacer" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </GridPane.margin>
+                              </Button>
+                              <Button fx:id="buttonEnregistrerMotif" mnemonicParsing="false" stylesheets="@../../../../../../../../../resources/static/css/dan_style.css" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </children>
@@ -72,4 +83,5 @@
         </items>
       </SplitPane>
    </children>
+  
 </AnchorPane>

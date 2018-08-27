@@ -668,45 +668,45 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				<!-- POUR REMPLACER le src/main/resources/META-INF/persistence.xml 
 				par src/test/resources/META-INF/persistence-test.xml 
 				lors des tests unitaires effectués par MAVEN.  -->
-				<executions>
-					<execution>
-						<id>remplace persistence.xml par persistence-test.xml</id>
-						<phase>process-test-resources</phase>
-						<configuration>							
-							<tasks>
-								<echo>renomme persistence.xml en persistence.xml.proper</echo>
-								<move
-									file="${project.build.outputDirectory}/META-INF/persistence.xml"
-									tofile="${project.build.outputDirectory}/META-INF/persistence.xml.proper" />
-								<echo>remplace persistence.xml par le contenu de
-									persistence-test.xml</echo>
-								<copy
-									file="${project.build.testOutputDirectory}/META-INF/persistence-test.xml"
-									tofile="${project.build.outputDirectory}/META-INF/persistence.xml"
-									overwrite="true" />
-							</tasks>							
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>remet le bon persistence.xml à sa place</id>
-						<phase>prepare-package</phase>
-						<configuration>
-							<tasks>
-								<echo>restoring the deployment persistence.xml</echo>
-								<move
-									file="${project.build.outputDirectory}/META-INF/persistence.xml.proper"
-									tofile="${project.build.outputDirectory}/META-INF/persistence.xml"
-									overwrite="true" />
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>remplace persistence.xml par persistence-test.xml</id> -->
+<!-- 						<phase>process-test-resources</phase> -->
+<!-- 						<configuration>							 -->
+<!-- 							<tasks> -->
+<!-- 								<echo>renomme persistence.xml en persistence.xml.proper</echo> -->
+<!-- 								<move -->
+<!-- 									file="${project.build.outputDirectory}/META-INF/persistence.xml" -->
+<!-- 									tofile="${project.build.outputDirectory}/META-INF/persistence.xml.proper" /> -->
+<!-- 								<echo>remplace persistence.xml par le contenu de -->
+<!-- 									persistence-test.xml</echo> -->
+<!-- 								<copy -->
+<!-- 									file="${project.build.testOutputDirectory}/META-INF/persistence-test.xml" -->
+<!-- 									tofile="${project.build.outputDirectory}/META-INF/persistence.xml" -->
+<!-- 									overwrite="true" /> -->
+<!-- 							</tasks>							 -->
+<!-- 						</configuration> -->
+<!-- 						<goals> -->
+<!-- 							<goal>run</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>remet le bon persistence.xml à sa place</id> -->
+<!-- 						<phase>prepare-package</phase> -->
+<!-- 						<configuration> -->
+<!-- 							<tasks> -->
+<!-- 								<echo>restoring the deployment persistence.xml</echo> -->
+<!-- 								<move -->
+<!-- 									file="${project.build.outputDirectory}/META-INF/persistence.xml.proper" -->
+<!-- 									tofile="${project.build.outputDirectory}/META-INF/persistence.xml" -->
+<!-- 									overwrite="true" /> -->
+<!-- 							</tasks> -->
+<!-- 						</configuration> -->
+<!-- 						<goals> -->
+<!-- 							<goal>run</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
 			</plugin>
 
 			<!-- Utilisé en fin de build des war, jar, ... -->

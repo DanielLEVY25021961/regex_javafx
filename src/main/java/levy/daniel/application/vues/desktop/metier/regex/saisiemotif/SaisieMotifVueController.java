@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -87,7 +88,20 @@ public class SaisieMotifVueController {
 	 */
 	@FXML
 	private Label labelIcone;
-			
+	
+	/**
+	 * button pour effacer le contenu du Textfield.<br/>
+	 */
+	@FXML
+	private Button buttonEffacerTextField;
+	
+	/**
+	 * button pour enregistrer le contenu du Textfield dans.<br/>
+	 */
+	@FXML
+	private Button buttonEnregistrerMotif;
+	
+	
 	/**
 	 * IRegexServiceStateless chargé de sélectionner 
 	 * l'image à afficher dans labelIcone.<br/>
@@ -327,7 +341,17 @@ public class SaisieMotifVueController {
 	} // Fin de remplirTextField(...)._____________________________________
 	
 
-
+	
+	/**
+	 * <b>efface le contenu de this.textField</b>.<br/>
+	 */
+	@FXML
+	public void effacerTextField() {
+		this.remplirTextField("");
+	} // Fin de effacerTextField().________________________________________
+	
+	
+	
 	/**
 	 * Getter du champ texte pour 
 	 * écrire ou afficher un motif Regex Java.<br/>
@@ -377,6 +401,31 @@ public class SaisieMotifVueController {
 			final Label pLabelIcone) {
 		this.labelIcone = pLabelIcone;
 	} // Fin de setLabelIcone(...).________________________________________
+
+
+
+	/**
+	 * Getter du button pour effacer le contenu du Textfield.<br/>
+	 *
+	 * @return this.buttonEffacerTextField : Button.<br/>
+	 */
+	public Button getButtonEffacerTextField() {
+		return this.buttonEffacerTextField;
+	} // Fin de getButtonEffacerTextField()._______________________________
+
+
+
+	
+	/**
+	* Setter du button pour effacer le contenu du Textfield.<br/>
+	*
+	* @param pButtonEffacerTextField : Button : 
+	* valeur à passer à this.buttonEffacerTextField.<br/>
+	*/
+	public void setButtonEffacerTextField(
+			final Button pButtonEffacerTextField) {
+		this.buttonEffacerTextField = pButtonEffacerTextField;
+	} // Fin de setButtonEffacerTextField(...).____________________________
 
 
 
