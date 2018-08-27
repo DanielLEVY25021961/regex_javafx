@@ -239,6 +239,16 @@ public class MainApplication extends Application {
          * le panneau de fond à la scene. */
         final Scene scene = new Scene(this.root);
         
+        // CSS **********************************
+        /* récupération de la CSS. */
+        /* chemin en absolu par rapport au contexte '/'. */
+        final String danStyleCss 
+        	= this.getClass()
+        		.getResource("/static/css/dan_style.css").toExternalForm();
+        
+        /* ajout de la css. */
+        scene.getStylesheets().add(danStyleCss);
+        
         /* passe la scene au theatre this.primaryStage. */
         this.primaryStage.setScene(scene);
         

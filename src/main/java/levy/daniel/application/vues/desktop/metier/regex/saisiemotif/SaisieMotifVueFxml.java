@@ -27,8 +27,8 @@ import levy.daniel.application.vues.desktop.metier.regex.saisietexte.SaisieTexte
  * le contenu de la {@link TextArea} dans un fichier 
  * pour une utilisation ultérieure.<br/>
  * <br/>
- * <img src="../../../../../../../../../../../javadoc/images/saisie_texte_vue.png" 
- * alt="AnchorPane SaisieTexteVueFxml" border="1" align="center" />
+ * <img src="../../../../../../../../../../../javadoc/images/saisie_motif_vue.png" 
+ * alt="AnchorPane SaisieMotifVueFxml" border="1" align="center" />
  * <br/><br/>
  * <ul>
  * <li>charge dans sa méthode dessiner() le FXML.</li>

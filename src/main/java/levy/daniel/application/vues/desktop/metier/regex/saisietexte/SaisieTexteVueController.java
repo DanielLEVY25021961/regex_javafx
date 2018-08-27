@@ -457,7 +457,9 @@ public class SaisieTexteVueController {
 		
 		/* récupère le théatre this.stage auprès 
 		 * de la classe applicative. */
-		this.stage = this.applicationMain.getPrimaryStage();
+		if (this.applicationMain != null) {
+			this.stage = this.applicationMain.getPrimaryStage();
+		}
 
 	} // Fin de setApplicationMain(...).___________________________________
 

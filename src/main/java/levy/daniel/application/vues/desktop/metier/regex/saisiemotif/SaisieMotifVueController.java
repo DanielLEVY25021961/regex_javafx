@@ -96,7 +96,8 @@ public class SaisieMotifVueController {
 	private Button buttonEffacerTextField;
 	
 	/**
-	 * button pour enregistrer le contenu du Textfield dans.<br/>
+	 * button pour enregistrer le contenu du Textfield 
+	 * dans un MODEL.<br/>
 	 */
 	@FXML
 	private Button buttonEnregistrerMotif;
@@ -430,6 +431,33 @@ public class SaisieMotifVueController {
 
 
 	/**
+	 * Getter du button pour enregistrer le contenu 
+	 * du Textfield dans un MODEL.<br/>
+	 * <br/>
+	 *
+	 * @return this.buttonEnregistrerMotif : Button.<br/>
+	 */
+	public Button getButtonEnregistrerMotif() {
+		return this.buttonEnregistrerMotif;
+	} // Fin de getButtonEnregistrerMotif()._______________________________
+
+
+
+	/**
+	* Setter du button pour enregistrer le contenu 
+	* du Textfield dans un MODEL.<br/>
+	*
+	* @param pButtonEnregistrerMotif : Button : 
+	* valeur à passer à this.buttonEnregistrerMotif.<br/>
+	*/
+	public void setButtonEnregistrerMotif(
+			final Button pButtonEnregistrerMotif) {
+		this.buttonEnregistrerMotif = pButtonEnregistrerMotif;
+	} // Fin de setButtonEnregistrerMotif(...).____________________________
+
+
+
+	/**
 	 * Getter de la classe applicative.<br/>
 	 * <br/>
 	 *
@@ -458,8 +486,10 @@ public class SaisieMotifVueController {
 		
 		/* récupère le théatre this.stage auprès 
 		 * de la classe applicative. */
-		this.stage = this.applicationMain.getPrimaryStage();
-
+		if (this.applicationMain != null) {
+			this.stage = this.applicationMain.getPrimaryStage();
+		}
+		
 	} // Fin de setApplicationMain(...).___________________________________
 
 

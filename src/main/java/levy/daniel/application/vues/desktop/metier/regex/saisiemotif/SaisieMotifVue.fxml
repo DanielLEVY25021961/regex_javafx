@@ -5,12 +5,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.control.Tooltip?>
 
 <AnchorPane fx:id="saisieMotifAnchorPane" stylesheets="static/css/dan_style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="levy.daniel.application.vues.desktop.metier.regex.saisiemotif.SaisieMotifVueController">
    <children>
@@ -73,7 +73,10 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
                               </Button>
-                              <Button fx:id="buttonEnregistrerMotif" mnemonicParsing="false" stylesheets="@../../../../../../../../../resources/static/css/dan_style.css" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Button fx:id="buttonEnregistrerMotif" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" stylesheets="@../../../../../../../../../resources/static/css/dan_style.css" text="enregistrer le motif" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </GridPane.margin></Button>
                            </children>
                         </GridPane>
                      </children>

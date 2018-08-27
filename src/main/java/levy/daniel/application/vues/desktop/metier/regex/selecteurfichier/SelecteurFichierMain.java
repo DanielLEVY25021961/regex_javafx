@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 import levy.daniel.application.vues.desktop.utilitaires.gestionnairepreferencesselecteur.GestionnairePreferencesSelecteur;
 
 /**
- * <b>CLASSE SelecteurFichierMain</b> :<br/>
+ * CLASSE <b>SelecteurFichierMain</b> :<br/>
  * Classe <i>applicative</i> permettant d'afficher un bouton ouvrant 
  * un {@link FileChooser} (encapsulé dans un {@link SelecteurFichier}) pour 
  * <b>lire le contenu d'un fichier</b>.<br/>
