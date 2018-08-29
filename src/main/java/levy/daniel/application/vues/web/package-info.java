@@ -1,6 +1,11 @@
 /**
  * class package-info :<br/>
- * .<br/>
+ * Ce package contient toutes les <b>VUES de l'application en mode WEB</b>.<br/>
+ * les vues WEB de l'application peuvent être réalisées :
+ * <ul>
+ * <li>avec des JSP</li>
+ * <li>avec un Front JS (REACT, ANGULAR, ...)</li>
+ * </ul>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

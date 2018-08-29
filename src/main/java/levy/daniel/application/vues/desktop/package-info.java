@@ -1,7 +1,8 @@
 /**
  * class package-info :<br/>
- * .<br/>
- * <br/>
+ * Ce package contient toutes les classes concernant les VUES 
+ * de l'application en mode STANDALONE (DESKTOP).<br/>
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>

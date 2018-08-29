@@ -1,6 +1,10 @@
 /**
  * package-info :<br/>
+ * Ce package contient toutes les <b>VUES de l'application</b>.<br/>
+ * Les vues peuvent soit être réalisées pour le mode :  
  * <ul>
+ * <li>STANDALONE (DESKTOP)</li>
+ * <li>WEB (jsp, front JS, ...).</li>
  * </ul>
  * <br/>
  *
