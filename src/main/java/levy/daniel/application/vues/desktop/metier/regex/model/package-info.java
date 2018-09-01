@@ -1,7 +1,8 @@
 /**
  * CLASSE package-info :<br/>
  * Ce package contient toutes les classes relatives au 
- * Modèle affiché dans les VUES javafx.<br/>
+ * Modèle affiché dans les composants des VUES javafx.<br/>
+ * (listes déroulantes, contenu de tables, ...).<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
