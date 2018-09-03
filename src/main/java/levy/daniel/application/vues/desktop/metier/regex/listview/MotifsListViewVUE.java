@@ -62,6 +62,15 @@ public class MotifsListViewVUE {
 	
 
 	
+	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 */
+	public MotifsListViewVUE() {
+		super();
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
+	
 	/**
 	 * Getter du label pour la sélection dans la liste.<br/>
 	 *

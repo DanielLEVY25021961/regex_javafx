@@ -176,7 +176,7 @@ public class AccueilController implements IAccueilController {
 		/* instancie le SERVICE pour les Personne. */
 		this.personneService = new PersonneService();
 		
-		this.preparerSceneAccueil(); // NOPMD by dan on 09/05/18 17:54
+		this.preparerSceneAccueil(); 
 		
 	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
 	
