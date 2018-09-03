@@ -1,6 +1,8 @@
 package levy.daniel.application.model.persistence.metier.regex.jaxb.entities.impl;
 
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -38,6 +40,7 @@ import levy.daniel.application.model.metier.regex.IMotif;
  */
 @XmlRootElement(name = "motif")
 @XmlType(propOrder = {"id", "nom", "motifJava", "signification", "alias", "motifJavaScript"})
+@XmlAccessorType(XmlAccessType.NONE)
 public class MotifEntityJAXB implements IMotif {
 
 	// ************************ATTRIBUTS************************************/

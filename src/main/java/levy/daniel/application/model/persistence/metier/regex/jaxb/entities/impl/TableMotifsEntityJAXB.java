@@ -3,6 +3,10 @@ package levy.daniel.application.model.persistence.metier.regex.jaxb.entities.imp
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.logging.Log;
@@ -34,6 +38,7 @@ import levy.daniel.application.model.persistence.metier.regex.jaxb.entities.ITab
  *
  */
 @XmlRootElement(namespace = IConstantesApplicatives.NAMESPACE)
+@XmlAccessorType(XmlAccessType.NONE)
 public class TableMotifsEntityJAXB implements ITableMotifsEntityJAXB {
 
 	// ************************ATTRIBUTS************************************/
@@ -114,6 +119,10 @@ public class TableMotifsEntityJAXB implements ITableMotifsEntityJAXB {
 	/**
 	 * {@inheritDoc}
 	 */
+	// XmLElementWrapper generates a wrapper element around XML representation
+    @XmlElementWrapper(name = "listeMotifs")
+    // XmlElement fixe le nom des éléments (entities) dans le fichier XML.
+    @XmlElement(name = "motif")
 	@Override
 	public List<MotifEntityJAXB> getListeMotifs() {
 		return this.listeMotifs;

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:tableMotifsEntityJAXB xmlns:ns2="levy.daniel.application">
     <listeMotifs>
-        <nom>1 chiffre</nom>
-        <motifJava>\d</motifJava>
-        <signification>1 chiffre</signification>
-        <alias>[0-9]</alias>
-        <motifJavaScript>/ \d /</motifJavaScript>
+        <motif>
+            <nom>1 chiffre</nom>
+            <motifJava>\d</motifJava>
+            <signification>1 chiffre</signification>
+            <alias>[0-9]</alias>
+            <motifJavaScript>/ \d /</motifJavaScript>
+        </motif>
     </listeMotifs>
 </ns2:tableMotifsEntityJAXB>

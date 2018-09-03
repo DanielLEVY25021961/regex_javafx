@@ -2,11 +2,15 @@ package levy.daniel.application.model.dao.metier.regex.jaxb.dao.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
@@ -153,7 +157,7 @@ public class MotifDaoJAXBTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -205,6 +209,199 @@ public class MotifDaoJAXBTest {
 
 	} // Fin de testCreate().______________________________________________
 
+	
+	/**
+	 * teste la méthode save(Iterable).<br/>
+	 * <ul>
+	 * <li>garantit que save() crée sur disque le fichier XML 
+	 * si il n'existe pas.</li>
+	 * <li>garantit que save() stocke dans le fichier XML 
+	 * la totalité de la liste.</li>
+	 * <li>garantit que save() ne crée pas de doublons.</li>
+	 * </ul>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException : void :  .<br/>
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testSave() throws JAXBException, IOException {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testSave() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		
+		final List<IMotif> liste2 = new ArrayList<IMotif>();
+		liste2.add(MOTIF2);
+		liste2.add(MOTIF3);
+		
+		// *************************************
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals("Le fichier doit contenir 2 enregistrements : "
+				, (Long) 2L
+					, nombreInitial);
+		
+		// *************************************
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste2);
+		
+		final Long nombreFinal = daoJAXB.count(); 
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreFinal);
+		}
+
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		/* garantit que save() ne crée pas de doublons.*/
+		assertEquals("Le fichier doit contenir 3 enregistrements : "
+				, (Long) 3L
+					, nombreFinal);
+		
+	} // Fin de testSave().________________________________________________
+	
+
+	
+	/**
+	 * teste la méthode retrieve(IMotif).<br/>
+	 * <ul>
+	 * <li>garantit que retrieve(existant) retourne 
+	 * un unique objet métier.</li>
+	 * <li>garantit que retrieve(existant) fonctionne bien.</li>
+	 * <li>garantit que retrieve(null) retourne null.</li>
+	 * <li>garantit que retrieve(inexistant) retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testRetrieve() throws JAXBException, IOException {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testRetrieve() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		liste1.add(MOTIF3);
+		
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals("Le fichier doit contenir 3 enregistrements : "
+				, (Long) 3L
+					, nombreInitial);
+
+		// *************************************
+		/* RECHERCHE d'un motif dans le XML. */
+		final IMotif motif = daoJAXB.retrieve(MOTIF2);
+		final IMotif motifNull = daoJAXB.retrieve(null);
+		final IMotif motifInexistantPur 
+			= new Motif(7L, "inexistant1", "inexistant2", "inexistant3", "inexistant3", "inexistant5");
+		final IMotif motifInexistant = daoJAXB.retrieve(motifInexistantPur);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("MOTIF RECHERCHE : " + motif.toString());
+		}
+		
+		/* garantit que retrieve(existant) retourne un unique objet métier. */
+		assertNotNull(
+				"retrieve() doit retourner un unique objet métier : "
+					, motif);
+		
+		/* garantit que retrieve(existant) fonctionne bien. */
+		assertEquals("retrieve() doit retourner le bon objet métier : "
+				, MOTIF2
+					, motif);
+		
+		/* garantit que retrieve(null) retourne null. */
+		assertNull(
+				"retrieve(null) doit retourner null : "
+					, motifNull);
+		
+		/* garantit que retrieve(inexistant) retourne null.*/
+		assertNull(
+				"retrieve(inexistant) doit retourner null : "
+					, motifInexistant);
+		
+	} // Fin de testRetrieve().____________________________________________
+	
 	
 	
 	/**

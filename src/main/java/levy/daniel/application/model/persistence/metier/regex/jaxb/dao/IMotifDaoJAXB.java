@@ -1,7 +1,7 @@
 package levy.daniel.application.model.persistence.metier.regex.jaxb.dao;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
@@ -65,10 +65,10 @@ public interface IMotifDaoJAXB {
 	 * @return : IMotif : le MODEL stocké dans le fichier.<br/>
 	 * 
 	 * @throws JAXBException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
 	IMotif create(IMotif pObject) 
-			throws FileNotFoundException, JAXBException;
+			throws IOException, JAXBException;
 	
 	
 	
@@ -94,10 +94,10 @@ public interface IMotifDaoJAXB {
 	 * @return : IMotif : le MODEL stocké dans le fichier.<br/>
 	 * 
 	 * @throws JAXBException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
 	IMotif create(IMotif pObject, File pFile) 
-				throws FileNotFoundException, JAXBException;
+				throws IOException, JAXBException;
 
 
 	
@@ -114,10 +114,6 @@ public interface IMotifDaoJAXB {
 	 * </ul>
 	 * - retourne null si pList == null.<br/>
 	 * - retourne null si <code>this.fichierXML</code> == null.<br/>
-	 * - retourne null si <code>this.fichierXML</code> 
-	 * n'existe pas.<br/>
-	 * - retourne null si <code>this.fichierXML</code> 
-	 * n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
 	 * @param pList : Iterable&lt;IMotif&gt; : 
@@ -125,12 +121,12 @@ public interface IMotifDaoJAXB {
 	 * 
 	 * @return Iterable&lt;IMotif&gt;
 	 * 
-	 * @throws FileNotFoundException
+	 * @throws IOException
 	 * @throws JAXBException
 	 */
 	Iterable<IMotif> save(
 			Iterable<IMotif> pList) 
-						throws FileNotFoundException, JAXBException;
+						throws IOException, JAXBException;
 	
 	
 	
@@ -146,8 +142,6 @@ public interface IMotifDaoJAXB {
 	 * </ul>
 	 * - retourne null si pList == null.<br/>
 	 * - retourne null si pFile == null.<br/>
-	 * - retourne null si pFile n'existe pas.<br/>
-	 * - retourne null si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
 	 * @param pList : Iterable&lt;IMotif&gt; : 
@@ -156,15 +150,200 @@ public interface IMotifDaoJAXB {
 	 * 
 	 * @return Iterable&lt;IMotif&gt;
 	 * 
-	 * @throws FileNotFoundException
+	 * @throws IOException
 	 * @throws JAXBException
 	 */
 	Iterable<IMotif> save(
 			Iterable<IMotif> pList
 				, File pFile) 
-						throws FileNotFoundException, JAXBException;
+						throws IOException, JAXBException;
 	
 
+	
+	/**
+	 * <b>retourne un objet métier stocké dans le fichier XML 
+	 * <code>this.fichierXML</code></b>.<br/>
+	 * <ul>
+	 * <li>recherche l'objet métier par son égalité métier 
+	 * (equals()).</li>
+	 * <li>retourne null si l'objet métier n'est pas 
+	 * stocké dans le fichier XML <code>this.fichierXML</code>.</li>
+	 * </ul>
+	 * - retourne null si pObject == null.<br/>
+	 * - retourne null si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne null si <code>this.fichierXML</code> n'existe pas.<br/>
+	 * - retourne null si <code>this.fichierXML</code> n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : objet métier à rechercher.<br/>
+	 * 
+	 * @return : IMotif : objet métier recherché.<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	IMotif retrieve(
+			IMotif pObject) 
+					throws IOException, JAXBException;
+	
+	
+	
+	/**
+	 * <b>retourne un objet métier stocké dans le fichier XML 
+	 * pFile</b>.<br/>
+	 * <ul>
+	 * <li>recherche l'objet métier par son égalité métier 
+	 * (equals()).</li>
+	 * <li>retourne null si l'objet métier n'est pas 
+	 * stocké dans le fichier XML pFile.</li>
+	 * </ul>
+	 * - retourne null si pObject == null.<br/>
+	 * - retourne null si pFile == null.<br/>
+	 * - retourne null si pFile n'existe pas.<br/>
+	 * - retourne null si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : objet métier à rechercher.<br/>
+	 * @param pFile : File : fichier XML.<br/>
+	 * 
+	 * @return : IMotif : objet métier recherché.<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	IMotif retrieve(
+			IMotif pObject, 
+				File pFile) 
+					throws IOException, JAXBException;
+	
+
+	
+	/**
+	 * <b>retourne le liste des objets métier stockés dans le fichier XML 
+	 * <code>this.fichierXML</code> qui remplissent une condition métier</b>.<br/>
+	 * <ul>
+	 * <li>retourne une <b>liste vide</b> si 
+	 * <i>aucune correspondance n'est trouvée</i>.</li>
+	 * <li>récupère la liste des objets métier 
+	 * stockés dans le fichier XML.</li>
+	 * <li>ajoute au résultat tous les objets métier 
+	 * remplissant la condition métier.</li>
+	 * </ul>
+	 * - retourne null si pString est blank.<br/>
+	 * - retourne null si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne null si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - retourne null si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * String devant être contenue dans le nom des IMotif.<br/>
+	 * 
+	 * @return List&lt;IMotif&gt; : 
+	 * liste des IMotif stockés dans le fichier XML 
+	 * dont le nom contient pString.<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	List<IMotif> findByMetier(String pString) 
+					throws IOException, JAXBException;
+	
+	
+	
+	/**
+	 * <b>retourne le liste des objets métier stockés dans le fichier XML 
+	 * pFile qui remplissent une condition métier</b>.<br/>
+	 * <ul>
+	 * <li>retourne une <b>liste vide</b> si 
+	 * <i>aucune correspondance n'est trouvée</i>.</li>
+	 * <li>récupère la liste des objets métier 
+	 * stockés dans le fichier XML.</li>
+	 * <li>ajoute au résultat tous les objets métier 
+	 * remplissant la condition métier.</li>
+	 * </ul>
+	 * - retourne null si pString est blank.<br/>
+	 * - retourne null si pFile == null.<br/>
+	 * - retourne null si pFile n'existe pas.<br/>
+	 * - retourne null si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * String devant être contenue dans le nom des IMotif.<br/>
+	 * @param pFile : File : fichier XML.<br/>
+	 * 
+	 * @return List&lt;IMotif&gt; : 
+	 * liste des IMotif stockés dans le fichier XML 
+	 * dont le nom contient pString.<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	List<IMotif> findByMetier(
+			String pString, 
+				File pFile) 
+					throws IOException, JAXBException;
+	
+
+	
+	/**
+	 * <b>Récupére la liste de tous les MODEL</b> 
+	 * stockés dans le fichier XML <code>this.fichierXML</code>
+	 * correspondant à une Entity JAXB.<br/>
+	 * <ul>
+	 * <li>récupère la modélisation du fichier XML 
+	 * sous forme d'entité JAXB.</li>
+	 * <li>récupère la liste des entités JAXB contenues 
+	 * dans la modélisation du fichier XML.</li>
+	 * <li>convertit la liste d'entités JAXB en liste 
+	 * d'objets métier.</li>
+	 * </ul>
+	 * - return null si <code>this.fichierXML</code> == null.<br/>
+	 * - return null si <code>this.fichierXML</code> n'existe pas.<br/>
+	 * - return null si <code>this.fichierXML</code> n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @return List&lt;IMotif&gt; : 
+	 * liste de tous les Objets métier dans le stockage.<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	List<IMotif> findAll() 
+					throws JAXBException, IOException;
+	
+	
+	
+	/**
+	 * <b>Récupére la liste de tous les MODEL</b> 
+	 * stockés dans le fichier XML 
+	 * correspondant à une Entity JAXB.<br/>
+	 * <ul>
+	 * <li>récupère la modélisation du fichier XML 
+	 * sous forme d'entité JAXB.</li>
+	 * <li>récupère la liste des entités JAXB contenues 
+	 * dans la modélisation du fichier XML.</li>
+	 * <li>convertit la liste d'entités JAXB en liste 
+	 * d'objets métier.</li>
+	 * </ul>
+	 * - return null si pFile == null.<br/>
+	 * - return null si pFile n'existe pas.<br/>
+	 * - return null si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : java.io.File.<br/>
+	 * 
+	 * @return List&lt;IMotif&gt; : 
+	 * liste de tous les Objets métier dans le stockage.<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	List<IMotif> findAll(File pFile) 
+			throws IOException, JAXBException;
+	
+	
 	
 	/**
 	 * <b>retourne le nombre d'objets métier</b> 
@@ -186,9 +365,9 @@ public interface IMotifDaoJAXB {
 	 * nombre d'enregistrements dans le stockage.<br/>
 	 * 
 	 * @throws JAXBException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
-	Long count() throws FileNotFoundException, JAXBException;
+	Long count() throws IOException, JAXBException;
 	
 	
 	
@@ -212,10 +391,10 @@ public interface IMotifDaoJAXB {
 	 * nombre d'enregistrements dans le stockage.<br/>
 	 * 
 	 * @throws JAXBException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
 	Long count(File pFile) 
-					throws FileNotFoundException, JAXBException;
+					throws IOException, JAXBException;
 	
 	
 	
@@ -234,10 +413,10 @@ public interface IMotifDaoJAXB {
 	 * <br/>
 	 *
 	 * @throws JAXBException
-	 * @throws FileNotFoundException
+	 * @throws IOException
 	 */
 	void ecrireListeObjetsMetierXMLConsole() 
-					throws JAXBException, FileNotFoundException;
+					throws JAXBException, IOException;
 	
 	
 	
@@ -257,11 +436,11 @@ public interface IMotifDaoJAXB {
 	 * @param pFile : File : fichier XML.<br/>
 	 * 
 	 * @throws JAXBException
-	 * @throws FileNotFoundException
+	 * @throws IOException
 	 */
 	void ecrireListeObjetsMetierXMLConsole(
 			File pFile) 
-					throws JAXBException, FileNotFoundException;
+					throws JAXBException, IOException;
 	
 	
 	
@@ -280,42 +459,33 @@ public interface IMotifDaoJAXB {
 				throws JAXBException;
 
 
-
+	
 	/**
-	 * Récupére la liste des MODEL dans le fichier XML 
-	 * correspondant à une Entity JAXB.<br/>
-	 * <br/>
-	 *
-	 * @param pFile : java.io.File.<br/>
-	 * 
-	 * @return List&lt;IMotif&gt;.<br/>
-	 * 
-	 * @throws FileNotFoundException
-	 * @throws JAXBException :  :  .<br/>
-	 */
-	List<IMotif> recupererListeModeles(File pFile) 
-			throws FileNotFoundException, JAXBException;
-
-
-
-	/**
-	 * Récupère une Entity JAXB à partir du fichier XML pFile.<br/>
+	 * Récupère une Entity JAXB contenant tous les objets métier 
+	 * (homogène à une Table JPA) modélisant le fichier XML pFile.<br/>
 	 * <ul>
-	 * <li>return null si pFile == null.</li>
-	 * <li>return null si pFile n'existe pas.</li>
-	 * <li>return null si pFile n'est pas un fichier simple.</li>
+	 * <li>utilise :<br/>
+	 * <code>FileReader fileReader = new FileReader(pFile);<br/>
+	 * (TableMotifsEntityJAXB) this.unmarshaller.unmarshal(fileReader)</code></li>
+	 * <li></li>
+	 * <li></li>
+	 * <li></li>
 	 * </ul>
+	 * - return null si pFile == null.<br/>
+	 * - return null si pFile n'existe pas.<br/>
+	 * - return null si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
 	 *
 	 * @param pFile : java.io.File.<br/>
 	 * 
 	 * @return TableMotifsEntityJAXB : 
 	 * Entity JAXB modélisant le contenu du fichier XML pFile.<br/>
 	 * 
-	 * @throws FileNotFoundException
+	 * @throws @throws IOException 
 	 * @throws JAXBException
 	 */
 	TableMotifsEntityJAXB recupererEntites(File pFile) 
-			throws FileNotFoundException, JAXBException;
+							throws IOException , JAXBException;
 
 
 

@@ -169,6 +169,7 @@ public interface IConstantesApplicatives {
 	/**
 	 * NAMESPACE : String :<br/>
 	 * Espace de noms pour les fichiers XML.<br/>
+	 * "levy.daniel.application"
 	 */
 	String NAMESPACE = "levy.daniel.application";
 
