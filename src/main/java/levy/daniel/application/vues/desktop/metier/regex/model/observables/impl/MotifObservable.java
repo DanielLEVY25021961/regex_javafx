@@ -1,4 +1,4 @@
-package levy.daniel.application.vues.desktop.metier.regex.controllers.impl;
+package levy.daniel.application.vues.desktop.metier.regex.model.observables.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,11 +8,11 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import levy.daniel.application.model.metier.regex.IMotif;
-import levy.daniel.application.vues.desktop.metier.regex.controllers.IMotifController;
+import levy.daniel.application.vues.desktop.metier.regex.model.observables.IMotifObservable;
 
 
 /**
- * CLASSE MotifController :<br/>
+ * CLASSE MotifObservable :<br/>
  * CONTROLLER réagissant aux évènements de la VUE.<br/>
  * <ul>
  * <li>utilise des <b>Property JavaFx</b> pour tracker 
@@ -37,7 +37,7 @@ import levy.daniel.application.vues.desktop.metier.regex.controllers.IMotifContr
  * @since 29 août 2018
  *
  */
-public class MotifController implements IMotifController {
+public class MotifObservable implements IMotifObservable {
 
 	// ************************ATTRIBUTS************************************/
 	/**
@@ -74,7 +74,7 @@ public class MotifController implements IMotifController {
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(MotifController.class);
+	private static final Log LOG = LogFactory.getLog(MotifObservable.class);
 
 	// *************************METHODES************************************/
 
@@ -83,7 +83,7 @@ public class MotifController implements IMotifController {
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public MotifController() {
+	public MotifObservable() {
 		this(null, null, null, null, null, null);
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -103,7 +103,7 @@ public class MotifController implements IMotifController {
 	 * @param pMotifJavaScript : StringProperty : 
 	 * motif Regex JavaScript.<br/>
 	 */
-	public MotifController(
+	public MotifObservable(
 			final StringProperty pNom, 
 			final StringProperty pMotifJava,
 			final StringProperty pSignification, 
@@ -135,7 +135,7 @@ public class MotifController implements IMotifController {
 	 * @param pMotifJavaScript : StringProperty : 
 	 * motif Regex JavaScript.<br/>
 	 */
-	public MotifController(
+	public MotifObservable(
 			final LongProperty pId, 
 			final StringProperty pNom, 
 			final StringProperty pMotifJava,
@@ -165,10 +165,10 @@ public class MotifController implements IMotifController {
 	 *
 	 * @param pMotif : IMotif : Objet métier.<br/>
 	 */
-	public MotifController(
+	public MotifObservable(
 			final IMotif pMotif) {
 		
-		this(new SimpleLongProperty(pMotif.getId()),
+		this((pMotif.getId() == null) ? null : new SimpleLongProperty(pMotif.getId()),
 				new SimpleStringProperty(pMotif.getNom()), 
 				new SimpleStringProperty(pMotif.getMotifJava()), 
 				new SimpleStringProperty(pMotif.getSignification()), 
@@ -177,7 +177,78 @@ public class MotifController implements IMotifController {
 		
 	} // Fin de CONSTRUCTEUR TRANSFORMATEUR._______________________________
 	
+
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		
+		final StringBuilder builder = new StringBuilder();
+		
+		builder.append("Motif [");
+		
+		/* id. */
+		builder.append("id=");
+		if (this.id != null) {			
+			builder.append(this.id);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* nom. */
+		builder.append("nom=");
+		if (this.nom != null) {			
+			builder.append(this.nom);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* motifJava. */
+		builder.append("motifJava=");
+		if (this.motifJava != null) {			
+			builder.append(this.motifJava);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* signification. */
+		builder.append("signification=");
+		if (this.signification != null) {			
+			builder.append(this.signification);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* alias. */
+		builder.append("alias=");
+		if (this.alias != null) {			
+			builder.append(this.alias);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE);
+		
+		/* motifJavaScript. */
+		builder.append("motifJavaScript=");
+		if (this.motifJavaScript != null) {		
+			builder.append(this.motifJavaScript);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(']');
+		
+		return builder.toString();
+		
+	} // Fin de toString().________________________________________________
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -365,4 +436,4 @@ public class MotifController implements IMotifController {
 	
 	
 	
-} // FIN DE LA CLASSE MotifController.---------------------------------------
+} // FIN DE LA CLASSE MotifObservable.---------------------------------------

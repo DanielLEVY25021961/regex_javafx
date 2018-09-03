@@ -1,4 +1,4 @@
-package levy.daniel.application.vues.desktop.metier.regex.model;
+package levy.daniel.application.vues.desktop.metier.regex.model.observables.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -6,11 +6,11 @@ import org.apache.commons.logging.LogFactory;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
-import levy.daniel.application.model.metier.regex.IMotif;
+import levy.daniel.application.vues.desktop.metier.regex.model.observables.IMotifObservable;
 
 
 /**
- * CLASSE <b>MotifCellFactory</b> :<br/>
+ * CLASSE <b>MotifCellFactoryObservable</b> :<br/>
  * .<br/>
  * <br/>
  *
@@ -26,11 +26,12 @@ import levy.daniel.application.model.metier.regex.IMotif;
  *
  * @author dan Lévy
  * @version 1.0
- * @since 28 août 2018
+ * @since 1 sept. 2018
  *
  */
-public class MotifCellFactory 
-		implements Callback<ListView<IMotif>, ListCell<IMotif>> {
+public class MotifCellFactoryObservable 
+				implements Callback<ListView<IMotifObservable>
+									, ListCell<IMotifObservable>> {
 	
 	// ************************ATTRIBUTS************************************/
 
@@ -39,14 +40,15 @@ public class MotifCellFactory
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(MotifCellFactory.class);
+		= LogFactory.getLog(MotifCellFactoryObservable.class);
 	
 	// *************************METHODES************************************/
+	
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public MotifCellFactory() {
+	public MotifCellFactoryObservable() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
@@ -56,11 +58,11 @@ public class MotifCellFactory
 	 * {@inheritDoc}
 	 */
 	@Override	
-	public ListCell<IMotif> call(
-			final ListView<IMotif> pListview) {
-		return new MotifCell();
+	public ListCell<IMotifObservable> call(
+			final ListView<IMotifObservable> pListview) {
+		return new MotifCellObservable();
 	} // Fin de call(...)._________________________________________________
 	
 	
 	
-} // FIN DE LA CLASSE MotifCellFactory.--------------------------------------
+} // FIN DE LA CLASSE MotifCellFactoryObservable.----------------------------

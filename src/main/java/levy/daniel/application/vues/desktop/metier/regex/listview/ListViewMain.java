@@ -9,9 +9,13 @@ import org.apache.commons.logging.LogFactory;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -19,6 +23,9 @@ import javafx.stage.Stage;
 import levy.daniel.application.model.metier.regex.IMotif;
 import levy.daniel.application.model.metier.regex.impl.Motif;
 import levy.daniel.application.vues.desktop.metier.regex.model.MotifCellFactory;
+import levy.daniel.application.vues.desktop.metier.regex.model.observables.IMotifObservable;
+import levy.daniel.application.vues.desktop.metier.regex.model.observables.impl.MotifCellFactoryObservable;
+import levy.daniel.application.vues.desktop.metier.regex.model.observables.impl.MotifObservable;
 
 
 /**
@@ -45,16 +52,33 @@ public class ListViewMain extends Application {
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * Liste des motifs.<br/>
+	 * "null".<br/>
 	 */
-	private final transient ListView<IMotif> motifs 
+	public static final String NULL = "null";
+	
+	/**
+	 * ListView (VUE) des motifs objets métier.<br/>
+	 */
+	private final transient ListView<IMotif> motifsListView 
 		= new ListView<IMotif>();
+	
+	/**
+	 * ListView (VUE) des motifs observables.<br/>
+	 */
+	private final transient ListView<IMotifObservable> motifsObservableListView 
+		= new ListView<IMotifObservable>();
 	
 	/**
 	 * label pourla sélection dans la liste.<br/>
 	 */
 	private final transient Label motifLabel 
 	= new Label("Sélectionnez un motif prédéfini : ");
+	
+	/**
+	 * label pourla sélection dans la liste.<br/>
+	 */
+	private final transient Label motifLabelObservable 
+		= new Label("Sélectionnez un motif prédéfini : ");
 	
 	/**
 	 * TextArea pour l'affichage de la sélection dans la liste.<br/>
@@ -90,6 +114,7 @@ public class ListViewMain extends Application {
 			final Stage pPrimaryStage) throws Exception {
 		
 		this.configurerListView();
+		this.configurerListViewObservable();
 		this.configurerTexteArea();
 		
 		// Create the Selection HBox 
@@ -97,14 +122,24 @@ public class ListViewMain extends Application {
 		// Set Spacing to 20 pixels
 		selection.setSpacing(20);
 		// Add the Label and ListView to the HBox
-		selection.getChildren().addAll(this.motifLabel, this.motifs);		
-
+		selection.getChildren().addAll(
+				this.motifLabel, this.motifsListView);
+		
+		// Create the Selection HBox 
+		final HBox selectionObservable = new HBox();
+		// Set Spacing to 20 pixels
+		selectionObservable.setSpacing(20);
+		// Add the Label and ListView to the HBox
+		selectionObservable.getChildren().addAll(
+				this.motifLabelObservable, this.motifsObservableListView);
+		
+		
 		// Create the VBox
 		final VBox root = new VBox();
 		// Set Spacing to 10 pixels
 		root.setSpacing(10);
 		// Add the HBox and the TextArea to the VBox
-		root.getChildren().addAll(selection, this.textArea);
+		root.getChildren().addAll(selection, selectionObservable, this.textArea);
 		
 		// Set the Style-properties of the VBox
 		root.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
@@ -124,21 +159,38 @@ public class ListViewMain extends Application {
 
 	
 	/**
-	 * configure le ListView this.motifs.<br/>
+	 * configure le ListView this.motifsListView.<br/>
 	 */
 	private void configurerListView() {
 		
 		// dimensionne la ListView.
-		this.motifs.setPrefSize(800, 120);
+		this.motifsListView.setPrefSize(800, 120);
+		
+		/* orientation verticale pour le ListView. */
+		this.motifsListView.setOrientation(Orientation.VERTICAL);
 		
 		// ajoute les données au MODELE (base).
-		this.motifs.getItems().addAll(createMotifsList());
+		this.motifsListView.getItems().addAll(createMotifsList());
 	
-		// Ajoute une CellFactory customisée pour afficher chaque motif.
-		this.motifs.setCellFactory(new MotifCellFactory());
+		// Ajoute une CellFactory customisée pour afficher chaque ligne du ListView.
+		this.motifsListView.setCellFactory(new MotifCellFactory());
 		
-		// Update the message Label when the selected item changes
-		this.motifs.getSelectionModel().selectedItemProperty().addListener(
+		// limite la sélection dans le ListView à 1 seul élément. 
+		this.motifsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		
+		// LISTENER SUR LA SELECTION DANS LA LISTEVIEW.
+		this.ajouterListenerSelectionMotifs();
+
+	} // Fin de configurerListView().______________________________________
+	
+
+	
+	/**
+	 * ajoute un listener sur la selection dans le ListView.<br/>
+	 */
+	private void ajouterListenerSelectionMotifs() {
+		
+		this.motifsListView.getSelectionModel().selectedItemProperty().addListener(
 				new ChangeListener<IMotif>() {
 
 			/**
@@ -147,15 +199,76 @@ public class ListViewMain extends Application {
 			@Override
 			public void changed(
 					final ObservableValue<? extends IMotif> pMotif
-						, final IMotif pOldvalue, final IMotif pNewvalue) {
+						, final IMotif pOldvalue
+							, final IMotif pNewvalue) {
 				
 				selectionChanged(pMotif, pOldvalue, pNewvalue);
 				
 			} // Fin de changed(...).______________
 			
 		}); // Fin de new ChangeListener<IMotif>().____________________
+		
+	} // Fin de ajouterListenerSelectionMotifs().__________________________
+	
+
+	
+	/**
+	 * configure le ListView this.motifsObservable.<br/>
+	 */
+	private void configurerListViewObservable() {
+		
+		// dimensionne la ListView.
+		this.motifsObservableListView.setPrefSize(800, 120);
+		
+		/* orientation verticale pour le ListView. */
+		this.motifsObservableListView.setOrientation(Orientation.VERTICAL);
+		
+		// ajoute les données au MODELE (base).
+		this.motifsObservableListView.getItems().addAll(
+				this.convertirListModeleEnObservable(this.createMotifsList()));
+	
+		// rend la listView Editable. 
+		this.motifsObservableListView.setEditable(true);
+		
+		// Ajoute une CellFactory customisée pour afficher chaque ligne du ListView.
+		this.motifsObservableListView.setCellFactory(new MotifCellFactoryObservable());
+		
+		// limite la sélection dans le ListView à 1 seul élément. 
+		this.motifsObservableListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+				
+		
+		// LISTENER SUR LA SELECTION DANS LA LISTEVIEW.
+		this.ajouterListenerSelectionMotifsObservable();
 
 	} // Fin de configurerListView().______________________________________
+	
+
+	
+	/**
+	 * ajoute un listener sur la selection dans le ListView.<br/>
+	 */
+	private void ajouterListenerSelectionMotifsObservable() {
+		
+		this.motifsObservableListView.getSelectionModel().selectedItemProperty()
+			.addListener(
+				new ChangeListener<IMotifObservable>() {
+
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public void changed(
+					final ObservableValue<? extends IMotifObservable> pMotif
+						, final IMotifObservable pOldvalue
+							, final IMotifObservable pNewvalue) {
+				
+				selectionChangedObservable(pMotif, pOldvalue, pNewvalue);
+				
+			} // Fin de changed(...).______________
+			
+		}); // Fin de new ChangeListener<IMotif>().____________________
+		
+	} // Fin de ajouterListenerSelectionMotifsObservable().________________
 	
 	
 	
@@ -202,7 +315,46 @@ public class ListViewMain extends Application {
 	} // Fin de createMotifsList().________________________________________
 	
 	
+	
+	/**
+	 * <b>convertit une liste d'objets métier 
+	 * en liste observable</b>.<br/>
+	 *
+	 * @param pList : List&lt;IMotif&gt; : 
+	 * liste d'objets métier.<br/>
+	 * 
+	 * @return : ObservableList&lt;IMotifObservable&gt; : 
+	 * liste observable.<br/>
+	 */
+	public final ObservableList<IMotifObservable> 
+					convertirListModeleEnObservable(
+								final List<IMotif> pList) {
+		
+		if (pList == null) {
+			return null;
+		}
+		
+		final ObservableList<IMotifObservable> resultat 
+			= FXCollections.<IMotifObservable>observableArrayList();
+		
+		for (final IMotif objetMetier : pList) {
+			
+			if (objetMetier != null) {
+				
+				final IMotifObservable observable 
+					= new MotifObservable(objetMetier);
+				
+				resultat.add(observable);
+				
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de convertirListModelenObservable(...)._______________________
 
+
+	
 	/**
 	 * .<br/>
 	 * <ul>
@@ -218,14 +370,40 @@ public class ListViewMain extends Application {
 				, final IMotif pOldValue
 					, final IMotif pNewValue) {
 		
-		final String oldText = pOldValue == null ? "null" : pOldValue.toString();
-		final String newText = pNewValue == null ? "null" : pNewValue.toString();
+		final String oldText = pOldValue == null ? NULL : pOldValue.toString();
+		final String newText = pNewValue == null ? NULL : pNewValue.toString();
 		
 		this.textArea.appendText("ancienne valeur = " + oldText + '\n'); 
 		this.textArea.appendText("nouvelle valeur = " + newText+ '\n');
 		this.textArea.appendText("\n");
 		
 	} // Fin de selectionChanged(...)._____________________________________
+	
+
+	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * </ul>
+	 *
+	 * @param pMotif
+	 * @param pOldValue
+	 * @param pNewValue :  :  .<br/>
+	 */
+	public void selectionChangedObservable(
+			final ObservableValue<? extends IMotifObservable> pMotif
+				, final IMotifObservable pOldValue
+					, final IMotifObservable pNewValue) {
+		
+		final String oldText = pOldValue == null ? NULL : pOldValue.toString();
+		final String newText = pNewValue == null ? NULL : pNewValue.toString();
+		
+		this.textArea.appendText("ancienne valeur = " + oldText + '\n'); 
+		this.textArea.appendText("nouvelle valeur = " + newText+ '\n');
+		this.textArea.appendText("\n");
+		
+	} // Fin de selectionChangedObservable(...).___________________________
 	
 	
 	

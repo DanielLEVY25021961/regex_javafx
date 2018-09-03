@@ -1,11 +1,11 @@
-package levy.daniel.application.vues.desktop.metier.regex.controllers;
+package levy.daniel.application.vues.desktop.metier.regex.model.observables;
 
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * INTERFACE IMotifController :<br/>
- * Interface factorisant es comportements des MotifController.<br/>
+ * INTERFACE IMotifObservable :<br/>
+ * Interface factorisant es comportements des MotifObservable.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -23,7 +23,25 @@ import javafx.beans.property.StringProperty;
  * @since 29 août 2018
  *
  */
-public interface IMotifController {
+public interface IMotifObservable {
+	
+
+
+	/**
+	 * ';'.<br/>
+	 */
+	char POINT_VIRGULE = ';';
+	
+	/**
+	 * NULL : String :<br/>
+	 * "null".<br/>
+	 */
+	String NULL = "null";
+	
+	/**
+	 * ", ".<br/>
+	 */
+	String VIRGULE = ", ";
 	
 
 	
@@ -196,4 +214,4 @@ public interface IMotifController {
 	
 	
 	
-} // FIN DE L'INTERFACE IMotifController.------------------------------------
+} // FIN DE L'INTERFACE IMotifObservable.------------------------------------

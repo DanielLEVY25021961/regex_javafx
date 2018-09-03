@@ -1,4 +1,4 @@
-package levy.daniel.application.vues.desktop.metier.regex.controllers.impl;
+package levy.daniel.application.vues.desktop.metier.regex.model.observables.impl;
 
 import java.util.List;
 
@@ -8,13 +8,14 @@ import org.apache.commons.logging.LogFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import levy.daniel.application.model.metier.regex.IMotif;
-import levy.daniel.application.vues.desktop.metier.regex.controllers.IMotifController;
+import levy.daniel.application.vues.desktop.metier.regex.model.observables.IMotifObservable;
 
 
 /**
- * CLASSE TableMotifsController :<br/>
+ * CLASSE TableMotifsObservable :<br/>
  * CONTROLLER pour gérer les actions sur la 
- * liste des Motifs dans une VUE javafx.<br/>
+ * LISTE des OBSERVABLES (MotifObservable) 
+ * dans une VUE javafx.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -32,7 +33,7 @@ import levy.daniel.application.vues.desktop.metier.regex.controllers.IMotifContr
  * @since 30 août 2018
  *
  */
-public class TableMotifsController {
+public class TableMotifsObservable {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -40,14 +41,14 @@ public class TableMotifsController {
 	 * Observable liste de Motifs.<br/>
 	 * (équivalent d'une table motifs JPA).<br/>
 	 */
-	private ObservableList<IMotifController> tableMotifs 
-		= FXCollections.observableArrayList();
+	private ObservableList<IMotifObservable> tableMotifs 
+		= FXCollections.<IMotifObservable>observableArrayList();
 
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(TableMotifsController.class);
+	private static final Log LOG = LogFactory.getLog(TableMotifsObservable.class);
 
 
 	// *************************METHODES************************************/
@@ -56,8 +57,8 @@ public class TableMotifsController {
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public TableMotifsController() {
-		this((ObservableList<IMotifController>) null);
+	public TableMotifsObservable() {
+		this((ObservableList<IMotifObservable>) null);
 	} // Fin du CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 	
@@ -66,10 +67,10 @@ public class TableMotifsController {
 	 * CONSTRUCTEUR COMPLET.<br/>
 	 *
 	 * @param pTableMotifs : 
-	 * ObservableList&lt;IMotifController&gt;.<br/>
+	 * ObservableList&lt;IMotifObservable&gt;.<br/>
 	 */
-	public TableMotifsController(
-			final ObservableList<IMotifController> pTableMotifs) {
+	public TableMotifsObservable(
+			final ObservableList<IMotifObservable> pTableMotifs) {
 		
 		super();
 		
@@ -89,7 +90,7 @@ public class TableMotifsController {
 	 * @param pList : List&lt;IMotif&gt; : 
 	 * liste d'objets métier.<br/>
 	 */
-	public TableMotifsController(
+	public TableMotifsObservable(
 			final List<IMotif> pList) {
 		
 		super();
@@ -108,10 +109,10 @@ public class TableMotifsController {
 	 * @param pList : List&lt;IMotif&gt; : 
 	 * liste d'objets métier.<br/>
 	 * 
-	 * @return : ObservableList&lt;IMotifController&gt; : 
+	 * @return : ObservableList&lt;IMotifObservable&gt; : 
 	 * liste observable.<br/>
 	 */
-	public final ObservableList<IMotifController> 
+	public final ObservableList<IMotifObservable> 
 					convertirListModeleEnObservable(
 								final List<IMotif> pList) {
 		
@@ -119,15 +120,15 @@ public class TableMotifsController {
 			return null;
 		}
 		
-		final ObservableList<IMotifController> resultat 
-			= FXCollections.observableArrayList();
+		final ObservableList<IMotifObservable> resultat 
+			= FXCollections.<IMotifObservable>observableArrayList();
 		
 		for (final IMotif objetMetier : pList) {
 			
 			if (objetMetier != null) {
 				
-				final IMotifController observable 
-					= new MotifController(objetMetier);
+				final IMotifObservable observable 
+					= new MotifObservable(objetMetier);
 				
 				resultat.add(observable);
 				
@@ -144,14 +145,14 @@ public class TableMotifsController {
 	 * <b>ajoute un Observable CONTROLLER à la liste observable</b>.<br/>
 	 * - retourne false si pMotif == null.<br/>
 	 *
-	 * @param pMotif : IMotifController : 
+	 * @param pMotif : IMotifObservable : 
 	 * élément à rajouter à la liste.<br/>
 	 * 
 	 * @return : boolean : 
 	 * true si pMotif a été rajouté à la liste.<br/>
 	 */
 	public boolean ajouter(
-			final IMotifController pMotif) {
+			final IMotifObservable pMotif) {
 		
 		/* retourne false si pMotif == null. */
 		if (pMotif == null) {
@@ -169,13 +170,13 @@ public class TableMotifsController {
 	 * à la liste observable</b>.<br/>
 	 * - retourne false si pMotifs == null.<br/>
 	 *
-	 * @param pMotifs : ObservableList<IMotifController> : 
+	 * @param pMotifs : ObservableList<IMotifObservable> : 
 	 * liste d'observables à ajouter.<br/>
 	 * 
 	 * @return : boolean : true si l'ajout a bien été effectué.<br/>
 	 */
 	public boolean ajouterListe(
-			final ObservableList<IMotifController> pMotifs) {
+			final ObservableList<IMotifObservable> pMotifs) {
 		
 		/* retourne false si pMotifs == null. */
 		if (pMotifs == null) {
@@ -206,7 +207,7 @@ public class TableMotifsController {
 			return false;
 		}
 		
-		final IMotifController motif = new MotifController(pMotif);
+		final IMotifObservable motif = new MotifObservable(pMotif);
 		
 		return this.tableMotifs.add(motif);
 
@@ -218,14 +219,14 @@ public class TableMotifsController {
 	 * <b>retire un Observable CONTROLLER à la liste observable</b>.<br/>
 	 * - retourne false si pMotif == null.<br/>
 	 *
-	 * @param pMotif : IMotifController : 
+	 * @param pMotif : IMotifObservable : 
 	 * élément à retirer à la liste.<br/>
 	 * 
 	 * @return : boolean : 
 	 * true si pMotif a été retiré à la liste.<br/>
 	 */
 	public boolean retirer(
-			final IMotifController pMotif) {
+			final IMotifObservable pMotif) {
 		
 		/* retourne false si pMotif == null. */
 		if (pMotif == null) {
@@ -243,9 +244,9 @@ public class TableMotifsController {
 	 * Getter .<br/>
 	 * <br/>
 	 *
-	 * @return tableMotifs : ObservableList<IMotifController>.<br/>
+	 * @return tableMotifs : ObservableList<IMotifObservable>.<br/>
 	 */
-	public ObservableList<IMotifController> getTableMotifs() {
+	public ObservableList<IMotifObservable> getTableMotifs() {
 		return this.tableMotifs;
 	}
 
@@ -253,14 +254,14 @@ public class TableMotifsController {
 
 	/**
 	* method setTableMotifs(
-	* ObservableList<IMotifController> pTableMotifs) :<br/>
+	* ObservableList<IMotifObservable> pTableMotifs) :<br/>
 	* .<br/>
 	* <br/>
 	*
-	* @param pTableMotifs : ObservableList<IMotifController> : valeur à passer à tableMotifs.<br/>
+	* @param pTableMotifs : ObservableList<IMotifObservable> : valeur à passer à tableMotifs.<br/>
 	*/
 	public void setTableMotifs(
-			final ObservableList<IMotifController> pTableMotifs) {
+			final ObservableList<IMotifObservable> pTableMotifs) {
 		this.tableMotifs = pTableMotifs;
 	}
 

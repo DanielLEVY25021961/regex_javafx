@@ -1,4 +1,4 @@
-package levy.daniel.application.vues.desktop.metier.regex.model;
+package levy.daniel.application.vues.desktop.metier.regex.model.observables.impl;
 
 import java.util.Locale;
 
@@ -6,13 +6,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javafx.scene.control.ListCell;
-import levy.daniel.application.model.metier.regex.IMotif;
+import levy.daniel.application.vues.desktop.metier.regex.model.observables.IMotifCellObservable;
+import levy.daniel.application.vues.desktop.metier.regex.model.observables.IMotifObservable;
 
 
 /**
- * CLASSE <b>MotifCell</b> :<br/>
- * Classe chargée de fabriquer le contenu 
- * d'une cellule d'un ListView.<br/>
+ * CLASSE <b>MotifCellObservable</b> :<br/>
+ * Classe chargée de fabriquer le contenu EDITABLE 
+ * d'une cellule d'un ListView EDITABLE.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -27,10 +28,11 @@ import levy.daniel.application.model.metier.regex.IMotif;
  *
  * @author dan Lévy
  * @version 1.0
- * @since 28 août 2018
+ * @since 1 sept. 2018
  *
  */
-public class MotifCell extends ListCell<IMotif> {
+public class MotifCellObservable extends ListCell<IMotifObservable> 
+										implements IMotifCellObservable {
 	
 	// ************************ATTRIBUTS************************************/
 
@@ -40,27 +42,18 @@ public class MotifCell extends ListCell<IMotif> {
 	private final transient Locale locale = Locale.getDefault();
 	
 	/**
-	 * "#ecf1f6".<br/>
-	 */
-	public static final String COULEUR_BLEU_PALE_TABLEAU = "#ecf1f6";
-	
-	/**
-	 * "#b3e6b3".<br/>
-	 */
-	public static final String COULEUR_VERT_INTENSE_TABLEAU = "#b3e6b3";
-	
-	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(MotifCell.class);
+	private static final Log LOG 
+		= LogFactory.getLog(MotifCellObservable.class);
 	
 	// *************************METHODES************************************/
 		
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public MotifCell() {
+	public MotifCellObservable() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -71,7 +64,7 @@ public class MotifCell extends ListCell<IMotif> {
 	 */
 	@Override
 	public void updateItem(
-			final IMotif pItem, 
+			final IMotifObservable pItem, 
 				final boolean pEmpty) {
 		
 		super.updateItem(pItem, pEmpty);
@@ -93,7 +86,7 @@ public class MotifCell extends ListCell<IMotif> {
 					, format 
 					, pItem.getNom(), pItem.getMotifJava());
 			
-			/* passe la valeur à la Property text de la cellule. */
+			/* passe la valeur à afficher à la Property text de la cellule. */
 			this.setText(affichage);
 			
 			/* ne met pas de graphique sur la cellule. */
@@ -109,4 +102,4 @@ public class MotifCell extends ListCell<IMotif> {
 	
 		
 	
-} // FIN DE LA CLASSE MotifCell.---------------------------------------------
+} // FIN DE LA CLASSE MotifCellObservable.-----------------------------------
