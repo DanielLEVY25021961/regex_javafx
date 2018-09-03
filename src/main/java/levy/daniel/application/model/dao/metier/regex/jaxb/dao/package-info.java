@@ -1,7 +1,7 @@
 /**
  * CLASSE package-info :<br/>
- * ce package contient les Data Acess Object (DAO) 
- * pour la persistence des objets relatifs aux Regex en JAXB.<br/>
+ * ce package contient les <b>Data Acess Object (DAO)</b> 
+ * pour la persistence des objets relatifs aux Regex en <b>JAXB</b>.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

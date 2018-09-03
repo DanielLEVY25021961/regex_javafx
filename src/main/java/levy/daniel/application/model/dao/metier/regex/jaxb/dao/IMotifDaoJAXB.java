@@ -13,7 +13,7 @@ import levy.daniel.application.model.metier.regex.IMotif;
 
 /**
  * INTERFACE <b>IMotifDaoJAXB</b> :<br/>
- * .<br/>
+ * Interface factorisant les comportements des DAO MotifDaoJAXB.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -45,13 +45,16 @@ public interface IMotifDaoJAXB {
 	
 	/**
 	 * <b>stocke l'objet métier pObject 
-	 * dans le fichier XML this.fichierXML</b>.<br/>
+	 * dans le fichier XML <code>this.fichierXML</code></b>.<br/>
 	 * <ul>
+	 * <li>crée sur disque le fichier <code>this.fichierXML</code> 
+	 * si il n'existe pas.</li>
 	 * <li>récupère ou crée la liste des objets métier 
-	 * déjà stockés dans le fichier XML this.fichierXML.</li>
-	 * <li>ajoute l'objet métier pObject à la liste.</li>
+	 * déjà stockés dans le fichier XML <code>this.fichierXML</code>.</li>
+	 * <li>ajoute l'objet métier pObject à la liste 
+	 * si pObject n'est pas déjà stocké (<b>gestion des doublons</b>).</li>
 	 * <li>enregistre la nouvelle liste dans le fichier XML 
-	 * this.fichierXML.</li>
+	 * <code>this.fichierXML</code>.</li>
 	 * </ul>
 	 * - retourne null si pObject == null.<br/>
 	 * - retourne null si this.fichierXML == null.<br/>
@@ -73,9 +76,11 @@ public interface IMotifDaoJAXB {
 	 * <b>stocke l'objet métier pObject 
 	 * dans un fichier XML pFile</b>.<br/>
 	 * <ul>
+	 * <li>crée sur disque le fichier pFile si il n'existe pas.</li>
 	 * <li>récupère ou crée la liste des objets métier 
 	 * déjà stockés dans le fichier XML pFile.</li>
-	 * <li>ajoute l'objet métier pObject à la liste.</li>
+	 * <li>ajoute l'objet métier pObject à la liste 
+	 * si pObject n'est pas déjà stocké (<b>gestion des doublons</b>).</li>
 	 * <li>enregistre la nouvelle liste dans le fichier XML pFile.</li>
 	 * </ul>
 	 * - retourne null si pObject == null.<br/>
@@ -115,6 +120,53 @@ public interface IMotifDaoJAXB {
 				throws JAXBException;
 
 
+	
+	/**
+	 * <b>écrit à la console le contenu du fichier XML 
+	 * <code>this.fichierXML</code></b>.<br/>
+	 * <ul>
+	 * <li>utilise <code>marshaller.marshal(
+	 * pTableEntitiesJAXB, System.out)</code>.</li>
+	 * </ul>
+	 * - ne fait rien si <code>this.fichierXML</code> == null.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> n'existe pas.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> n'est pas un fichier simple.<br/>
+	 * - ne fait rien si il est impossible de récupérer 
+	 * la liste d'enregistrements dans <code>this.fichierXML</code>.<br/>
+	 * <br/>
+	 *
+	 * @throws JAXBException
+	 * @throws FileNotFoundException
+	 */
+	void ecrireListeObjetsMetierXMLConsole() 
+					throws JAXBException, FileNotFoundException;
+	
+	
+	
+	/**
+	 * <b>écrit à la console le contenu du fichier XML pFile</b>.<br/>
+	 * <ul>
+	 * <li>utilise <code>marshaller.marshal(
+	 * pTableEntitiesJAXB, System.out)</code>.</li>
+	 * </ul>
+	 * - ne fait rien si pFile == null.<br/>
+	 * - ne fait rien si pFile n'existe pas.<br/>
+	 * - ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * - ne fait rien si il est impossible de récupérer 
+	 * la liste d'enregistrements dans pFile.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier XML.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws FileNotFoundException
+	 */
+	void ecrireListeObjetsMetierXMLConsole(
+			File pFile) 
+					throws JAXBException, FileNotFoundException;
+	
+	
+	
 	/**
 	 * Affiche à la console la liste de MODEL 
 	 *(objets métier) pList sous forme de fichier XML.<br/>

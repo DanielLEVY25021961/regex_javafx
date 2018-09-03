@@ -23,7 +23,8 @@ import levy.daniel.application.model.metier.regex.impl.Motif;
 
 /**
  * CLASSE MotifDaoJAXB :<br/>
- * .<br/>
+ * <b>DAO (Data Access Object)</b> 
+ * pour les {@link Motif} en <b>JAXB</b>.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -336,9 +337,12 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		  		
 		if (listeObjetsMetier != null) {
 			
-			/* ajoute l'objet métier pObject à la liste. */
-			listeObjetsMetier.add(pObject);
-			
+			/* ajoute l'objet métier pObject à la liste 
+			 * si pObject n'est pas déjà stocké (gestion des doublons). */
+			if (!listeObjetsMetier.contains(pObject)) {
+				listeObjetsMetier.add(pObject);
+			}
+						
 			/* enregistre la nouvelle liste dans le fichier XML pFile. */
 			this.enregistrer(listeObjetsMetier, pFile);
 			
@@ -413,7 +417,55 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	} // Fin de enregistrer(...).__________________________________________
 	
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void ecrireListeObjetsMetierXMLConsole() 
+					throws JAXBException, FileNotFoundException {
+		
+		this.ecrireListeObjetsMetierXMLConsole(this.fichierXML);
+		
+	} // Fin de ecrireListeObjetsMetierXMLConsole()._______________________
+	
+	
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void ecrireListeObjetsMetierXMLConsole(
+			final File pFile) 
+					throws JAXBException, FileNotFoundException {
+		
+		/* ne fait rien si pFile == null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		final List<IMotif> liste = this.recupererListeModeles(pFile);
+		
+		/* ne fait rien si il est impossible de récupérer 
+		 * la liste d'enregistrements dans pFile.*/
+		if (liste != null) {
+			this.ecrireListeObjetsMetierXMLConsole(liste);
+		}
+		
+	} // Fin de ecrireListeObjetsMetierXMLConsole(...).____________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -443,8 +495,11 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	 * (fichier XML correspondant à une table JPA) 
 	 * sous forme de fichier XML.<br/>
 	 * <ul>
-	 * <li>ne fait rien si pTableEntitiesJAXB == null.</li>
+	 * <li>utilise <code>marshaller.marshal(
+	 * pTableEntitiesJAXB, System.out)</code>.</li>
 	 * </ul>
+	 * - ne fait rien si pTableEntitiesJAXB == null.<br/>
+	 * <br/>
 	 *
 	 * @param pTableEntitiesJAXB : TableMotifsEntityJAXB.<br/>
 	 * 

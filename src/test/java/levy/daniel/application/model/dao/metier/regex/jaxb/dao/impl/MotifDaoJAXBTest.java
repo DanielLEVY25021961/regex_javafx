@@ -1,9 +1,11 @@
 package levy.daniel.application.model.dao.metier.regex.jaxb.dao.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.xml.bind.JAXBException;
 
@@ -50,6 +52,24 @@ public class MotifDaoJAXBTest {
 	 * "unused".<br/>
 	 */
 	public static final String UNUSED = "unused";
+	
+	/**
+	 * new Motif("1 chiffre", "\\d", "1 chiffre", "[0-9]", "/ \\d /").<br/>
+	 */
+	public static final IMotif MOTIF1 
+	= new Motif("1 chiffre", "\\d", "1 chiffre", "[0-9]", "/ \\d /");
+	
+	/**
+	 * new Motif("commence par 1 à 3 chiffres", "^\\d{1,3}?", "commence par 1 à 3 chiffres reluctant", "^\\d[0-9]{1,3}?", "/ ^\\\\d{1,3}? /").<br/>
+	 */
+	public static final IMotif MOTIF2 
+		= new Motif("commence par 1 à 3 chiffres", "^\\d{1,3}?", "commence par 1 à 3 chiffres reluctant", "^\\d[0-9]{1,3}?", "/ ^\\\\d{1,3}? /");
+	
+	/**
+	 * new Motif("commence par 1 à 4 chiffres", "^\\d{1,4}?", "commence par 1 à 4 chiffres reluctant", "^\\d[0-9]{1,4}?", "/ ^\\d{1,4}? /").<br/>
+	 */
+	public static final IMotif MOTIF3 
+		= new Motif("commence par 1 à 4 chiffres", "^\\d{1,4}?", "commence par 1 à 4 chiffres reluctant", "^\\d[0-9]{1,4}?", "/ ^\\d{1,4}? /");
 
 	/**
 	 * FILE : File :<br/>
@@ -59,7 +79,7 @@ public class MotifDaoJAXBTest {
 		= new File("data/base-regex_javafx-JAXB/motifs.xml");
 
 	/**
-	 * .<br/>
+	 * IMotifDaoJAXB.<br/>
 	 */
 	public static transient IMotifDaoJAXB daoJAXB;
 	
@@ -82,23 +102,24 @@ public class MotifDaoJAXBTest {
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 
+	
 	/**
-	 * .<br/>
+	 * teste la méthode create(IMotif).<br/>
 	 * <ul>
-	 * <li>.</li>
+	 * <li>garantit que create() crée sur disque 
+	 * le fichier XML si il n'existe pas.</li>
 	 * </ul>
-	 * :  :  .<br/>
 	 * 
 	 * @throws JAXBException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testCreate() throws FileNotFoundException, JAXBException {
+	public void testCreate() throws JAXBException, IOException {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -107,19 +128,25 @@ public class MotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testCreate() ********** ");
 		}
 
-		final IMotif motif1 
-		= new Motif("1 chiffre", "\\d", "1 chiffre", "[0-9]", "/ \\d /");
-		final IMotif motif2 
-			= new Motif("commence par 1 à 3 chiffres", "^\\d{1,3}?", "commence par 1 à 3 chiffres reluctant", "^\\d[0-9]{1,3}?", "/ ^\\\\d{1,3}? /");
-		final IMotif motif3 
-			= new Motif("commence par 1 à 4 chiffres", "^\\d{1,4}?", "commence par 1 à 4 chiffres reluctant", "^\\d[0-9]{1,4}?", "/ ^\\d{1,4}? /");
-
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse("FILE ne doit pas exister : ", FILE.exists());
+		
 		/* stockage d'un motif dans le XML. */
-		daoJAXB.create(motif1);
+		daoJAXB.create(MOTIF1);
 		
+		/* garantit que create() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue("FILE doit exister : ", FILE.exists());
 		
-		assertTrue("BIDON : ", 1 == 1);
-		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("CONTENU DU FICHIER " + FILE.getAbsolutePath() +'\n');
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+		}
 
 	} // Fin de testCreate().______________________________________________
 
