@@ -1,5 +1,6 @@
 package levy.daniel.application.model.dao.metier.regex.jaxb.dao.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -14,9 +15,10 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import levy.daniel.application.model.dao.metier.regex.jaxb.dao.IMotifDaoJAXB;
 import levy.daniel.application.model.metier.regex.IMotif;
 import levy.daniel.application.model.metier.regex.impl.Motif;
+import levy.daniel.application.model.persistence.metier.regex.jaxb.dao.IMotifDaoJAXB;
+import levy.daniel.application.model.persistence.metier.regex.jaxb.dao.impl.MotifDaoJAXB;
 
 
 /**
@@ -79,6 +81,35 @@ public class MotifDaoJAXBTest {
 		= new File("data/base-regex_javafx-JAXB/motifs.xml");
 
 	/**
+	 * "FILE ne doit pas exister : ".<br/>
+	 */
+	public static final String FILE_PAS_EXISTER 
+		= "FILE ne doit pas exister : ";
+	
+	/**
+	 * "FILE doit exister : ".<br/>
+	 */
+	public static final String FILE_EXISTER 
+		= "FILE doit exister : ";
+	
+	/**
+	 * "CONTENU DU FICHIER : '".<br/>
+	 */
+	public static final String CONTENU_FICHIER 
+		= "CONTENU DU FICHIER : '";
+		
+	/**
+	 * "'\n".<br/>
+	 */
+	public static final String SAUT_APO = "'\n";
+	
+	/**
+	 * "NOMBRE D'ENREGISTREMENTS DANS LE FICHIER : ".<br/>
+	 */
+	public static final String NOMBRE_ENREGISTREMENTS 
+		= "NOMBRE D'ENREGISTREMENTS DANS LE FICHIER : ";
+	
+	/**
 	 * IMotifDaoJAXB.<br/>
 	 */
 	public static transient IMotifDaoJAXB daoJAXB;
@@ -108,6 +139,9 @@ public class MotifDaoJAXBTest {
 	 * <ul>
 	 * <li>garantit que create() crée sur disque 
 	 * le fichier XML si il n'existe pas.</li>
+	 * <li>garantit que create() insère un enregistrement 
+	 * dans le stockage.</li>
+	 * <li>garantit que create() ne crée pas de doublon.</li>
 	 * </ul>
 	 * 
 	 * @throws JAXBException 
@@ -133,20 +167,41 @@ public class MotifDaoJAXBTest {
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse("FILE ne doit pas exister : ", FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
 		
+		// *************************************
 		/* stockage d'un motif dans le XML. */
 		daoJAXB.create(MOTIF1);
 		
 		/* garantit que create() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue("FILE doit exister : ", FILE.exists());
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("CONTENU DU FICHIER " + FILE.getAbsolutePath() +'\n');
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
 			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
+		
+		/* garantit que create() insère un enregistrement dans le stockage. */
+		assertEquals("Le fichier doit contenir 1 enregistrement : "
+				, (Long) 1L
+					, nombreInitial);
+		
+		// *************************************
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.create(MOTIF1);
+		
+		final Long nombreApresDoublon = daoJAXB.count();
+		
+		/* garantit que create() ne crée pas de doublon. */
+		assertEquals("Le fichier doit contenir 1 enregistrement : "
+				, (Long) 1L
+					, nombreApresDoublon);
 
 	} // Fin de testCreate().______________________________________________
 
