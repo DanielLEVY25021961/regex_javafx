@@ -65,7 +65,7 @@ public abstract class AbstractDaoException extends Exception {
 	 * Utile pour afficher en une seule fois l'ensemble 
 	 * des exceptions levées.<br/>
 	 */
-	protected static List<String> listeExceptions; // NOPMD by dan on 04/08/17 10:26
+	protected static List<String> listeExceptions; 
 	
 	
 	
