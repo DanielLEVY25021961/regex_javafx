@@ -42,6 +42,9 @@ public interface IMotifDaoJAXB {
 	String SAUT_LIGNE_JAVA = "\n";
 
 
+
+	/* CREATE ************/
+
 	
 	/**
 	 * <b>stocke l'objet métier pObject 
@@ -158,6 +161,9 @@ public interface IMotifDaoJAXB {
 				, File pFile) 
 						throws IOException, JAXBException;
 	
+
+
+	/* READ *************/
 
 	
 	/**
@@ -462,7 +468,7 @@ public interface IMotifDaoJAXB {
 	 * - return null si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
-	 * @param pFile : java.io.File.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
 	 * 
 	 * @return List&lt;IMotif&gt; : 
 	 * liste de tous les Objets métier dans le stockage.<br/>
@@ -472,6 +478,365 @@ public interface IMotifDaoJAXB {
 	 */
 	List<IMotif> findAll(File pFile) 
 			throws IOException, JAXBException;
+	
+
+
+	/* UPDATE *************/
+
+	
+	/**
+	 * <b>modifie sur disque dur dans le fichier XML 
+	 * <code>this.fichierXML</code> 
+	 * l'objet d'index (0-based) pIndex avec les valeurs 
+	 * contenues dans pObjectModifie</b>.<br/>
+	 * <ul>
+	 * <li><b>pIndex doit correspondre à l'index (0-based) 
+	 * de l'objet métier à modifier</b>.</li>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML.</li>
+	 * <li>substitue pObjectModifie à l'objet métier situé à pIndex.</li>
+	 * <li>enregistre la liste modifiée sur disque.</li>
+	 * </ul>
+	 * - retourne null si pIndex == 0.<br/>
+	 * - retourne null si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne null si <code>this.fichierXML</code> n'existe pas.<br/>
+	 * - retourne null si <code>this.fichierXML</code> n'est pas un fichier simple.<br/> 
+	 * - retourne null si pIndex est en dehors 
+	 * de la liste des objets métier.<br/>
+	 * <br/>
+	 *
+	 * @param pIndex : int : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * @param pObjectModifie : IMotif : 
+	 * Objet métier modifié.<br/>
+	 * 
+	 * @return IMotif : objet métier modifié.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	IMotif update(
+			int pIndex
+				, IMotif pObjectModifie) 
+							throws JAXBException, IOException;
+	
+	
+
+	/**
+	 * <b>modifie sur disque dur dans le fichier XML pFile 
+	 * l'objet d'index (0-based) pIndex avec les valeurs 
+	 * contenues dans pObjectModifie</b>.<br/>
+	 * <ul>
+	 * <li><b>pIndex doit correspondre à l'index (0-based) 
+	 * de l'objet métier à modifier</b>.</li>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML.</li>
+	 * <li>substitue pObjectModifie à l'objet métier situé à pIndex.</li>
+	 * <li>enregistre la liste modifiée sur disque.</li>
+	 * </ul>
+	 * - retourne null si pIndex == 0.<br/>
+	 * - retourne null si pFile == null.<br/>
+	 * - retourne null si pFile n'existe pas.<br/>
+	 * - retourne null si pFile n'est pas un fichier simple.<br/> 
+	 * - retourne null si pIndex est en dehors 
+	 * de la liste des objets métier.<br/>
+	 * <br/>
+	 *
+	 * @param pIndex : int : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * @param pObjectModifie : IMotif : 
+	 * Objet métier modifié.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @return IMotif : objet métier modifié.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	IMotif update(
+			int pIndex
+				, IMotif pObjectModifie
+					, File pFile) 
+							throws JAXBException, IOException;
+
+
+	
+	/* DELETE *************/
+	
+	/**
+	 * <b>retire l'objet métier pObject dans le fichier XML 
+	 * <code>this.fichierXML</code></b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 * <ul>
+	 * <li>récupère la liste des objets métier 
+	 * stockés dans le fichier XML.</li>
+	 * <li>retire pObject de la liste si il existe.</li>
+	 * <li>enregistre la liste modifiée sur disque.</li>
+	 * <li>retourne false si pObject n'est pas stocké 
+	 * dans le fichier XML.</li>
+	 * </ul>
+	 * - retourne false si pObject == null.<br/>
+	 * - retourne false si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne false si <code>this.fichierXML</code> n'existe pas.<br/>
+	 * - retourne false si <code>this.fichierXML</code> n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : objet métier à détruire.<br/>
+	 * 
+	 * @return : boolean : 
+	 * true si l'objet métier a été détruit.<br/>
+	 * 
+	 * @throws IOException 
+	 * @throws JAXBException 
+	 */
+	boolean delete(
+			IMotif pObject) 
+						throws JAXBException, IOException;
+	
+
+	
+	/**
+	 * <b>retire l'objet métier pObject dans le fichier XML 
+	 * pFile</b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 * <ul>
+	 * <li>récupère la liste des objets métier 
+	 * stockés dans le fichier XML.</li>
+	 * <li>retire pObject de la liste si il existe.</li>
+	 * <li>enregistre la liste modifiée sur disque.</li>
+	 * <li>retourne false si pObject n'est pas stocké 
+	 * dans le fichier XML.</li>
+	 * </ul>
+	 * - retourne false si pObject == null.<br/>
+	 * - retourne false si pFile == null.<br/>
+	 * - retourne false si pFile n'existe pas.<br/>
+	 * - retourne false si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : objet métier à détruire.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @return : boolean : 
+	 * true si l'objet métier a été détruit.<br/>
+	 * 
+	 * @throws IOException 
+	 * @throws JAXBException 
+	 */
+	boolean delete(
+			IMotif pObject
+				, File pFile) 
+						throws JAXBException, IOException;
+
+
+	
+	/**
+	 * <b>retire l'objet métier d'index (0-based) pIndex 
+	 * dans le fichier XML 
+	 * <code>this.fichierXML</code></b>.<br/>
+	 * <ul>
+	 * <li>ne fait rien si pIndex est en dehors 
+	 * de la liste des objets métier.</li>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML.</li>
+	 * <li>récupère l'objet métier à retirer par index.</li>
+	 * <li>ne fait rien si l'objet métier d'index pIndex 
+	 * n'existe pas.</li>
+	 * <li>retire l'objet de la liste si il existe.</li>
+	 * <li>enregistre la liste modifiée sur disque.</li>
+	 * </ul>
+	 * - ne fait rien si pIndex == 0.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> == null.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pIndex : int : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	void deleteById(
+			int pIndex) throws JAXBException, IOException;
+
+	
+	
+	/**
+	 * <b>retire l'objet métier d'index (0-based) pIndex 
+	 * dans le fichier XML 
+	 * pFile</b>.<br/>
+	 * <ul>
+	 * <li>ne fait rien si pIndex est en dehors 
+	 * de la liste des objets métier.</li>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML.</li>
+	 * <li>récupère l'objet métier à retirer par index.</li>
+	 * <li>ne fait rien si l'objet métier d'index pIndex 
+	 * n'existe pas.</li>
+	 * <li>retire l'objet de la liste si il existe.</li>
+	 * <li>enregistre la liste modifiée sur disque.</li>
+	 * </ul>
+	 * - ne fait rien si pIndex == 0.<br/>
+	 * - ne fait rien si pFile == null.<br/>
+	 * - ne fait rien si pFile n'existe pas.<br/>
+	 * - ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pIndex : int : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	void deleteById(
+			int pIndex
+				, File pFile) 
+						throws JAXBException, IOException;
+	
+
+	
+	/**
+	 * <b>retire l'objet métier d'index (0-based) pIndex 
+	 * dans le fichier XML 
+	 * <code>this.fichierXML</code></b>.<br/>
+	 * retourne true si le retrait à bien été effectué.<br/>
+	 * <ul>
+	 * <li>retourne false si pIndex est en dehors 
+	 * de la liste des objets métier.</li>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML.</li>
+	 * <li>récupère l'objet métier à retirer par index.</li>
+	 * <li>retourne false si l'objet métier d'index pIndex 
+	 * n'existe pas.</li>
+	 * <li>retire l'objet de la liste si il existe.</li>
+	 * <li>enregistre la liste modifiée sur disque.</li>
+	 * </ul>
+	 * - retourne false si pIndex == 0.<br/>
+	 * - retourne false si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne false si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - retourne false si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pIndex : int : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * 
+	 * @return boolean : true si le retrait à bien été effectué.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	boolean deleteByIdBoolean(int pIndex) 
+						throws JAXBException, IOException;
+	
+	
+	
+	/**
+	 * <b>retire l'objet métier d'index (0-based) pIndex 
+	 * dans le fichier XML 
+	 * pFile</b>.<br/>
+	 * retourne true si le retrait à bien été effectué.<br/>
+	 * <ul>
+	 * <li>retourne false si pIndex est en dehors 
+	 * de la liste des objets métier.</li>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML.</li>
+	 * <li>récupère l'objet métier à retirer par index.</li>
+	 * <li>retourne false si l'objet métier d'index pIndex 
+	 * n'existe pas.</li>
+	 * <li>retire l'objet de la liste si il existe.</li>
+	 * <li>enregistre la liste modifiée sur disque.</li>
+	 * </ul>
+	 * - retourne false si pIndex == 0.<br/>
+	 * - retourne false si pFile == null.<br/>
+	 * - retourne false si pFile n'existe pas.<br/>
+	 * - retourne false si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pIndex : int : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @return boolean : true si le retrait à bien été effectué.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	boolean deleteByIdBoolean(
+			int pIndex
+				, File pFile) 
+						throws JAXBException, IOException;
+	
+	
+
+	/* TOOLS *************/
+
+	
+	/**
+	 * <b>retourne true si l'objet métier pObject 
+	 * existe dans le fichier XML <code>this.fichierXML</code></b>.<br/>
+	 * <ul>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML.</li>
+	 * <li>retourne false si la liste ne contient pas 
+	 * l'objet métier.</li>
+	 * <li>retourne true si la liste contient l'objet métier.</li>
+	 * </ul>
+	 * - retourne false si pObject == null.<br/>
+	 * - retourne false si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne false si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - retourne false si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : objet métier à rechercher.<br/>
+	 * 
+	 * @return boolean : 
+	 * true si l'objet métier existe dans le fichier XML.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	boolean exists(
+			IMotif pObject) 
+						throws JAXBException, IOException;
+	
+	
+	
+	/**
+	 * <b>retourne true si l'objet métier pObject 
+	 * existe dans le fichier XML pFile</b>.<br/>
+	 * <ul>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML.</li>
+	 * <li>retourne false si la liste ne contient pas 
+	 * l'objet métier.</li>
+	 * <li>retourne true si la liste contient l'objet métier.</li>
+	 * </ul>
+	 * - retourne false si pObject == null.<br/>
+	 * - retourne false si pFile == null.<br/>
+	 * - retourne false si pFile n'existe pas.<br/>
+	 * - retourne false si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : objet métier à rechercher.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @return boolean : 
+	 * true si l'objet métier existe dans le fichier XML.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	boolean exists(
+			IMotif pObject
+				, File pFile) 
+						throws JAXBException, IOException;
 	
 	
 	

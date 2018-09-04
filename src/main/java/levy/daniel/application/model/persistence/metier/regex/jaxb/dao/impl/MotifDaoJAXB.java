@@ -293,6 +293,9 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	} // Fin de creerEntityJAXB(...).______________________________________
 
 
+
+	/* CREATE ************/
+
 	
 	/**
 	 * {@inheritDoc}
@@ -489,6 +492,9 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 						
 	} // Fin de enregistrer(...).__________________________________________
 	
+
+
+	/* READ *************/
 
 	
 	/**
@@ -818,6 +824,430 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	} // Fin de findAll(...).______________________________________________
 	
 
+
+	/* UPDATE *************/
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final IMotif update(
+			final int pIndex
+				, final IMotif pObjectModifie) 
+							throws JAXBException, IOException {
+		
+		return this.update(pIndex, pObjectModifie, this.fichierXML);
+		
+	} // Fin de update(...)._______________________________________________
+	
+	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final IMotif update(
+			final int pIndex
+				, final IMotif pObjectModifie
+					, final File pFile) 
+							throws JAXBException, IOException {
+		
+		/* retourne null si pIndex == 0. */
+		if (pIndex == 0) {
+			return null;
+		}
+		
+		/* retourne null si pFile == null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return null;
+		}
+		
+		/* récupère la liste des objets métier stockés 
+		 * dans le fichier XML. */
+		final List<IMotif> listeObjetsMetier 
+			= this.findAll(pFile);
+			
+		if (listeObjetsMetier != null) {
+			
+			final int taille = listeObjetsMetier.size();
+			
+			/* retourne null si pIndex est en dehors 
+			 * de la liste des objets métier. */
+			if (pIndex > taille - 1) {
+				return null;
+			}
+			
+			final List<IMotif> listeModifiee 
+				= new ArrayList<IMotif>();
+			
+			for (int i = 0; i < taille ; i ++) {
+				
+				/* substitue pObjectModifie à pIndex. */
+				if (i == pIndex) {
+					listeModifiee.add(pObjectModifie);
+				} else {
+					listeModifiee.add(listeObjetsMetier.get(i));
+				}
+			}
+			
+			/* enregistre la liste modifiée sur disque. */
+			this.enregistrer(listeModifiee, pFile);
+			
+			return pObjectModifie;
+		}
+
+		return null;
+		
+	} // Fin de update(...)._______________________________________________
+	
+
+	
+	/* DELETE *************/
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean delete(
+			final IMotif pObject) 
+						throws JAXBException, IOException {
+		
+		return this.delete(pObject, this.fichierXML);
+		
+	} // Fin de delete(...)._______________________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean delete(
+			final IMotif pObject
+				, final File pFile) 
+						throws JAXBException, IOException {
+		
+		/* retourne false si pObject == null. */
+		if (pObject == null) {
+			return false;
+		}
+		
+		/* retourne false si pFile == null. */
+		if (pFile == null) {
+			return false;
+		}
+		
+		/* retourne false si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return false;
+		}
+		
+		/* retourne false si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return false;
+		}
+		
+		/* récupère la liste des objets métier stockés 
+		 * dans le fichier XML. */
+		final List<IMotif> listeObjetsMetier 
+			= this.findAll(pFile);
+		
+		boolean resultat = false;
+		
+		if (listeObjetsMetier != null) {
+			
+			final List<IMotif> listeModifiee 
+				= new ArrayList<IMotif>();
+			
+			for (final IMotif objetMetier : listeObjetsMetier) {
+				
+				/* retire pObject de la liste si il existe. */
+				if (!objetMetier.equals(pObject)) {
+					listeModifiee.add(objetMetier);
+				} else {
+					resultat = true;
+				}
+			}
+			
+			/* enregistre la liste modifiée sur disque. */
+			this.enregistrer(listeModifiee, pFile);
+			
+			return resultat;
+			
+		}
+
+		return false;
+		
+	} // Fin de delete(...)._______________________________________________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void deleteById(final int pIndex) 
+						throws JAXBException, IOException {
+		
+		this.deleteById(pIndex, this.fichierXML);
+		
+	} // Fin de deleteById(...).___________________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void deleteById(
+			final int pIndex
+				, final File pFile) 
+						throws JAXBException, IOException {
+				
+		/* ne fait rien si pIndex == 0. */
+		if (pIndex == 0) {
+			return;
+		}
+		
+		/* ne fait rien si pFile == null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return;
+		}
+		
+		/* ne fait rien si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return;
+		}
+		
+		/* récupère la liste des objets métier stockés 
+		 * dans le fichier XML. */
+		final List<IMotif> listeObjetsMetier 
+			= this.findAll(pFile);
+		
+		if (listeObjetsMetier != null) {
+
+			final int taille = listeObjetsMetier.size();
+
+			/*
+			 * ne fait rien si pIndex est en dehors 
+			 * de la liste des objets métier.
+			 */
+			if (pIndex > taille - 1) {
+				return;
+			}
+
+			/* récupère l'objet métier à retirer par index. */
+			final IMotif objetARetirer = this.findById(pIndex, pFile);
+			
+			/* ne fait rien si l'objet métier d'index pIndex n'existe pas. */
+			if (objetARetirer == null) {
+				return;
+			}
+
+			final List<IMotif> listeModifiee = new ArrayList<IMotif>();
+			
+			for (final IMotif objetMetier : listeObjetsMetier) {
+
+				/* retire l'objet de la liste si il existe. */
+				if (!objetMetier.equals(objetARetirer)) {
+					listeModifiee.add(objetMetier);
+				}
+
+			}
+						
+			/* enregistre la liste modifiée sur disque. */
+			this.enregistrer(listeModifiee, pFile);
+
+		}
+		
+	} // Fin de deleteById(...).___________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean deleteByIdBoolean(
+								final int pIndex) 
+									throws JAXBException, IOException {
+		
+		return this.deleteByIdBoolean(pIndex, this.fichierXML);
+		
+	} // Fin de deleteByIdBoolean(...).____________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean deleteByIdBoolean(
+			final int pIndex
+				, final File pFile) 
+						throws JAXBException, IOException {
+				
+		/* retourne false si pIndex == 0. */
+		if (pIndex == 0) {
+			return false;
+		}
+		
+		/* retourne false si pFile == null. */
+		if (pFile == null) {
+			return false;
+		}
+		
+		/* retourne false si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return false;
+		}
+		
+		/* retourne false si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return false;
+		}
+		
+		boolean resultat = false;
+		
+		/* récupère la liste des objets métier stockés 
+		 * dans le fichier XML. */
+		final List<IMotif> listeObjetsMetier 
+			= this.findAll(pFile);
+		
+		if (listeObjetsMetier != null) {
+		
+			final int taille = listeObjetsMetier.size();
+		
+			/*
+			 * retourne false si pIndex est en dehors 
+			 * de la liste des objets métier.
+			 */
+			if (pIndex > taille - 1) {
+				return false;
+			}
+		
+			/* récupère l'objet métier à retirer par index. */
+			final IMotif objetARetirer = this.findById(pIndex, pFile);
+			
+			/* retourne false si l'objet métier d'index pIndex 
+			 * n'existe pas. */
+			if (objetARetirer == null) {
+				return false;
+			}
+					
+			final List<IMotif> listeModifiee = new ArrayList<IMotif>();
+			
+			for (final IMotif objetMetier : listeObjetsMetier) {
+		
+				/* retire l'objet de la liste si il existe. */
+				if (!objetMetier.equals(objetARetirer)) {
+					listeModifiee.add(objetMetier);
+				} else {
+					resultat = true;
+				}
+		
+			}
+						
+			/* enregistre la liste modifiée sur disque. */
+			this.enregistrer(listeModifiee, pFile);
+		
+		}
+		
+		return resultat;
+		
+	} // Fin de deleteByIdBoolean(...).____________________________________
+
+	
+	
+	/* TOOLS *************/
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean exists(
+			final IMotif pObject) 
+						throws JAXBException, IOException {
+		
+		return this.exists(pObject, this.fichierXML);
+		
+	} // Fin de exists(...)._______________________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean exists(
+			final IMotif pObject
+				, final File pFile) 
+						throws JAXBException, IOException {
+		
+		/* retourne false si pObject == null. */
+		if (pObject == null) {
+			return false;
+		}
+		
+		/* retourne false si pFile == null. */
+		if (pFile == null) {
+			return false;
+		}
+		
+		/* retourne false si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return false;
+		}
+		
+		/* retourne false si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return false;
+		}
+		
+		/* récupère la liste des objets métier stockés 
+		 * dans le fichier XML. */
+		final List<IMotif> listeObjetsMetier 
+			= this.findAll(pFile);
+		
+		boolean resultat = false;
+		
+		if (listeObjetsMetier != null) {
+			
+			for (final IMotif objetMetier : listeObjetsMetier) {
+				
+				/* retourne false si la liste ne contient 
+				 * pas l'objet métier. */
+				if (objetMetier.equals(pObject)) {
+					
+					/* retourne true si la liste 
+					 * contient l'objet métier. */
+					resultat = true;
+				}
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de exists(...)._______________________________________________
+
+	
 	
 	/**
 	 * {@inheritDoc}

@@ -606,7 +606,416 @@ public class MotifDaoJAXBTest {
 	} // Fin de testRetrieveId().__________________________________________
 	
 
+	
+	/**
+	 * teste la méthode findByMetier(String).<br/>
+	 * <ul>
+	 * <li>garantit que findByMetier(recherche) fonctionne 
+	 * correctement.</li>
+	 * <li>garantit que findByMetier(rechercheInexistante) 
+	 * retourne une liste vide.</li>
+	 * </ul>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFindByMetier() throws JAXBException, IOException {
 		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindByMetier() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		liste1.add(MOTIF3);
+		
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals(FICHIER_CONTIENT_3_ENEGISTREMENTS
+				, (Long) 3L
+					, nombreInitial);
+		
+		// *******************************************
+		/* RECHERCHE d'objets métier dans le XML. */
+		final String recherche = "chiffres";
+		final String rechercheInexistant = "toto";
+		final List<IMotif> liste = daoJAXB.findByMetier(recherche);
+		final List<IMotif> listeInexistant = daoJAXB.findByMetier(rechercheInexistant);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("LISTE EXISTANTE : ");
+			System.out.println(daoJAXB.afficherListeObjetsMetier(liste));
+			System.out.println();
+			System.out.println("LISTE INEXISTANTE : ");
+			System.out.println(daoJAXB.afficherListeObjetsMetier(listeInexistant));
+		}
+		
+		/* garantit que findByMetier(recherche) fonctionne 
+		 * correctement. */
+		assertEquals(
+				"la liste doit retourner 2 éléments : "
+					, 2
+						, liste.size());
+		
+		/* garantit que findByMetier(rechercheInexistante) 
+		 * retourne une liste vide. */
+		assertTrue(
+				"findByMetier(rechercheInexistante) doit retourner une liste vide : "
+					, listeInexistant.isEmpty());
+		
+	} // Fin de testFindByMetier().________________________________________
+	
+
+	
+	/**
+	 * teste la méthode findAll().<br/>
+	 * <ul>
+	 * <li>garantit que findAll() fonctionne correctement.</li>
+	 * </ul>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFindAll() throws JAXBException, IOException {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAll() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		liste1.add(MOTIF3);
+		
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals(FICHIER_CONTIENT_3_ENEGISTREMENTS
+				, (Long) 3L
+					, nombreInitial);
+		
+		// *******************************************
+		/* RECHERCHE d'objets métier dans le XML. */
+		final List<IMotif> liste = daoJAXB.findAll();
+		
+		/* garantit que findAll() fonctionne 
+		 * correctement. */
+		assertEquals(
+				"la liste doit retourner 3 éléments : "
+					, 3
+						, liste.size());
+		
+	} // Fin de testFindAll()._____________________________________________
+		
+
+	
+	
+	/**
+	 * teste la méthode update(...).<br/>
+	 * <ul>
+	 * <li>garantit le bon fonctionnement de update(...).</li>
+	 * </ul>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdate() throws JAXBException, IOException {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testUpdate() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		liste1.add(MOTIF3);
+		
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals(FICHIER_CONTIENT_3_ENEGISTREMENTS
+				, (Long) 3L
+					, nombreInitial);
+		
+		// *******************************************
+		/* RECHERCHE d'objets métier dans le XML. */
+		final List<IMotif> liste = daoJAXB.findAll();
+		
+		/* garantit que findAll() fonctionne 
+		 * correctement. */
+		assertEquals(
+				"la liste doit retourner 3 éléments : "
+					, 3
+						, liste.size());
+		
+		
+		/* RECHERCHE d'un objet métier dans le XML. */
+		final int indexMotif = daoJAXB.retrieveId(MOTIF2);
+
+		final IMotif objetModifie 
+			= new Motif(
+					7L
+					, "modifie1"
+					, "modifie2", "modifie3", "modifie4", "modifie5");
+		
+		// *******************************************
+		// MODIFICATION.
+		daoJAXB.update(indexMotif, objetModifie);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals(FICHIER_CONTIENT_3_ENEGISTREMENTS
+				, (Long) 3L
+					, nombreInitial);
+		
+		/* RECHERCHE d'objets métier dans le XML. */
+		final List<IMotif> listeModifiee = daoJAXB.findAll();
+		
+		/* garantit le bon fonctionnement de update(...). */
+		assertEquals(
+				"objetModifie doit avoir remplacé MOTIF2 : "
+					, objetModifie
+						, listeModifiee.get(indexMotif));
+		
+	} // Fin de testUpdate().______________________________________________
+	
+
+	
+	/**
+	 * teste la méthode delete(...).<br/>
+	 * <ul>
+	 * <li>garantit que delete(existant) supprime dans le fichier XML 
+	 * un enregistrement existant.</li>
+	 * <li>garantit que delete(existant) retourne true.</li>
+	 * <li>garantit que delete(null) retourne false.</li>
+	 * <li>garantit que delete(inexistant) retourne false.</li>
+	 * </ul>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDelete() throws JAXBException, IOException {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDelete() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		liste1.add(MOTIF3);
+		
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals(FICHIER_CONTIENT_3_ENEGISTREMENTS
+				, (Long) 3L
+					, nombreInitial);
+		
+		// *******************************************
+		/* RECHERCHE d'objets métier dans le XML. */
+		final List<IMotif> liste = daoJAXB.findAll();
+		
+		/* garantit que findAll() fonctionne 
+		 * correctement. */
+		assertEquals(
+				"la liste doit retourner 3 éléments : "
+					, 3
+						, liste.size());
+		
+		// *******************************************
+		// DESTRUCTION.
+		final boolean deleteTrue = daoJAXB.delete(MOTIF2);
+		
+		final Long nombreFinal = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("************** APRES DESTRUCTION ************** ");
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreFinal);
+		}
+				
+		/* garantit que delete(existant) supprime dans le fichier XML 
+		 * un enregistrement existant. */
+		assertEquals("Le fichier doit contenir 2 enregistrements : "
+				, (Long) 2L
+					, nombreFinal);
+		
+		/* garantit que delete(existant) retourne true. */
+		assertTrue(
+				"delete(existant) doit retourner true : "
+					, deleteTrue);
+		
+		// DESTRUCTION d'un inexistant.
+		final boolean deleteNull = daoJAXB.delete(null);
+		
+		final IMotif objetInexistant 
+		= new Motif(
+				7L
+				, "inex11"
+				, "inex12", "inex13", "inex14", "inex15");
+		
+		final boolean deleteInexistant = daoJAXB.delete(objetInexistant);
+		
+		/* garantit que delete(null) retourne false. */
+		assertFalse(
+				"delete(null) doit retourner false : "
+					, deleteNull);
+		
+		/* garantit que delete(inexistant) retourne false. */
+		assertFalse(
+				"delete(inexistant) doit retourner false : "
+					, deleteInexistant);
+
+	} // Fin de testDelete().______________________________________________
+	
+	
+
 	/**
 	 * method avantTests() :<br/>
 	 * <ul>
