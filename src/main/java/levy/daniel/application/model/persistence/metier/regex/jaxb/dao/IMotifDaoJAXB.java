@@ -219,6 +219,138 @@ public interface IMotifDaoJAXB {
 
 	
 	/**
+	 * <b>retourne un objet métier recherché par son index (0-based) 
+	 * dans la liste des objets métier modélisant le fichier XML 
+	 * <code>this.fichierXML</code></b>.<br/>
+	 * <ul>
+	 * <li>recherche l'objet métier par son index 
+	 * dans la liste d'objets métier modélisant le fichier XML 
+	 * <code>this.fichierXML</code>.</li>
+	 * <li>retourne null si l'objet métier n'est pas 
+	 * stocké dans le fichier XML <code>this.fichierXML</code>.</li>
+	 * </ul>
+	 * - retourne null si pId == 0.<br/>
+	 * - retourne null si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne null si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - retourne null si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/> 
+	 *
+	 * @param pId : int : 
+	 * index (0-based) de l'objet métier dans la liste modélisant 
+	 * le fichier XML.<br/> 
+	 * 
+	 * @return : IMotif : 
+	 * objet métier recherché par son index (0-based).<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	IMotif findById(int pId) 
+						throws IOException, JAXBException;
+
+	
+	
+	/**
+	 * <b>retourne un objet métier recherché par son index (0-based) 
+	 * dans la liste des objets métier modélisant le fichier XML 
+	 * pFile</b>.<br/>
+	 * <ul>
+	 * <li>recherche l'objet métier par son index 
+	 * dans la liste d'objets métier modélisant le fichier XML 
+	 * pFile.</li>
+	 * <li>retourne null si l'objet métier n'est pas 
+	 * stocké dans le fichier XML pFile.</li>
+	 * </ul>
+	 * - retourne null si pId == 0.<br/>
+	 * - retourne null si pFile == null.<br/>
+	 * - retourne null si pFile n'existe pas.<br/>
+	 * - retourne null si pFile n'est pas un fichier simple.<br/>
+	 * <br/> 
+	 *
+	 * @param pId : int : 
+	 * index (0-based) de l'objet métier dans la liste modélisant 
+	 * le fichier XML.<br/> 
+	 * @param pFile : File : fichier XML.<br/>
+	 * 
+	 * @return : IMotif : 
+	 * objet métier recherché par son index (0-based).<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	IMotif findById(
+			int pId, 
+				File pFile) 
+						throws IOException, JAXBException;
+	
+	
+
+	/**
+	 * <b>retourne l'index (0-based) de l'objet métier pObject 
+	 * dans la liste des objet métier stockés dans le fichier XML 
+	 * <code>this.fichierXML</code></b>.<br/>
+	 * <ul>
+	 * <li>recherche l'objet métier par son égalité métier 
+	 * (equals()).</li>
+	 * <li>retourne 0 si l'objet métier n'est pas 
+	 * stocké dans le fichier XML <code>this.fichierXML</code>.</li>
+	 * </ul>
+	 * - retourne 0 si pObject == null.<br/>
+	 * - retourne 0 si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne 0 si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - retourne 0 si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : objet métier à rechercher.<br/>
+	 * @param pFile : File : fichier XML.<br/>
+	 * 
+	 * @return : int : index (0-based).<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	int retrieveId(
+			IMotif pObject) 
+						throws IOException, JAXBException;
+	
+	
+	
+	/**
+	 * <b>retourne l'index (0-based) de l'objet métier pObject 
+	 * dans la liste des objet métier stockés dans le fichier XML 
+	 * pFile</b>.<br/>
+	 * <ul>
+	 * <li>recherche l'objet métier par son égalité métier 
+	 * (equals()).</li>
+	 * <li>retourne 0 si l'objet métier n'est pas 
+	 * stocké dans le fichier XML pFile.</li>
+	 * </ul>
+	 * - retourne 0 si pObject == null.<br/>
+	 * - retourne 0 si pFile == null.<br/>
+	 * - retourne 0 si pFile n'existe pas.<br/>
+	 * - retourne 0 si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : objet métier à rechercher.<br/>
+	 * @param pFile : File : fichier XML.<br/>
+	 * 
+	 * @return : int : index (0-based).<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	int retrieveId(
+			IMotif pObject, 
+				File pFile) 
+						throws IOException, JAXBException;
+	
+	
+
+	/**
 	 * <b>retourne le liste des objets métier stockés dans le fichier XML 
 	 * <code>this.fichierXML</code> qui remplissent une condition métier</b>.<br/>
 	 * <ul>

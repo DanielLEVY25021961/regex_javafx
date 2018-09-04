@@ -534,15 +534,22 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 			return null;
 		}
 		
+		/* récupère la liste des objets métier stockés 
+		 * dans le fichier XML. */
 		final List<IMotif> listeObjetsMetier 
 			= this.findAll(pFile);
 		
-		for (final IMotif motif : listeObjetsMetier) {
+		if (listeObjetsMetier != null) {
 			
-			if (motif.equals(pObject)) {
-				return motif;
+			for (final IMotif motif : listeObjetsMetier) {
+				
+				if (motif.equals(pObject)) {
+					return motif;
+				}
 			}
+			
 		}
+		
 		
 		/* retourne null si l'objet métier n'est pas 
 		 * stocké dans le fichier XML pFile. */
@@ -551,6 +558,130 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	} // Fin de retrieve(...)._____________________________________________
 	
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final IMotif findById(final int pId) 
+						throws IOException, JAXBException {
+		
+		return this.findById(pId, this.fichierXML);
+		
+	} // Fin de findById(...)._____________________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final IMotif findById(
+			final int pId, 
+				final File pFile) 
+						throws IOException, JAXBException {
+		
+		/* retourne null si pId == 0. */
+		if (pId == 0) {
+			return null;
+		}
+		
+		/* retourne null si pFile == null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* retourne null si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return null;
+		}
+		
+		/* récupère la liste des objets métier stockés 
+		 * dans le fichier XML. */
+		final List<IMotif> listeObjetsMetier 
+			= this.findAll(pFile);
+		
+		if (listeObjetsMetier != null) {
+			return listeObjetsMetier.get(pId);
+		}
+		
+		/* retourne null si l'objet métier n'est pas 
+		 * stocké dans le fichier XML pFile. */
+		return null;
+
+	} // Fin de findById(...)._____________________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final int retrieveId(
+			final IMotif pObject) 
+						throws IOException, JAXBException {
+		return this.retrieveId(pObject, this.fichierXML);
+	} // Fin de retrieveId(...).___________________________________________
+	
+	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final int retrieveId(
+			final IMotif pObject, 
+				final File pFile) 
+						throws IOException, JAXBException {
+		
+		/* retourne 0 si pObject == null. */
+		if (pObject == null) {
+			return 0;
+		}
+		
+		/* retourne 0 si pFile == null. */
+		if (pFile == null) {
+			return 0;
+		}
+		
+		/* retourne 0 si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return 0;
+		}
+		
+		/* retourne 0 si pFile n'est pas un fichier simple. */
+		if (!pFile.isFile()) {
+			return 0;
+		}
+		
+		/* récupère la liste des objets métier stockés 
+		 * dans le fichier XML. */
+		final List<IMotif> listeObjetsMetier 
+			= this.findAll(pFile);
+		
+		if (listeObjetsMetier != null) {
+			
+			for (final IMotif motif : listeObjetsMetier) {
+				
+				if (motif.equals(pObject)) {
+					return listeObjetsMetier.indexOf(motif);
+				}
+			}
+			
+		}
+				
+		/* retourne 0 si l'objet métier n'est pas 
+		 * stocké dans le fichier XML pFile. */
+		return 0;
+		
+	} // Fin de retrieveId(...).___________________________________________
+
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -602,15 +733,19 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		final List<IMotif> listeObjetsMetier 
 			= this.findAll(pFile);
 	
-		for (final IMotif motif : listeObjetsMetier) {
+		if (listeObjetsMetier != null) {
 			
-			/* ajoute au résultat tous les objets métier 
-			 * remplissant la condition métier.  */
-			if (StringUtils.contains(motif.getNom(), pString)) {
-				resultat.add(motif);
+			for (final IMotif motif : listeObjetsMetier) {
+				
+				/* ajoute au résultat tous les objets métier 
+				 * remplissant la condition métier.  */
+				if (StringUtils.contains(motif.getNom(), pString)) {
+					resultat.add(motif);
+				}
 			}
+			
 		}
-
+		
 		return resultat;
 		
 	} // Fin de findByMetier(...)._________________________________________
@@ -653,19 +788,25 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 			return null;
 		}
 		
+		List<IMotif> resultat = null;
+		
 		/* récupère la modélisation du fichier XML sous forme d'entité JAXB. */
 		final TableMotifsEntityJAXB tableEntities 
 			= this.recupererEntites(pFile);
 		
-		/* récupère la liste des entités JAXB contenues 
-		 * dans la modélisation du fichier XML. */
-		final List<MotifEntityJAXB> listeEntities 
-			= tableEntities.getListeMotifs();
-		
-		/* convertit la liste d'entités JAXB en liste d'objets métier. */
-		final List<IMotif> resultat 
-			= this.convertirListEntitiesEnModel(listeEntities);
-		
+		if (tableEntities != null) {
+			
+			/* récupère la liste des entités JAXB contenues 
+			 * dans la modélisation du fichier XML. */
+			final List<MotifEntityJAXB> listeEntities 
+				= tableEntities.getListeMotifs();
+			
+			/* convertit la liste d'entités JAXB en liste d'objets métier. */
+			resultat 
+				= this.convertirListEntitiesEnModel(listeEntities);
+			
+		}
+				
 		return resultat;
 		
 	} // Fin de findAll(...).______________________________________________
@@ -712,10 +853,14 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		
 		Long resultat = null;
 		
-		/* retourne le nombre d'éléments de la liste 
-		 * sous forme de Long. */
-		resultat = Long.valueOf(liste.size());
-		
+		if (liste != null) {
+			
+			/* retourne le nombre d'éléments de la liste 
+			 * sous forme de Long. */
+			resultat = Long.valueOf(liste.size());
+			
+		}
+				
 		return resultat;
 		
 	} // Fin de Long count(...).___________________________________________
@@ -788,8 +933,10 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		final TableMotifsEntityJAXB tableEntitiesJAXB 
 			= new TableMotifsEntityJAXB(listeEntitiesJAXB);
 		
-		this.ecrireTableEntitiesConsole(tableEntitiesJAXB);
-		
+		if (tableEntitiesJAXB != null) {
+			this.ecrireTableEntitiesConsole(tableEntitiesJAXB);
+		}
+				
 	} // Fin de ecrireListeObjetsMetierXMLConsole(...).____________________
 	
 

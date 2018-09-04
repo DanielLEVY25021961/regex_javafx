@@ -401,9 +401,106 @@ public class MotifDaoJAXBTest {
 					, motifInexistant);
 		
 	} // Fin de testRetrieve().____________________________________________
+
+
 	
+	/**
+	 * teste la méthode retrieveId(IMotif).<br/>
+	 * <ul>
+	 * <li>garantit que retrieveId(existant) fonctionne bien.</li>
+	 * <li>garantit que retrieveId(null) retourne 0.</li>
+	 * <li>garantit que retrieveId(inexistant) retourne 0.</li>
+	 * </ul>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testRetrieveId() throws JAXBException, IOException {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testRetrieveId() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		liste1.add(MOTIF3);
+		
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals("Le fichier doit contenir 3 enregistrements : "
+				, (Long) 3L
+					, nombreInitial);
+
+		// *************************************
+		/* RECHERCHE d'un motif dans le XML. */
+		final int indexMotif = daoJAXB.retrieveId(MOTIF2);
+		final int indexMotifNull = daoJAXB.retrieveId(null);
+		final IMotif motifInexistantPur 
+			= new Motif(7L, "inexistant1", "inexistant2", "inexistant3", "inexistant3", "inexistant5");
+		final int indexMotifInexistant = daoJAXB.retrieveId(motifInexistantPur);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("INDEX DU MOTIF RECHERCHE : " + indexMotif);
+		}
+		
+		
+		/* garantit que retrieveId(existant) fonctionne bien. */
+		assertEquals("retrieveId() doit retourner le bon index d'objet métier : "
+				, 1
+					, indexMotif);
+		
+		/* garantit que retrieveId(null) retourne 0. */
+		assertEquals(
+				"retrieveId(null) doit retourner 0 : "
+					, 0
+						, indexMotifNull);
+		
+		/* garantit que retrieve(inexistant) retourne 0.*/
+		assertEquals(
+				"retrieveId(inexistant) doit retourner 0 : "
+					, 0
+						, indexMotifInexistant);
+		
+	} // Fin de testRetrieveId().__________________________________________
 	
-	
+
+		
 	/**
 	 * method avantTests() :<br/>
 	 * <ul>
