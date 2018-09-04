@@ -223,11 +223,10 @@ public interface IMotifDaoJAXB {
 	 * dans la liste des objets métier modélisant le fichier XML 
 	 * <code>this.fichierXML</code></b>.<br/>
 	 * <ul>
-	 * <li>recherche l'objet métier par son index 
+	 * <li>recherche l'objet métier par son index (0-based) 
 	 * dans la liste d'objets métier modélisant le fichier XML 
 	 * <code>this.fichierXML</code>.</li>
-	 * <li>retourne null si l'objet métier n'est pas 
-	 * stocké dans le fichier XML <code>this.fichierXML</code>.</li>
+	 * <li>retourne null si l'index n'existe pas dans la liste.</li>
 	 * </ul>
 	 * - retourne null si pId == 0.<br/>
 	 * - retourne null si <code>this.fichierXML</code> == null.<br/>
@@ -257,11 +256,10 @@ public interface IMotifDaoJAXB {
 	 * dans la liste des objets métier modélisant le fichier XML 
 	 * pFile</b>.<br/>
 	 * <ul>
-	 * <li>recherche l'objet métier par son index 
+	 * <li>recherche l'objet métier par son index (0-based)
 	 * dans la liste d'objets métier modélisant le fichier XML 
 	 * pFile.</li>
-	 * <li>retourne null si l'objet métier n'est pas 
-	 * stocké dans le fichier XML pFile.</li>
+	 * <li>retourne null si l'index n'existe pas dans la liste.</li>
 	 * </ul>
 	 * - retourne null si pId == 0.<br/>
 	 * - retourne null si pFile == null.<br/>

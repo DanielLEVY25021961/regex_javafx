@@ -1,3 +1,4 @@
 /.checkstyle
 /.pmd
 /target/
+/data/base-regex_javafx-JAXB/motifs.xml

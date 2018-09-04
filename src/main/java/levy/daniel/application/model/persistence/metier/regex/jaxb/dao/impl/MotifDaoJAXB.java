@@ -483,10 +483,10 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		if (pFile == null) {
 			return;
 		}
-		
-		/* Ecriture sur disque dur sous forme de fichier XML. */
+							
+		/* Ecriture sur disque dur sous forme de fichier XML. */		
 		this.marshaller.marshal(pTableEntitiesJAXB, pFile);
-		
+						
 	} // Fin de enregistrer(...).__________________________________________
 	
 
@@ -607,7 +607,13 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 			= this.findAll(pFile);
 		
 		if (listeObjetsMetier != null) {
-			return listeObjetsMetier.get(pId);
+			/* retourne null si l'index n'existe pas dans la liste. */
+			try {
+				return listeObjetsMetier.get(pId);
+			} catch (IndexOutOfBoundsException iobe) {
+				return null;
+			}
+			
 		}
 		
 		/* retourne null si l'objet métier n'est pas 
