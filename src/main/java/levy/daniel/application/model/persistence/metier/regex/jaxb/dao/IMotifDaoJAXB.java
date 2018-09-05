@@ -404,12 +404,13 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @param pObject : IMotif : objet métier à rechercher.<br/>
 	 * @param pFile : File : fichier XML.<br/>
 	 * 
-	 * @return : int : index (0-based).<br/>
+	 * @return : Long : index (0-based).<br/>
 	 * 
 	 * @throws IOException
 	 * @throws JAXBException
 	 */
-	int retrieveId(
+	@Override
+	Long retrieveId(
 			IMotif pObject) 
 						throws IOException, JAXBException;
 	
@@ -434,12 +435,12 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @param pObject : IMotif : objet métier à rechercher.<br/>
 	 * @param pFile : File : fichier XML.<br/>
 	 * 
-	 * @return : int : index (0-based).<br/>
+	 * @return : Long : index (0-based).<br/>
 	 * 
 	 * @throws IOException
 	 * @throws JAXBException
 	 */
-	int retrieveId(
+	Long retrieveId(
 			IMotif pObject, 
 				File pFile) 
 						throws IOException, JAXBException;
@@ -573,6 +574,81 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 			throws IOException, JAXBException;
 	
 
+	
+	/**
+	 * <b>retourne la liste des pMax objets métier 
+	 * persistés dans le stockage</b> à partir de la 
+	 * position pStartPosition (0-based).<br/>
+	 * <ul>
+	 * <li>retourne par exemple les 50 objets métier stockés 
+	 * à partir du 100ème.</li>
+	 * <li>récupère la liste des objets métier stockés.</li>
+	 * <li>retourne null si pStartPosition est hors indexes.</li>
+	 * <li>ajoute un objet métier au résultat si son index 
+	 * est >= pStartPosition, < (pStartPosition + pMaxResult)  
+	 * et dans les indexes.</li>
+	 * </ul>
+	 * - return null si <code>this.fichierXML</code> == null.<br/>
+	 * - return null si <code>this.fichierXML</code> n'existe pas.<br/>
+	 * - return null si <code>this.fichierXML</code> n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pStartPosition : int : index (0-based) de départ.<br/>
+	 * @param pMaxResult : int : 
+	 * nombre maximum d'objets métier à retourner.<br/>
+	 * 
+	 * @return : List&lt;IMotif&gt; : 
+	 * liste des pMax objets métier persistés dans le stockage 
+	 * à partir de pStartPosition (0-based).<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	@Override
+	List<IMotif> findAllMax(
+			int pStartPosition
+				, int pMaxResult) 
+							throws JAXBException, IOException;
+
+	
+	
+	/**
+	 * <b>retourne la liste des pMax objets métier 
+	 * persistés dans le stockage</b> à partir de la 
+	 * position pStartPosition (0-based).<br/>
+	 * <ul>
+	 * <li>retourne par exemple les 50 objets métier stockés 
+	 * à partir du 100ème.</li>
+	 * <li>récupère la liste des objets métier stockés.</li>
+	 * <li>retourne null si pStartPosition est hors indexes.</li>
+	 * <li>ajoute un objet métier au résultat si son index 
+	 * est >= pStartPosition, < (pStartPosition + pMaxResult)  
+	 * et dans les indexes.</li>
+	 * </ul>
+	 * - return null si pFile == null.<br/>
+	 * - return null si pFile n'existe pas.<br/>
+	 * - return null si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pStartPosition : int : index (0-based) de départ.<br/>
+	 * @param pMaxResult : int : 
+	 * nombre maximum d'objets métier à retourner.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @return : List&lt;IMotif&gt; : 
+	 * liste des pMax objets métier persistés dans le stockage 
+	 * à partir de pStartPosition (0-based).<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	List<IMotif> findAllMax(
+			int pStartPosition
+				, int pMaxResult
+					, File pFile) 
+							throws JAXBException, IOException;
+	
+	
 
 	/* UPDATE *************/
 
@@ -590,7 +666,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * <li>substitue pObjectModifie à l'objet métier situé à pIndex.</li>
 	 * <li>enregistre la liste modifiée sur disque.</li>
 	 * </ul>
-	 * - retourne null si pIndex == 0.<br/>
+	 * - retourne null si pIndex == null ou 0.<br/>
 	 * - retourne null si <code>this.fichierXML</code> == null.<br/>
 	 * - retourne null si <code>this.fichierXML</code> n'existe pas.<br/>
 	 * - retourne null si <code>this.fichierXML</code> n'est pas un fichier simple.<br/> 
@@ -598,7 +674,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * de la liste des objets métier.<br/>
 	 * <br/>
 	 *
-	 * @param pIndex : int : 
+	 * @param pIndex : Long : 
 	 * index (0-based) de l'objet métier à modifier.<br/>
 	 * @param pObjectModifie : IMotif : 
 	 * Objet métier modifié.<br/>
@@ -608,8 +684,9 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
+	@Override
 	IMotif update(
-			int pIndex
+			Long pIndex
 				, IMotif pObjectModifie) 
 							throws JAXBException, IOException;
 	
@@ -627,7 +704,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * <li>substitue pObjectModifie à l'objet métier situé à pIndex.</li>
 	 * <li>enregistre la liste modifiée sur disque.</li>
 	 * </ul>
-	 * - retourne null si pIndex == 0.<br/>
+	 * - retourne null si pIndex == null ou 0.<br/>
 	 * - retourne null si pFile == null.<br/>
 	 * - retourne null si pFile n'existe pas.<br/>
 	 * - retourne null si pFile n'est pas un fichier simple.<br/> 
@@ -635,7 +712,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * de la liste des objets métier.<br/>
 	 * <br/>
 	 *
-	 * @param pIndex : int : 
+	 * @param pIndex : Long : 
 	 * index (0-based) de l'objet métier à modifier.<br/>
 	 * @param pObjectModifie : IMotif : 
 	 * Objet métier modifié.<br/>
@@ -647,7 +724,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws IOException
 	 */
 	IMotif update(
-			int pIndex
+			Long pIndex
 				, IMotif pObjectModifie
 					, File pFile) 
 							throws JAXBException, IOException;
@@ -751,6 +828,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
+	@Override
 	void deleteById(
 			Long pIndex) throws JAXBException, IOException;
 
@@ -823,6 +901,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
+	@Override
 	boolean deleteByIdBoolean(Long pIndex) 
 						throws JAXBException, IOException;
 	
@@ -864,8 +943,228 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 				, File pFile) 
 						throws JAXBException, IOException;
 	
+
+	
+	/**
+	 * <b>retire tous les objets métier dans le stockage</b>.<br/>
+	 * <ul>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML <code>this.fichierXML</code>.</li>
+	 * <li>retire chaque objet métier.</li>
+	 * </ul>
+	 * - ne fait rien si <code>this.fichierXML</code> == null.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@Override
+	void deleteAll() 
+			throws JAXBException, IOException;
+
+
+	
+	/**
+	 * <b>retire tous les objets métier dans le stockage</b>.<br/>
+	 * <ul>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML pFile.</li>
+	 * <li>retire chaque objet métier.</li>
+	 * </ul>
+	 * - ne fait rien si pFile == null.<br/>
+	 * - ne fait rien si pFile n'existe pas.<br/>
+	 * - ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	void deleteAll(File pFile) 
+			throws JAXBException, IOException;
 	
 
+	
+	/**
+	 * <b>retire tous les objets métier dans le stockage</b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 * <ul>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML <code>this.fichierXML</code>.</li>
+	 * <li>retire chaque objet métier.</li>
+	 * </ul>
+	 * - retourne false si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne false si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - retourne false si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @return : boolean : 
+	 * true si le retrait a bien été effectué.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@Override
+	boolean deleteAllBoolean() 
+			throws JAXBException, IOException;
+
+	
+	
+	/**
+	 * <b>retire tous les objets métier dans le stockage</b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 * <ul>
+	 * <li>récupère la liste des objets métier stockés 
+	 * dans le fichier XML pFile.</li>
+	 * <li>retire chaque objet métier.</li>
+	 * </ul>
+	 * - retourne false si pFile == null.<br/>
+	 * - retourne false si pFile n'existe pas.<br/>
+	 * - retourne false si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 * 
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 *
+	 * @return : boolean : 
+	 * true si le retrait a bien été effectué.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	boolean deleteAllBoolean(File pFile) 
+			throws JAXBException, IOException;
+	
+
+	
+	/**
+	 * <b>retire tous les objets de l'itérable pList déjà persistés 
+	 * dans le stockage</b>.<br/>
+	 * <ul>
+	 * <li>ne fait rien et continue le processus de retrait 
+	 * si un objet de l'itérable n'est pas persisté.</li>
+	 * <li>récupère la liste des objets métier stockés</li>
+	 * <li>retire chaque objet de l'itérable de la liste.</li>
+	 * </ul>
+	 * - ne fait rien si pList == null.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> == null.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - ne fait rien si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pList : Iterable&lt;IMotif&gt; : 
+	 * itérable d'objets métier à retirer dans le stockage.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@Override
+	void deleteIterable(Iterable<IMotif> pList) 
+			throws JAXBException, IOException;
+	
+
+	
+	/**
+	 * <b>retire tous les objets de l'itérable pList déjà persistés 
+	 * dans le stockage</b>.<br/>
+	 * <ul>
+	 * <li>ne fait rien et continue le processus de retrait 
+	 * si un objet de l'itérable n'est pas persisté.</li>
+	 * <li>récupère la liste des objets métier stockés</li>
+	 * <li>retire chaque objet de l'itérable de la liste.</li>
+	 * </ul>
+	 * - ne fait rien si pList == null.<br/>
+	 * - ne fait rien si pFile == null.<br/>
+	 * - ne fait rien si pFile n'existe pas.<br/>
+	 * - ne fait rien si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pList : Iterable&lt;IMotif&gt; : 
+	 * itérable d'objets métier à retirer dans le stockage.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	void deleteIterable(Iterable<IMotif> pList, File pFile) 
+			throws JAXBException, IOException;
+	
+
+	
+	/**
+	 * <b>retire tous les objets de l'itérable pList déjà persistés 
+	 * dans le stockage</b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 * <ul>
+	 * <li>ne fait rien et continue le processus de retrait 
+	 * si un objet de l'itérable n'est pas persisté.</li>
+	 * <li>récupère la liste des objets métier stockés</li>
+	 * <li>retire chaque objet de l'itérable de la liste.</li>
+	 * <li>retourne true dès qu'un élément est retiré.</li>
+	 * </ul>
+	 * - retourne false si pList == null.<br/>
+	 * - retourne false si <code>this.fichierXML</code> == null.<br/>
+	 * - retourne false si <code>this.fichierXML</code> 
+	 * n'existe pas.<br/>
+	 * - retourne false si <code>this.fichierXML</code> 
+	 * n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pList : Iterable&lt;IMotif&gt; : 
+	 * itérable d'objets à retirer du stockage.<br/>
+	 * 
+	 * @return : boolean : true si le retrait a bien été effectué.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@Override
+	boolean deleteIterableBoolean(Iterable<IMotif> pList) 
+			throws JAXBException, IOException;
+	
+
+	
+	/**
+	 * <b>retire tous les objets de l'itérable pList déjà persistés 
+	 * dans le stockage</b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 * <ul>
+	 * <li>ne fait rien et continue le processus de retrait 
+	 * si un objet de l'itérable n'est pas persisté.</li>
+	 * <li>récupère la liste des objets métier stockés</li>
+	 * <li>retire chaque objet de l'itérable de la liste.</li>
+	 * <li>retourne true dès qu'un élément est retiré.</li>
+	 * </ul>
+	 * - retourne false si pList == null.<br/>
+	 * - retourne false si pFile == null.<br/>
+	 * - retourne false si pFile n'existe pas.<br/>
+	 * - retourne false si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pList : Iterable&lt;IMotif&gt; : 
+	 * itérable d'objets à retirer du stockage.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @return : boolean : true si le retrait a bien été effectué.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	boolean deleteIterableBoolean(
+			Iterable<IMotif> pList
+				, File pFile) 
+						throws JAXBException, IOException;
+	
+	
+	
 	/* TOOLS *************/
 
 	
@@ -895,6 +1194,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
+	@Override
 	boolean exists(
 			IMotif pObject) 
 						throws JAXBException, IOException;
@@ -934,6 +1234,35 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	
 	/**
+	 * 
+	 */
+	@Override
+	boolean exists(
+			Long pIndex) 
+					throws JAXBException, IOException;
+	
+
+	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 *
+	 * @param pIndex
+	 * @param pFile
+	 * @return
+	 * @throws JAXBException
+	 * @throws IOException : boolean :  .<br/>
+	 */
+	boolean exists(
+			Long pIndex
+				, File pFile) 
+						throws JAXBException, IOException;
+	
+	
+	
+	/**
 	 * <b>retourne le nombre d'objets métier</b> 
 	 * stockés dans le fichier XML <code>this.fichierXML</code>.<br/>
 	 * <ul>
@@ -955,6 +1284,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws JAXBException 
 	 * @throws IOException 
 	 */
+	@Override
 	Long count() throws IOException, JAXBException;
 	
 	
@@ -983,6 +1313,17 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 */
 	Long count(File pFile) 
 					throws IOException, JAXBException;
+	
+	
+	/**
+	 * <b>écrit le contenu du stockage dans la console</b>.<br/>
+	 *
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	@Override
+	void ecrireStockageDansConsole() 
+			throws JAXBException, IOException;
 	
 	
 	

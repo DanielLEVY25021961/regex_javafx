@@ -155,17 +155,15 @@ public class MotifDaoJAXBTest {
 	 * <li>garantit que create() ne crée pas de doublon.</li>
 	 * <li>garantit que create(Doublon) retourne null.</li>
 	 * </ul>
-	 * 
-	 * @throws JAXBException 
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testCreate() throws JAXBException, IOException {
+	public void testCreate() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -194,7 +192,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -229,18 +227,17 @@ public class MotifDaoJAXBTest {
 	 * <ul>
 	 * <li>garantit que createReturnId() crée sur disque 
 	 * le fichier XML si il n'existe pas.</li>
+	 * <li>grantit que createReturnId(existant) retourne un identifiant.</li>
 	 * <li>garantit que createReturnId() insère un enregistrement 
 	 * dans le stockage.</li>
 	 * <li>garantit que createReturnId() ne crée pas de doublon.</li>
 	 * <li>garantit que createReturnId(Doublon) retourne null.</li>
 	 * </ul>
-	 * 
-	 * @throws JAXBException 
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testCreateReturnId() throws JAXBException, IOException {
+	public void testCreateReturnId() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -264,6 +261,11 @@ public class MotifDaoJAXBTest {
 		/* stockage d'un motif dans le XML. */
 		final Long idMotif = daoJAXB.createReturnId(MOTIF1);
 		
+		/* grantit que createReturnId(existant) retourne un identifiant. */
+		assertNotNull(
+				"createReturnId(existant) doit retourner un identifiant : "
+					, idMotif);
+		
 		/* garantit que create() crée sur disque le fichier XML si il n'existe pas. */
 		assertTrue(FILE_EXISTER, FILE.exists());
 		
@@ -273,7 +275,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -292,7 +294,7 @@ public class MotifDaoJAXBTest {
 		/* garantit que createReturnId(Doublon) retourne null. */
 		assertNull(
 				"createReturnId(Doublon) doit retourner null : "
-					, idMotifDoublon		
+					, idMotifDoublon);		
 		/* garantit que createReturnId() ne crée pas de doublon. */
 		assertEquals("Le fichier doit contenir 1 enregistrement : "
 				, (Long) 1L
@@ -311,13 +313,11 @@ public class MotifDaoJAXBTest {
 	 * la totalité de la liste.</li>
 	 * <li>garantit que save() ne crée pas de doublons.</li>
 	 * </ul>
-	 *
-	 * @throws JAXBException
-	 * @throws IOException : void :  .<br/>
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testSave() throws JAXBException, IOException {
+	public void testSave() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -358,7 +358,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -379,7 +379,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreFinal);
 		}
@@ -404,13 +404,11 @@ public class MotifDaoJAXBTest {
 	 * <li>garantit que retrieve(null) retourne null.</li>
 	 * <li>garantit que retrieve(inexistant) retourne null.</li>
 	 * </ul>
-	 *
-	 * @throws JAXBException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testRetrieve() throws JAXBException, IOException {
+	public void testRetrieve() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -447,7 +445,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -506,13 +504,11 @@ public class MotifDaoJAXBTest {
 	 * <li>garantit que findById(0) retourne null.</li>
 	 * <li>garantit que findById(indexInexistant) retourne null.</li>
 	 * </ul>
-	 *
-	 * @throws JAXBException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testFindById() throws JAXBException, IOException {
+	public void testFindById() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -549,7 +545,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -562,10 +558,10 @@ public class MotifDaoJAXBTest {
 		
 		// *******************************************
 		/* RECHERCHE d'un objet métier dans le XML. */
-		final int index = 1;
+		final Long index = 1L;
 		final IMotif motif = daoJAXB.findById(index);
-		final IMotif motifZero = daoJAXB.findById(0);
-		final IMotif motifInexistant = daoJAXB.findById(7);
+		final IMotif motifZero = daoJAXB.findById(0L);
+		final IMotif motifInexistant = daoJAXB.findById(7L);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -662,11 +658,11 @@ public class MotifDaoJAXBTest {
 
 		// *******************************************
 		/* RECHERCHE d'un objet métier dans le XML. */
-		final int indexMotif = daoJAXBCaste.retrieveId(MOTIF2);
-		final int indexMotifNull = daoJAXBCaste.retrieveId(null);
+		final Long indexMotif = daoJAXBCaste.retrieveId(MOTIF2);
+		final Long indexMotifNull = daoJAXBCaste.retrieveId(null);
 		final IMotif motifInexistantPur 
 			= new Motif(7L, "inexistant11", "inexistant21", "inexistant31", "inexistant31", "inexistant51");
-		final int indexMotifInexistant = daoJAXBCaste.retrieveId(motifInexistantPur);
+		final Long indexMotifInexistant = daoJAXBCaste.retrieveId(motifInexistantPur);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -677,19 +673,19 @@ public class MotifDaoJAXBTest {
 		
 		/* garantit que retrieveId(existant) fonctionne bien. */
 		assertEquals("retrieveId() doit retourner le bon index d'objet métier : "
-				, 1
+				, (Long) 1L
 					, indexMotif);
 		
 		/* garantit que retrieveId(null) retourne 0. */
 		assertEquals(
 				"retrieveId(null) doit retourner 0 : "
-					, 0
+					, (Long) 0L
 						, indexMotifNull);
 		
 		/* garantit que retrieve(inexistant) retourne 0.*/
 		assertEquals(
 				"retrieveId(inexistant) doit retourner 0 : "
-					, 0
+					, (Long) 0L
 						, indexMotifInexistant);
 		
 	} // Fin de testRetrieveId().__________________________________________
@@ -800,13 +796,11 @@ public class MotifDaoJAXBTest {
 	 * <ul>
 	 * <li>garantit que findAll() fonctionne correctement.</li>
 	 * </ul>
-	 *
-	 * @throws JAXBException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testFindAll() throws JAXBException, IOException {
+	public void testFindAll() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -843,7 +837,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -869,9 +863,17 @@ public class MotifDaoJAXBTest {
 		
 
 	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 *
+	 * @throws Exception : void :  .<br/>
+	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testFindAllMax() throws JAXBException, IOException {
+	public void testFindAllMax() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -881,7 +883,7 @@ public class MotifDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAll() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAllMax() ********** ");
 		}
 
 		if (FILE.exists()) {
@@ -908,7 +910,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -928,13 +930,12 @@ public class MotifDaoJAXBTest {
 	 * <ul>
 	 * <li>garantit le bon fonctionnement de update(...).</li>
 	 * </ul>
-	 *
-	 * @throws JAXBException
-	 * @throws IOException
+	 * 
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testUpdate() throws JAXBException, IOException {
+	public void testUpdate() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -971,7 +972,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -995,7 +996,7 @@ public class MotifDaoJAXBTest {
 		
 		
 		/* RECHERCHE d'un objet métier dans le XML. */
-		final int indexMotif = daoJAXB.retrieveId(MOTIF2);
+		final Long indexMotif = daoJAXB.retrieveId(MOTIF2);
 
 		final IMotif objetModifie 
 			= new Motif(
@@ -1011,7 +1012,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -1029,7 +1030,7 @@ public class MotifDaoJAXBTest {
 		assertEquals(
 				"objetModifie doit avoir remplacé MOTIF2 : "
 					, objetModifie
-						, listeModifiee.get(indexMotif));
+						, listeModifiee.get(indexMotif.intValue()));
 		
 	} // Fin de testUpdate().______________________________________________
 	
@@ -1044,13 +1045,11 @@ public class MotifDaoJAXBTest {
 	 * <li>garantit que delete(null) retourne false.</li>
 	 * <li>garantit que delete(inexistant) retourne false.</li>
 	 * </ul>
-	 *
-	 * @throws JAXBException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testDelete() throws JAXBException, IOException {
+	public void testDelete() throws Exception {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -1087,7 +1086,7 @@ public class MotifDaoJAXBTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -1120,7 +1119,7 @@ public class MotifDaoJAXBTest {
 			System.out.println();
 			System.out.println("************** APRES DESTRUCTION ************** ");
 			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
-			daoJAXB.ecrireListeObjetsMetierXMLConsole();
+			daoJAXB.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreFinal);
 		}
@@ -1159,8 +1158,130 @@ public class MotifDaoJAXBTest {
 
 	} // Fin de testDelete().______________________________________________
 	
+
+	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * @throws Exception 
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDeleteById() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDeleteById() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		liste1.add(MOTIF3);
+		
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireStockageDansConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals(FICHIER_CONTIENT_3_ENEGISTREMENTS
+				, (Long) 3L
+					, nombreInitial);
+		
+	} // Fin de testDeleteById().__________________________________________
 	
 
+	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * @throws Exception 
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDeleteByIdBoolean() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDeleteByIdBoolean() ********** ");
+		}
+
+		if (FILE.exists()) {
+			Files.delete(FILE.toPath());
+		}
+		
+		/* garantit que le fichier XML n'existe pas. */
+		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		
+		final List<IMotif> liste1 = new ArrayList<IMotif>();
+		liste1.add(MOTIF1);
+		liste1.add(MOTIF2);
+		liste1.add(MOTIF3);
+		
+		/* stockage d'un motif dans le XML. */
+		daoJAXB.save(liste1);
+		
+		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
+		assertTrue(FILE_EXISTER, FILE.exists());
+		
+		final Long nombreInitial = daoJAXB.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(CONTENU_FICHIER + FILE.getAbsolutePath() + SAUT_APO);
+			daoJAXB.ecrireStockageDansConsole();
+			System.out.println();
+			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
+		}
+		
+		/* garantit que save() stocke dans le fichier XML 
+		 * la totalité de la liste. */
+		assertEquals(FICHIER_CONTIENT_3_ENEGISTREMENTS
+				, (Long) 3L
+					, nombreInitial);
+		
+	} // Fin de testDeleteByIdBoolean().___________________________________
+	
+	
+	
 	/**
 	 * method avantTests() :<br/>
 	 * <ul>

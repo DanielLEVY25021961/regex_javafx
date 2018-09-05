@@ -1,7 +1,10 @@
 package levy.daniel.application.model.persistence.metier.regex;
 
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
 
 import levy.daniel.application.model.metier.regex.IMotif;
 
@@ -64,7 +67,8 @@ public interface IDaoMotif {
 	 * l'objet métier à persister dans le stockage.<br/>
 	 * 
 	 * @return : Long : 
-	 * identifiant de l'objet persisté dans le stockage.<br/>
+	 * identifiant (ou index 0-based) 
+	 * de l'objet persisté dans le stockage.<br/>
 	 * 
 	 * @throws Exception
 	 */
@@ -156,10 +160,11 @@ public interface IDaoMotif {
 	/**
 	 * <b>retourne la liste des pMax objets métier 
 	 * persistés dans le stockage</b> à partir de la 
-	 * position pStartPosition.<br/>
+	 * position pStartPosition (0-based).<br/>
 	 * <ul>
 	 * <li>retourne par exemple les 50 objets métier stockés 
 	 * à partir du 100ème.</li>
+	 * <li>retourne null si pStartPosition est hors indexes.</li>
 	 * </ul>
 	 *
 	 * @param pStartPosition : int : index (0-based) de départ.<br/>
@@ -168,14 +173,241 @@ public interface IDaoMotif {
 	 * 
 	 * @return : List&lt;IMotif&gt; : 
 	 * liste des pMax objets métier persistés dans le stockage 
-	 * à partir de pStartPosition.<br/>
+	 * à partir de pStartPosition (0-based).<br/>
 	 * 
 	 * @throws Exception
 	 */
 	List<IMotif> findAllMax(
 			int pStartPosition, int pMaxResult) 
 					throws Exception;
+
 	
+	
+	/**
+	 * <b>retourne l'identifiant ou l'index (0-based) 
+	 * de l'objet métier pObject dans le stockage</b>.<br/>
+	 *
+	 * @param pObject : IMotif : 
+	 * objet métier dont on recherche l'identifiant.<br/>
+	 *  
+	 * @return Long : 
+	 * identifiant ou index (0-based) dans le stockage.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	Long retrieveId(IMotif pObject) 
+					throws Exception;
+	
+	
+	
+	/**
+	 * <b>modifie dans le stockage 
+	 * l'objet d'index (0-based) ou d'identifiant pIndex 
+	 * avec les valeurs 
+	 * contenues dans pObjectModifie</b>.<br/>
+	 * <ul>
+	 * <li><b>pIndex doit correspondre à l'index (0-based) 
+	 * de l'objet métier à modifier</b>.</li>
+	 * <li>retourne null si pIndex est en dehors des indexes.</li>
+	 * </ul>
+	 *
+	 * @param pIndex : Long : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * @param pObjectModifie : IMotif : 
+	 * Objet métier modifié.<br/>
+	 * 
+	 * @return IMotif : objet métier modifié.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	IMotif update(
+			Long pIndex
+				, IMotif pObjectModifie) 
+							throws Exception;
+	
+	
+	
+	/**
+	 * <b>retire l'objet métier pObject dans le stockage</b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 * <ul>
+	 * <li>retourne false si pObject n'est pas persisté.</li>
+	 * </ul>
+	 *
+	 * @param pObject : IMotif : objet métier à détruire.<br/>
+	 * 
+	 * @return : boolean : 
+	 * true si l'objet métier a été détruit.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	boolean delete(
+			IMotif pObject) 
+					throws Exception;
+	
+	
+	/**
+	 * <b>retire l'objet métier d'identifiant ou 
+	 * d'index (0-based) pIndex dans le stockage</b>.<br/>
+	 * <ul>
+	 * <li>ne fait rien si pIndex est hors indexes.</li>
+	 * </ul>
+	 *
+	 * @param pIndex : Long : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	void deleteById(Long pIndex) 
+						throws Exception;
+	
+	
+	
+	/**
+	 * <b>retire l'objet métier d'identifiant ou 
+	 * d'index (0-based) pIndex dans le stockage</b>.<br/>
+	 * retourne true si le retrait à bien été effectué.<br/>
+	 * <ul>
+	 * <li>retourne false si pIndex est hors indexes.</li>
+	 * </ul>
+	 *
+	 * @param pIndex : Long : 
+	 * index (0-based) de l'objet métier à modifier.<br/>
+	 * 
+	 * @return boolean : true si le retrait à bien été effectué.<br/>
+	 * 
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	boolean deleteByIdBoolean(Long pIndex) 
+								throws Exception;
+
+	
+	
+	/**
+	 * <b>retire tous les objets métier dans le stockage</b>.<br/>
+	 *
+	 * @throws Exception
+	 */
+	void deleteAll() throws Exception;
+	
+
+	
+	/**
+	 * <b>retire tous les objets métier dans le stockage</b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 *
+	 * @return : boolean : 
+	 * true si le retrait a bien été effectué.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	boolean deleteAllBoolean() throws Exception;
+	
+
+	
+	/**
+	 * <b>retire tous les objets de l'itérable pList déjà persistés 
+	 * dans le stockage</b>.<br/>
+	 * <ul>
+	 * <li>ne fait rien et continue le processus de retrait 
+	 * si un objet de l'itérable n'est pas persisté.</li>
+	 * </ul>
+	 *
+	 * @param pList : Iterable&lt;IMotif&gt; : 
+	 * itérable d'objets àretirer du stockage?<br/>
+	 *  
+	 * @throws Exception
+	 */
+	void deleteIterable(Iterable<IMotif> pList) throws Exception;
+	
+
+	
+	/**
+	 * <b>retire tous les objets de l'itérable pList déjà persistés 
+	 * dans le stockage</b>.<br/>
+	 * retourne true si le retrait a bien été effectué.<br/>
+	 * <ul>
+	 * <li>ne fait rien et continue le processus de retrait 
+	 * si un objet de l'itérable n'est pas persisté.</li>
+	 * </ul>
+	 *
+	 * @param pList : Iterable&lt;IMotif&gt; : 
+	 * itérable d'objets àretirer du stockage?<br/>
+	 * 
+	 * @return : boolean : true si le retrait a bien été effectué.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	boolean deleteIterableBoolean(Iterable<IMotif> pList) 
+				throws Exception;
+	
+	
+	
+
+	/* TOOLS *************/
+
+	
+	/**
+	 * <b>retourne true si l'objet métier pObject 
+	 * existe dans le stockage</b>.<br/>
+	 *
+	 * @param pObject : IMotif : objet métier à rechercher.<br/>
+	 * 
+	 * @return boolean : 
+	 * true si l'objet métier existe dans le stockage.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	boolean exists(
+			IMotif pObject) 
+					throws Exception;
+	
+	
+	
+	/**
+	 * <b>retourne true si l'objet métier pObject 
+	 * d'identifiant ou d'index (0-based) pIndex 
+	 * existe dans le stockage</b>.<br/>
+	 *
+	 * @param pIndex : Long : 
+	 * identifiant ou index (0-based) de l'objet métier à 
+	 * trouver dans le stockage.<br/>
+	 * 
+	 * @return boolean : 
+	 * true si l'objet métier existe dans le stockage.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	boolean exists(
+			Long pIndex) 
+					throws Exception;
+	
+	
+	
+	/**
+	 * <b>retourne le nombre total d'objets métier</b> 
+	 * stockés dans le stockage.<br/>
+	 *
+	 * @return : Long : 
+	 * nombre d'enregistrements dans le stockage.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	Long count() throws Exception;
+
+	
+	
+	/* AFFICHAGE *************/
+
+	
+	
+	/**
+	 * <b>écrit le contenu du stockage dans la console</b>.<br/>
+	 *
+	 * @throws Exception
+	 */
+	void ecrireStockageDansConsole() throws Exception;
 	
 	
 } // FIN DE L'INTERFACE IDaoMotif.-------------------------------------------
