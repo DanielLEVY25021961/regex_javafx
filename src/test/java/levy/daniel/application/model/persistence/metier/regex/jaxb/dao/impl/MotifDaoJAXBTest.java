@@ -115,6 +115,12 @@ public class MotifDaoJAXBTest {
 		= "NOMBRE D'ENREGISTREMENTS DANS LE FICHIER : ";
 	
 	/**
+	 * "Le fichier doit contenir 1 enregistrement : ".<br/>
+	 */
+	public static final String FICHIER_CONTIENT_1_ENREGISTREMENT 
+		= "Le fichier doit contenir 1 enregistrement : ";
+	
+	/**
 	 * "Le fichier doit contenir 3 enregistrements : ".<br/>
 	 */
 	public static final String FICHIER_CONTIENT_3_ENEGISTREMENTS 
@@ -198,7 +204,7 @@ public class MotifDaoJAXBTest {
 		}
 		
 		/* garantit que create() insère un enregistrement dans le stockage. */
-		assertEquals("Le fichier doit contenir 1 enregistrement : "
+		assertEquals(FICHIER_CONTIENT_1_ENREGISTREMENT
 				, (Long) 1L
 					, nombreInitial);
 		
@@ -214,7 +220,7 @@ public class MotifDaoJAXBTest {
 					, motifDoublon);
 		
 		/* garantit que create() ne crée pas de doublon. */
-		assertEquals("Le fichier doit contenir 1 enregistrement : "
+		assertEquals(FICHIER_CONTIENT_1_ENREGISTREMENT
 				, (Long) 1L
 					, nombreApresDoublon);
 
@@ -281,7 +287,7 @@ public class MotifDaoJAXBTest {
 		}
 		
 		/* garantit que create() insère un enregistrement dans le stockage. */
-		assertEquals("Le fichier doit contenir 1 enregistrement : "
+		assertEquals(FICHIER_CONTIENT_1_ENREGISTREMENT
 				, (Long) 1L
 					, nombreInitial);
 		
@@ -296,7 +302,7 @@ public class MotifDaoJAXBTest {
 				"createReturnId(Doublon) doit retourner null : "
 					, idMotifDoublon);		
 		/* garantit que createReturnId() ne crée pas de doublon. */
-		assertEquals("Le fichier doit contenir 1 enregistrement : "
+		assertEquals(FICHIER_CONTIENT_1_ENREGISTREMENT
 				, (Long) 1L
 					, nombreApresDoublon);
 
