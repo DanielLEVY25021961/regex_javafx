@@ -759,6 +759,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws IOException 
 	 * @throws JAXBException 
 	 */
+	@Override
 	boolean delete(
 			IMotif pObject) 
 						throws JAXBException, IOException;
@@ -1251,7 +1252,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 *
 	 * @param pIndex
 	 * @param pFile
-	 * @return
+	 * @return boolean
 	 * @throws JAXBException
 	 * @throws IOException : boolean :  .<br/>
 	 */

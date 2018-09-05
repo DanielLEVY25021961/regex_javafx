@@ -1,10 +1,7 @@
 package levy.daniel.application.model.persistence.metier.regex;
 
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.xml.bind.JAXBException;
 
 import levy.daniel.application.model.metier.regex.IMotif;
 
@@ -276,8 +273,7 @@ public interface IDaoMotif {
 	 * 
 	 * @return boolean : true si le retrait à bien été effectué.<br/>
 	 * 
-	 * @throws JAXBException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	boolean deleteByIdBoolean(Long pIndex) 
 								throws Exception;
