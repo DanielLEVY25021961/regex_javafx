@@ -346,6 +346,8 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 			 * si pObject n'est pas déjà stocké (gestion des doublons). */
 			if (!listeObjetsMetier.contains(pObject)) {
 				listeObjetsMetier.add(pObject);
+			} else {
+				return null;
 			}
 						
 			/* enregistre la nouvelle liste dans le fichier XML pFile. */
@@ -359,6 +361,80 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	} // Fin de create(...)._______________________________________________
 
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Long createReturnId(
+			final IMotif pObject) 
+							throws IOException, JAXBException {
+		
+		return this.createReturnId(pObject, this.fichierXML);
+		
+	} // Fin de createReturnId(...)._______________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Long createReturnId(
+			final IMotif pObject
+				, final File pFile) 
+							throws IOException, JAXBException {
+				
+		/* retourne null si pObject == null. */
+		if (pObject == null) {
+			return null;
+		}
+		
+		/* retourne null si pFile == null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		List<IMotif> listeObjetsMetier = null;
+		
+		/* récupère ou crée la liste des objets métier
+		 * déjà stockés dans le fichier XML pFile.*/
+		if (pFile.exists()) {
+			listeObjetsMetier = this.findAll(pFile);
+		} else {
+			listeObjetsMetier = new ArrayList<IMotif>();
+		}
+		  		
+		if (listeObjetsMetier != null) {
+			
+			int index = 0;
+			Long resultat = 0L;
+			
+			/* ajoute l'objet métier pObject à la liste 
+			 * si pObject n'est pas déjà stocké 
+			 * (gestion des doublons). */
+			if (!listeObjetsMetier.contains(pObject)) {
+				
+				listeObjetsMetier.add(pObject);
+				index = listeObjetsMetier.indexOf(pObject);
+				resultat = Long.valueOf(index);
+				
+			} else {
+				return null;
+			}
+						
+			/* enregistre la nouvelle liste dans 
+			 * le fichier XML pFile. */
+			this.enregistrer(listeObjetsMetier, pFile);
+			
+			return resultat;
+		} 
+			
+		return null;
+						
+	} // Fin de createReturnId(...)._______________________________________
+	
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -395,16 +471,23 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		
 		final Iterator<IMotif> ite = pList.iterator();
 		
+		final List<IMotif> resultat = new ArrayList<IMotif>();
+		
 		/* itère sur chaque élément de l'itérable. */
 		while (ite.hasNext()) {
 			
 			final IMotif motif = ite.next();
 			
 			/* stocke chaque élément de l'itérable dans le fichier XML. */
-			this.create(motif, pFile);
+			/* ne crée pas de doublon. */
+			final IMotif motifPersiste = this.create(motif, pFile);
+			
+			if (motifPersiste != null) {
+				resultat.add(motifPersiste);
+			}
 		}
 		
-		return pList;
+		return resultat;
 		
 	} // Fin de save(...)._________________________________________________
 	
@@ -569,7 +652,7 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final IMotif findById(final int pId) 
+	public final IMotif findById(final Long pId) 
 						throws IOException, JAXBException {
 		
 		return this.findById(pId, this.fichierXML);
@@ -583,7 +666,7 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	 */
 	@Override
 	public final IMotif findById(
-			final int pId, 
+			final Long pId, 
 				final File pFile) 
 						throws IOException, JAXBException {
 		
@@ -615,7 +698,12 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		if (listeObjetsMetier != null) {
 			/* retourne null si l'index n'existe pas dans la liste. */
 			try {
-				return listeObjetsMetier.get(pId);
+				
+				final int indexRecherche = pId.intValue();
+				final IMotif resultat 
+					= listeObjetsMetier.get(indexRecherche);
+				return resultat;
+				
 			} catch (IndexOutOfBoundsException iobe) {
 				return null;
 			}
@@ -824,7 +912,61 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	} // Fin de findAll(...).______________________________________________
 	
 
+	
+	/**
+	 * <b>retourne la liste des pMax objets métier 
+	 * persistés dans le stockage</b> à partir de la 
+	 * position pStartPosition.<br/>
+	 * <ul>
+	 * <li>retourne par exemple les 50 objets métier stockés 
+	 * à partir du 100ème.</li>
+	 * </ul>
+	 * - return null si pFile == null.<br/>
+	 * - return null si pFile n'existe pas.<br/>
+	 * - return null si pFile n'est pas un fichier simple.<br/>
+	 * <br/>
+	 *
+	 * @param pStartPosition : int : index (0-based) de départ.<br/>
+	 * @param pMaxResult : int : 
+	 * nombre maximum d'objets métier à retourner.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @return : List&lt;IMotif&gt; : 
+	 * liste des pMax objets métier persistés dans le stockage 
+	 * à partir de pStartPosition.<br/>
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
+	public final List<IMotif> findAllMax(
+			final int pStartPosition
+				, final int pMaxResult
+					, final File pFile) 
+							throws JAXBException, IOException {
+		
+		/* return null si pFile == null. */
+		if (pFile == null) {
+			return null;
+		}
+		
+		/* return null si pFile n'existe pas. */
+		if (!pFile.exists()) {
+			return null;
+		}
+		
+		/* return null si pFile n'est pas un fichier simple. */
+		if (pFile.isDirectory()) {
+			return null;
+		}
+		
+		List<IMotif> resultat = null;
 
+		return resultat;
+		
+	} // Fin de findAllMax(...).___________________________________________
+	
+	
+	
 	/* UPDATE *************/
 
 	
@@ -997,7 +1139,7 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void deleteById(final int pIndex) 
+	public final void deleteById(final Long pIndex) 
 						throws JAXBException, IOException {
 		
 		this.deleteById(pIndex, this.fichierXML);
@@ -1011,7 +1153,7 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	 */
 	@Override
 	public final void deleteById(
-			final int pIndex
+			final Long pIndex
 				, final File pFile) 
 						throws JAXBException, IOException {
 				
@@ -1085,7 +1227,7 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	 */
 	@Override
 	public final boolean deleteByIdBoolean(
-								final int pIndex) 
+								final Long pIndex) 
 									throws JAXBException, IOException {
 		
 		return this.deleteByIdBoolean(pIndex, this.fichierXML);
@@ -1099,7 +1241,7 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 	 */
 	@Override
 	public final boolean deleteByIdBoolean(
-			final int pIndex
+			final Long pIndex
 				, final File pFile) 
 						throws JAXBException, IOException {
 				

@@ -51,7 +51,8 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	/**
 	 * <b>stocke l'objet métier pObject 
-	 * dans le fichier XML <code>this.fichierXML</code></b>.<br/>
+	 * dans le fichier XML <code>this.fichierXML</code></b> 
+	 * et retourne l'objet persisté.<br/>
 	 * <ul>
 	 * <li>crée sur disque le fichier <code>this.fichierXML</code> 
 	 * si il n'existe pas.</li>
@@ -61,14 +62,17 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * si pObject n'est pas déjà stocké (<b>gestion des doublons</b>).</li>
 	 * <li>enregistre la nouvelle liste dans le fichier XML 
 	 * <code>this.fichierXML</code>.</li>
+	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
 	 * </ul>
 	 * - retourne null si pObject == null.<br/>
 	 * - retourne null si this.fichierXML == null.<br/>
 	 * <br/>
 	 *
-	 * @param pObject : IMotif.<br/>
+	 * @param pObject : IMotif : 
+	 * l'objet métier à persister dans le stockage.<br/>
 	 *  
-	 * @return : IMotif : le MODEL stocké dans le fichier.<br/>
+	 * @return : IMotif : 
+	 * l'objet métier persisté dans le stockage.<br/>
 	 * 
 	 * @throws JAXBException 
 	 * @throws IOException 
@@ -81,7 +85,8 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	/**
 	 * <b>stocke l'objet métier pObject 
-	 * dans un fichier XML pFile</b>.<br/>
+	 * dans un fichier XML pFile</b> 
+	 * et retourne l'objet persisté.<br/>
 	 * <ul>
 	 * <li>crée sur disque le fichier pFile si il n'existe pas.</li>
 	 * <li>récupère ou crée la liste des objets métier 
@@ -89,16 +94,19 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * <li>ajoute l'objet métier pObject à la liste 
 	 * si pObject n'est pas déjà stocké (<b>gestion des doublons</b>).</li>
 	 * <li>enregistre la nouvelle liste dans le fichier XML pFile.</li>
+	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
 	 * </ul>
 	 * - retourne null si pObject == null.<br/>
 	 * - retourne null si pFile == null.<br/>
 	 * <br/>
 	 *
-	 * @param pObject : IMotif.<br/>
+	 * @param pObject : IMotif : 
+	 * l'objet métier à persister dans le stockage.<br/>
 	 * @param pFile : java.io.File : 
 	 * le fichier XML dans lequel écrire les entities JAXB.<br/>
 	 *  
-	 * @return : IMotif : le MODEL stocké dans le fichier.<br/>
+	 * @return : IMotif : 
+	 * l'objet métier persisté dans le stockage.<br/>
 	 * 
 	 * @throws JAXBException 
 	 * @throws IOException 
@@ -109,8 +117,78 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 
 	
 	/**
+	 * <b>stocke l'objet métier pObject 
+	 * dans un fichier XML <code>this.fichierXML</code></b> 
+	 * et retourne l'identifiant de l'objet persisté.<br/>
+	 * <ul>
+	 * <li>crée sur disque le fichier <code>this.fichierXML</code> 
+	 * si il n'existe pas.</li>
+	 * <li>récupère ou crée la liste des objets métier 
+	 * déjà stockés dans le fichier XML 
+	 * <code>this.fichierXML</code>.</li>
+	 * <li>ajoute l'objet métier pObject à la liste 
+	 * si pObject n'est pas déjà stocké (<b>gestion des doublons</b>).</li>
+	 * <li>enregistre la nouvelle liste dans le fichier XML 
+	 * <code>this.fichierXML</code>.</li>
+	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
+	 * </ul>
+	 * - retourne null si pObject == null.<br/>
+	 * - retourne null si pFile == null.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : 
+	 * l'objet métier à persister dans le stockage.<br/>
+	 *  
+	 * @return : Long : 
+	 * identifiant de l'objet persisté dans le stockage.<br/>
+	 * 
+	 * @throws JAXBException 
+	 * @throws IOException 
+	 */
+	@Override
+	Long createReturnId(IMotif pObject) 
+			throws IOException, JAXBException;
+	
+	
+	
+	/**
+	 * <b>stocke l'objet métier pObject 
+	 * dans un fichier XML pFile</b> 
+	 * et retourne l'identifiant de l'objet persisté.<br/>
+	 * <ul>
+	 * <li>crée sur disque le fichier pFile si il n'existe pas.</li>
+	 * <li>récupère ou crée la liste des objets métier 
+	 * déjà stockés dans le fichier XML pFile.</li>
+	 * <li>ajoute l'objet métier pObject à la liste 
+	 * si pObject n'est pas déjà stocké (<b>gestion des doublons</b>).</li>
+	 * <li>enregistre la nouvelle liste dans le fichier XML pFile.</li>
+	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
+	 * </ul>
+	 * - retourne null si pObject == null.<br/>
+	 * - retourne null si pFile == null.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : IMotif : 
+	 * l'objet métier à persister dans le stockage.<br/>
+	 * @param pFile : java.io.File : 
+	 * le fichier XML dans lequel écrire les entities JAXB.<br/>
+	 *  
+	 * @return : Long : 
+	 * identifiant de l'objet persisté dans le stockage.<br/>
+	 * 
+	 * @throws JAXBException 
+	 * @throws IOException 
+	 */
+	Long createReturnId(
+			IMotif pObject
+				, File pFile) throws IOException, JAXBException;
+	
+	
+	
+	/**
 	 * <b>stocke sur disque l'itérable d'objets métier pList 
-	 * dans un fichier XML <code>this.fichierXML</code></b>.<br/>
+	 * dans un fichier XML <code>this.fichierXML</code></b> 
+	 * et retourne un Iterable des objets persistés.<br/>
 	 * <ul>
 	 * <li>crée sur disque le fichier <code>this.fichierXML</code> 
 	 * si il n'existe pas.</li>
@@ -118,19 +196,23 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * <li>stocke chaque élément de l'itérable dans le fichier XML 
 	 * <i>si il ne crée pas de doublon</i> 
 	 * (<b>gestion des doublons</b>).</li>
+	 * <li>ne fait rien et continue la sauvegarde si un objet 
+	 * dans l'itérable existe déjà dans le stockage.</li>
 	 * </ul>
 	 * - retourne null si pList == null.<br/>
 	 * - retourne null si <code>this.fichierXML</code> == null.<br/>
 	 * <br/>
 	 *
 	 * @param pList : Iterable&lt;IMotif&gt; : 
-	 * liste d'objets métier.<br/>
+	 * itérable d'objets métier à persister dans le stockage.<br/>
 	 * 
-	 * @return Iterable&lt;IMotif&gt;
+	 * @return Iterable&lt;IMotif&gt; : 
+	 * itérable d'objets métier persistés dans le stockage.<br/>
 	 * 
 	 * @throws IOException
 	 * @throws JAXBException
 	 */
+	@Override
 	Iterable<IMotif> save(
 			Iterable<IMotif> pList) 
 						throws IOException, JAXBException;
@@ -139,23 +221,26 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	/**
 	 * <b>stocke sur disque l'itérable d'objets métier pList 
-	 * dans un fichier XML pFile</b>.<br/>
+	 * dans un fichier XML pFile</b> et retourne un Iterable des objets persistés.<br/>
 	 * <ul>
 	 * <li>crée sur disque le fichier pFile si il n'existe pas.</li>
 	 * <li>itère sur chaque élément de l'itérable.</li>
 	 * <li>stocke chaque élément de l'itérable dans le fichier XML 
 	 * <i>si il ne crée pas de doublon</i> 
 	 * (<b>gestion des doublons</b>).</li>
+	 * <li>ne fait rien et continue la sauvegarde si un objet 
+	 * dans l'itérable existe déjà dans le stockage.</li>
 	 * </ul>
 	 * - retourne null si pList == null.<br/>
 	 * - retourne null si pFile == null.<br/>
 	 * <br/>
 	 *
 	 * @param pList : Iterable&lt;IMotif&gt; : 
-	 * liste d'objets métier.<br/>
+	 * itérable d'objets métier à persister dans le stockage.<br/>
 	 * @param pFile : File : fichier XML.<br/>
 	 * 
-	 * @return Iterable&lt;IMotif&gt;
+	 * @return Iterable&lt;IMotif&gt; : 
+	 * itérable d'objets métier persistés dans le stockage.<br/>
 	 * 
 	 * @throws IOException
 	 * @throws JAXBException
@@ -172,7 +257,8 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	/**
 	 * <b>retourne un objet métier stocké dans le fichier XML 
-	 * <code>this.fichierXML</code></b>.<br/>
+	 * <code>this.fichierXML</code></b> 
+	 * et retourne l'objet métier persisté.<br/>
 	 * <ul>
 	 * <li>recherche l'objet métier par son égalité métier 
 	 * (equals()).</li>
@@ -192,6 +278,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws IOException
 	 * @throws JAXBException
 	 */
+	@Override
 	IMotif retrieve(
 			IMotif pObject) 
 					throws IOException, JAXBException;
@@ -200,7 +287,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	/**
 	 * <b>retourne un objet métier stocké dans le fichier XML 
-	 * pFile</b>.<br/>
+	 * pFile</b> et retourne l'objet métier persisté.<br/>
 	 * <ul>
 	 * <li>recherche l'objet métier par son égalité métier 
 	 * (equals()).</li>
@@ -246,7 +333,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * n'est pas un fichier simple.<br/>
 	 * <br/> 
 	 *
-	 * @param pId : int : 
+	 * @param pId : Long : 
 	 * index (0-based) de l'objet métier dans la liste modélisant 
 	 * le fichier XML.<br/> 
 	 * 
@@ -256,7 +343,8 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws IOException
 	 * @throws JAXBException
 	 */
-	IMotif findById(int pId) 
+	@Override
+	IMotif findById(Long pId) 
 						throws IOException, JAXBException;
 
 	
@@ -277,7 +365,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * - retourne null si pFile n'est pas un fichier simple.<br/>
 	 * <br/> 
 	 *
-	 * @param pId : int : 
+	 * @param pId : Long : 
 	 * index (0-based) de l'objet métier dans la liste modélisant 
 	 * le fichier XML.<br/> 
 	 * @param pFile : File : fichier XML.<br/>
@@ -289,7 +377,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws JAXBException
 	 */
 	IMotif findById(
-			int pId, 
+			Long pId, 
 				File pFile) 
 						throws IOException, JAXBException;
 	
@@ -450,6 +538,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws IOException
 	 * @throws JAXBException
 	 */
+	@Override
 	List<IMotif> findAll() 
 					throws JAXBException, IOException;
 	
@@ -656,14 +745,14 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
-	 * @param pIndex : int : 
+	 * @param pIndex : Long : 
 	 * index (0-based) de l'objet métier à modifier.<br/>
 	 * 
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
 	void deleteById(
-			int pIndex) throws JAXBException, IOException;
+			Long pIndex) throws JAXBException, IOException;
 
 	
 	
@@ -688,7 +777,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * - ne fait rien si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
-	 * @param pIndex : int : 
+	 * @param pIndex : Long : 
 	 * index (0-based) de l'objet métier à modifier.<br/>
 	 * @param pFile : java.io.File : fichier XML.<br/>
 	 * 
@@ -696,7 +785,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws IOException
 	 */
 	void deleteById(
-			int pIndex
+			Long pIndex
 				, File pFile) 
 						throws JAXBException, IOException;
 	
@@ -726,7 +815,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
-	 * @param pIndex : int : 
+	 * @param pIndex : Long : 
 	 * index (0-based) de l'objet métier à modifier.<br/>
 	 * 
 	 * @return boolean : true si le retrait à bien été effectué.<br/>
@@ -734,7 +823,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
-	boolean deleteByIdBoolean(int pIndex) 
+	boolean deleteByIdBoolean(Long pIndex) 
 						throws JAXBException, IOException;
 	
 	
@@ -761,7 +850,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * - retourne false si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
-	 * @param pIndex : int : 
+	 * @param pIndex : Long : 
 	 * index (0-based) de l'objet métier à modifier.<br/>
 	 * @param pFile : java.io.File : fichier XML.<br/>
 	 * 
@@ -771,7 +860,7 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	 * @throws IOException
 	 */
 	boolean deleteByIdBoolean(
-			int pIndex
+			Long pIndex
 				, File pFile) 
 						throws JAXBException, IOException;
 	
