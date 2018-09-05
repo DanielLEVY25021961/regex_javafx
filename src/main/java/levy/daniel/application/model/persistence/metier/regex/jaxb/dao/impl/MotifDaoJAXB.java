@@ -1369,10 +1369,8 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		final TableMotifsEntityJAXB tableEntitiesJAXB 
 			= new TableMotifsEntityJAXB(listeEntitiesJAXB);
 		
-		if (tableEntitiesJAXB != null) {
-			this.ecrireTableEntitiesConsole(tableEntitiesJAXB);
-		}
-				
+		this.ecrireTableEntitiesConsole(tableEntitiesJAXB);
+						
 	} // Fin de ecrireListeObjetsMetierXMLConsole(...).____________________
 	
 
@@ -1437,11 +1435,9 @@ public class MotifDaoJAXB implements IMotifDaoJAXB {
 		final TableMotifsEntityJAXB resultat 
 			= (TableMotifsEntityJAXB) this.unmarshaller.unmarshal(fileReader);
 		
-		if (fileReader != null) {
-			fileReader.close();
-		}
-		
-		
+		/* fermeture des flux. */
+		fileReader.close();
+				
 		return resultat;
 		
 	} // Fin de recupererEntites(...)._____________________________________

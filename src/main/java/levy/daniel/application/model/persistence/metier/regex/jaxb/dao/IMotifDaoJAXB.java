@@ -7,13 +7,16 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 import levy.daniel.application.model.metier.regex.IMotif;
+import levy.daniel.application.model.metier.regex.impl.Motif;
+import levy.daniel.application.model.persistence.metier.regex.IDaoMotif;
 import levy.daniel.application.model.persistence.metier.regex.jaxb.entities.impl.MotifEntityJAXB;
 import levy.daniel.application.model.persistence.metier.regex.jaxb.entities.impl.TableMotifsEntityJAXB;
 
 
 /**
  * INTERFACE <b>IMotifDaoJAXB</b> :<br/>
- * Interface factorisant les comportements des DAO MotifDaoJAXB.<br/>
+ * Interface factorisant les comportements 
+ * des <b>DAO pour les {@link Motif}</b> MotifDaoJAXB.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -31,7 +34,7 @@ import levy.daniel.application.model.persistence.metier.regex.jaxb.entities.impl
  * @since 2 sept. 2018
  *
  */
-public interface IMotifDaoJAXB {
+public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	
 
@@ -70,6 +73,7 @@ public interface IMotifDaoJAXB {
 	 * @throws JAXBException 
 	 * @throws IOException 
 	 */
+	@Override
 	IMotif create(IMotif pObject) 
 			throws IOException, JAXBException;
 	
@@ -976,7 +980,7 @@ public interface IMotifDaoJAXB {
 	 * @return TableMotifsEntityJAXB : 
 	 * Entity JAXB modélisant le contenu du fichier XML pFile.<br/>
 	 * 
-	 * @throws @throws IOException 
+	 * @throws IOException 
 	 * @throws JAXBException
 	 */
 	TableMotifsEntityJAXB recupererEntites(File pFile) 

@@ -8,12 +8,12 @@ import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoExcept
 /**
  * INTERFACE <b>IDaoGenericJPASpring</b> :<br/>
  * <ul>
- * <li>INTERFACE <b>GENERIQUE</b> pour les <b>DAO</b> sous SPRING.</li>
+ * <li>INTERFACE <b>GENERIQUE</b> pour les <b>DAO JPA</b> sous <b>SPRING</b>.</li>
  * <li>
  * Comporte les définitions des méthodes <b>CRUD</b> valables 
  * pour <b>tous les objets métier</b>.
  * </li>
- * <li>Les transactions sont gérées par le conteneur SPRING.</li>
+ * <li><i>Les transactions sont gérées par le conteneur SPRING</i>.</li>
  * <li>
  * Certaines méthodes (getOne(ID), ...) sont 
  * <b>compatibles SPRING DATA</b>.
@@ -29,8 +29,10 @@ import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoExcept
  * 
  * - Exemple d'utilisation :<br/>
  * <br/>
+ * 
  * - Mots-clé :<br/>
  * <br/>
+ * 
  * - Dépendances :<br/>
  * <br/>
  *
