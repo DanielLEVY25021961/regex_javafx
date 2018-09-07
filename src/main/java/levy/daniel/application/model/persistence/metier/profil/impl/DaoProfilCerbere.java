@@ -522,4 +522,81 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 
 
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterable<IProfil> save(Iterable<IProfil> pList) throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<IProfil> findAllMax(int pStartPosition, int pMaxResult) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long retrieveId(IProfil pObject) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IProfil update(Long pIndex, IProfil pObjectModifie) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deleteIterable(Iterable<IProfil> pList) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean deleteIterableBoolean(Iterable<IProfil> pList) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void ecrireStockageDansConsole() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 } // FIN DE LA CLASSE DaoProfilCerbere.--------------------------------------

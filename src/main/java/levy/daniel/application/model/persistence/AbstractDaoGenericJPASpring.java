@@ -127,9 +127,8 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 
 
 	 /**
-	 * method CONSTRUCTEUR AbstractDaoGeneric() :<br/>
-	 * <ul>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 * <ul>
 	 * <li>renseigne this.classObjetMetier (.class de l'objet métier 
 	 * concerné par le présent DAO).</li>
 	 * <li>Lance la persistence.</li>
@@ -394,7 +393,7 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final <S extends T> Iterable<S> save(
+	public final <S extends T> Iterable<S> saveIterableSousClasse(
 			final Iterable<S> pObjects) 
 			throws AbstractDaoException {
 

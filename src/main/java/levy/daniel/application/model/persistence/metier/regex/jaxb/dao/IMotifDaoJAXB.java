@@ -37,15 +37,13 @@ import levy.daniel.application.model.persistence.metier.regex.jaxb.entities.impl
 public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	
-
 	/**
 	 * SAUT_LIGNE_JAVA : Character :<br/>
 	 * saut de ligne "\n".<br/>
 	 */
 	String SAUT_LIGNE_JAVA = "\n";
-
-
-
+	
+	
 	/* CREATE ************/
 
 	
@@ -1235,7 +1233,16 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 	
 	
 	/**
+	 * <b>retourne true si l'objet métier pObject 
+	 * d'identifiant ou d'index (0-based) pIndex 
+	 * existe dans le stockage</b>.<br/>
+	 *
+	 * @param pIndex : ID : 
+	 * identifiant ou index (0-based) de l'objet métier à 
+	 * trouver dans le stockage.<br/>
 	 * 
+	 * @return boolean : 
+	 * true si l'objet métier existe dans le stockage.<br/>
 	 */
 	@Override
 	boolean exists(
@@ -1245,16 +1252,20 @@ public interface IMotifDaoJAXB extends IDaoMotif {
 
 	
 	/**
-	 * .<br/>
-	 * <ul>
-	 * <li></li>
-	 * </ul>
+	 * <b>retourne true si l'objet métier pObject 
+	 * d'identifiant ou d'index (0-based) pIndex 
+	 * existe dans le stockage</b>.<br/>
 	 *
-	 * @param pIndex
-	 * @param pFile
-	 * @return boolean
+	 * @param pIndex : ID : 
+	 * identifiant ou index (0-based) de l'objet métier à 
+	 * trouver dans le stockage.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/>
+	 * 
+	 * @return boolean : 
+	 * true si l'objet métier existe dans le stockage.<br/>
+	 *
 	 * @throws JAXBException
-	 * @throws IOException : boolean :  .<br/>
+	 * @throws IOException
 	 */
 	boolean exists(
 			Long pIndex

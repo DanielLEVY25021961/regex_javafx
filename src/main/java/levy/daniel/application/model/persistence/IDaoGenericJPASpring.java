@@ -38,13 +38,15 @@ import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoExcept
  *
  * @author dan Lévy
  * @version 1.0
+ * 
  * @param <T> : Type paramétré : Classe réelle d'un Objet métier.<br/>
  * @param <ID> : Type paramétré : type de l'ID en base d'un Objet métier 
  * (Long, Integer, String, ...).<br/>
  * 
  * @since 8 sept. 2017
  */
-public interface IDaoGenericJPASpring<T, ID extends Serializable> {
+public interface IDaoGenericJPASpring<T, ID extends Serializable> 
+								extends IDaoGeneric<T, ID> {
 
 
 
@@ -188,6 +190,16 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable> {
 	ID createReturnId(T pObject) throws AbstractDaoException;
 
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	Iterable<T> save(
+			Iterable<T> pList) 
+						throws AbstractDaoException;
+	
+	
 
 	/**
 	 * method save(
@@ -220,7 +232,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable> {
 	 * 
 	 * @throws AbstractDaoException 
 	 */
-	<S extends T> Iterable<S> save(Iterable<S> pObjects) 
+	<S extends T> Iterable<S> saveIterableSousClasse(Iterable<S> pObjects) 
 				throws AbstractDaoException;
 
 
