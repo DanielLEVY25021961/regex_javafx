@@ -38,6 +38,8 @@ public interface IDaoMotif {
 	 * <li>ne crée <b>pas de doublon</b>.</li>
 	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
 	 * </ul>
+	 * - retourne null si pObject == null.<br/>
+	 * <br/>
 	 *
 	 * @param pObject : IMotif : 
 	 * l'objet métier à persister dans le stockage.<br/>
