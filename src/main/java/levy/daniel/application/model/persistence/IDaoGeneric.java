@@ -36,7 +36,16 @@ import java.util.List;
  */
 public interface IDaoGeneric<T, ID extends Serializable> {
 	
-	
+	/**
+	 * SAUT_LIGNE_JAVA : Character :<br/>
+	 * saut de ligne "\n".<br/>
+	 */
+	String SAUT_LIGNE_JAVA = "\n";
+
+
+
+	/* CREATE ************/
+
 	
 	/**
 	 * <b>crée un objet métier pObject dans le stockage 
@@ -58,8 +67,28 @@ public interface IDaoGeneric<T, ID extends Serializable> {
 	 */
 	T create(T pObject) 
 			throws Exception;
-	
 
+	
+	
+	/**
+	 * <b>crée un objet métier pObject dans le stockage 
+	 * mais ne retourne rien</b>.<br/>
+	 * <ul>
+	 * <li>ne crée <b>pas de doublon</b>.</li>
+	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
+	 * </ul>
+	 * - retourne null si pObject == null.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : T : 
+	 * l'objet métier à persister dans le stockage.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	void persist(T pObject) 
+			throws Exception;
+	
+	
 	
 	/**
 	 * <b>crée un objet métier pObject dans le stockage 
@@ -106,6 +135,9 @@ public interface IDaoGeneric<T, ID extends Serializable> {
 			Iterable<T> pList) 
 						throws Exception;
 
+
+
+	/* READ *************/
 
 	
 	/**
@@ -207,6 +239,11 @@ public interface IDaoGeneric<T, ID extends Serializable> {
 					throws Exception;
 	
 	
+
+	
+	/* UPDATE *************/
+
+
 	
 	/**
 	 * <b>modifie dans le stockage 
@@ -417,5 +454,20 @@ public interface IDaoGeneric<T, ID extends Serializable> {
 	void ecrireStockageDansConsole() throws Exception;
 	
 	
+
+	/**
+	 * fournit une String pour l'affichage à la console 
+	 * d'une Liste d'Objets métier.<br/>
+	 * <br/>
+	 * retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;T&gt;.<br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	String afficherListeObjetsMetier(List<T> pList);
+
+
 
 } // FIN DE L'INTERFACE IDaoGeneric.-----------------------------------------

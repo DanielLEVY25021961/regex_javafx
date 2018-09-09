@@ -320,41 +320,7 @@ public class MotifDaoJAXBGeneric extends AbstractDaoGenericJAXB<IMotif, Long> {
 		
 	} // Fin de afficherListeEntitiesDansTable(...)._______________________
 	
-	
-	
-	/**
-	 * fournit une String pour l'affichage à la console 
-	 * d'une Liste d'Objets métier.<br/>
-	 * <br/>
-	 * retourne null si pList == null.<br/>
-	 * <br/>
-	 *
-	 * @param pList : List&lt;IMotif&gt;.<br/>
-	 * 
-	 * @return : String.<br/>
-	 */
-	private String afficherListeObjetsMetier(
-			final List<IMotif> pList) {
 		
-		/* retourne null si pList == null. */
-		if (pList == null) {
-			return null;
-		}
-		
-		final StringBuffer stb = new StringBuffer();
-		
-		for (final IMotif objetMetier : pList) {
-			
-			stb.append(objetMetier.toString());
-			stb.append(SAUT_LIGNE_JAVA);
-			
-		}
-		
-		return stb.toString();
-		
-	} // Fin de afficherListeObjetsMetier(...).____________________________
-	
-	
 	
 	/**
 	 * fournit une String pour l'affichage à la console 
@@ -1192,7 +1158,7 @@ public class MotifDaoJAXBGeneric extends AbstractDaoGenericJAXB<IMotif, Long> {
 	 * @throws JAXBException
 	 */
 	@Override
-	public void ecrireListeObjetsMetierXMLConsole(
+	public final void ecrireListeObjetsMetierXMLConsole(
 			final List<IMotif> pList) throws JAXBException {
 		
 		/* ne fait rien si pList == null. */
@@ -1209,6 +1175,41 @@ public class MotifDaoJAXBGeneric extends AbstractDaoGenericJAXB<IMotif, Long> {
 		this.ecrireTableEntitiesConsole(tableEntitiesJAXB);
 						
 	} // Fin de ecrireListeObjetsMetierXMLConsole(...).____________________
+	
+
+	
+	/**
+	 * fournit une String pour l'affichage à la console 
+	 * d'une Liste d'Objets métier.<br/>
+	 * <br/>
+	 * retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;IMotif&gt;.<br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	@Override
+	public final String afficherListeObjetsMetier(
+			final List<IMotif> pList) {
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
+		
+		final StringBuffer stb = new StringBuffer();
+		
+		for (final IMotif objetMetier : pList) {
+			
+			stb.append(objetMetier.toString());
+			stb.append(SAUT_LIGNE_JAVA);
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherListeObjetsMetier(...).____________________________
 	
 
 

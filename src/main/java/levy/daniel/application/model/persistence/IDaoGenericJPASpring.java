@@ -52,6 +52,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 
 	/* CREATE ************/
 
+	
 	/**
 	 * method create(
 	 * T pObject) :<br/>
@@ -77,6 +78,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException en cas d'exception de persistence.<br/>
 	 */
+	@Override
 	T create(T pObject) throws AbstractDaoException;
 
 
@@ -135,6 +137,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	void persist(T pObject) throws AbstractDaoException;
 
 
@@ -187,6 +190,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	ID createReturnId(T pObject) throws AbstractDaoException;
 
 
@@ -265,6 +269,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	T retrieve(T pObject) throws AbstractDaoException;
 
 
@@ -296,6 +301,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	T findById(ID pId) throws AbstractDaoException;
 
 
@@ -344,6 +350,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	List<T> findAll() throws AbstractDaoException;
 
 
@@ -381,30 +388,29 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 
 
 	/**
-	 * method findAll(
-	 * Long pMax) :<br/>
 	 * <ul>
 	 * <li>Retourne la liste des pMax premiers Objets métier 
-	 * de Type paramétré T présents en base 
-	 * et retournés par findAll().</li>
+	 * de Type paramétré T présents en base à partir de la 
+	 * position pStartPosition (0-based).</li>
 	 * <li>Le champ de tri des Objets métier semble être l'ID.</li>
 	 * <li>Inclut dans la liste les sous-classes S de T 
 	 * (strategy=InheritanceType.JOINED) avec la visibilité (Typé) T.</li>
 	 * </ul>
-	 * retourne null si pMax == null.<br/>
-	 * retourne null si pMax < 1L.<br/>
-	 * <br/>
 	 * 
-	 * @param pMax : Long : Nombre maximal d'objets métier 
+	 * @param pStartPosition : int : index (0-based) de départ.<br/>
+	 * @param pMaxResult : int : Nombre maximal d'objets métier 
 	 * à remonter de la base.<br/>
 	 *
 	 * @return : List&lt;T&gt; : 
-	 * liste des pMax premiers objets métier 
-	 * de Type paramétré T présents en base.<br/>
+	 * liste des pMax objets métier 
+	 * de Type paramétré T présents en base à partir 
+	 * de l'index (0-based) de départ.<br/>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
-	List<T> findAllMax(Long pMax) throws AbstractDaoException;
+	@Override
+	List<T> findAllMax(int pStartPosition, int pMaxResult) 
+									throws AbstractDaoException;
 
 
 
@@ -414,14 +420,12 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * <ul>
 	 * <li>Retourne la liste des pMax premiers Objets métier 
 	 * de type SOUS-CLASSE du type paramétré T présents en base 
-	 * et retournés par findAllSousClasse().</li>
+	 * à partir de la position pStartPosition (0-based).</li>
 	 * <li>Le champ de tri des Objets métier semble être l'ID.</li>
 	 * </ul>
-	 * retourne null si pMax == null.<br/>
-	 * retourne null si pMax < 1L.<br/>
-	 * <br/>
 	 * 
-	 * @param pMax : Long : Nombre maximal d'objets métier 
+	 * @param pStartPosition : int : index (0-based) de départ.<br/>
+	 * @param pMaxResult : int : Nombre maximal d'objets métier 
 	 * à remonter de la base.<br/>
 	 *
 	 * @return : List&lt;T&gt; : 
@@ -430,7 +434,8 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
-	List<T> findAllMaxSousClasse(Long pMax) throws AbstractDaoException;
+	List<T> findAllMaxSousClasse(int pStartPosition, int pMaxResult) 
+			throws AbstractDaoException;
 
 
 
@@ -460,8 +465,24 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	Iterable<T> findAll(Iterable<ID> pIds) throws AbstractDaoException;
 
 
+	
+	/**
+	 * <b>retourne l'identifiant ou l'index (0-based) 
+	 * de l'objet métier pObject dans le stockage</b>.<br/>
+	 *
+	 * @param pObject : T : 
+	 * objet métier dont on recherche l'identifiant.<br/>
+	 *  
+	 * @return ID : 
+	 * identifiant ou index (0-based) dans le stockage.<br/>
+	 * 
+	 * @throws AbstractDaoException
+	 */
+	@Override
+	ID retrieveId(T pObject) throws AbstractDaoException;
 
 
+	
 	/* UPDATE *************/
 
 
@@ -531,6 +552,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	boolean delete(T pObject) throws AbstractDaoException;
 
 
@@ -555,6 +577,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	void deleteById(ID pId) throws AbstractDaoException;
 
 
@@ -583,6 +606,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	boolean deleteByIdBoolean(ID pId) throws AbstractDaoException;
 
 
@@ -599,6 +623,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	void deleteAll() throws AbstractDaoException;
 
 
@@ -631,6 +656,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	boolean deleteAllBoolean() throws AbstractDaoException;
 
 
@@ -699,6 +725,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException
 	 */
+	@Override
 	boolean exists(T pObject) throws AbstractDaoException;
 
 
@@ -724,6 +751,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	boolean exists(ID pId) throws AbstractDaoException;
 
 
@@ -743,6 +771,7 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * 
 	 * @throws AbstractDaoException 
 	 */
+	@Override
 	Long count() throws AbstractDaoException;
 
 

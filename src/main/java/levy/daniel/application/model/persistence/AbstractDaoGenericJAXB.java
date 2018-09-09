@@ -209,6 +209,89 @@ public abstract class AbstractDaoGenericJAXB<T, ID extends Serializable>
 				
 	} // Fin de create(...)._______________________________________________
 
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void persist(
+			final T pObject) 
+			throws JAXBException, IOException {
+		
+		this.persist(pObject, this.fichierXML);
+		
+	} // Fin de create(...)._______________________________________________
+	
+	
+	
+	/**
+	 * <b>stocke l'objet métier pObject 
+	 * dans un fichier XML pFile</b> 
+	 *  mais ne retourne rien.<br/>
+	 * <ul>
+	 * <li>crée sur disque le fichier pFile si il n'existe pas.</li>
+	 * <li>récupère ou crée la liste des objets métier 
+	 * déjà stockés dans le fichier XML pFile.</li>
+	 * <li>ajoute l'objet métier pObject à la liste 
+	 * si pObject n'est pas déjà stocké (<b>gestion des doublons</b>).</li>
+	 * <li>enregistre la nouvelle liste dans le fichier XML pFile.</li>
+	 * <li>ne fait rien si pObject existe déjà dans le stockage.</li>
+	 * </ul>
+	 * - ne fait rien si pObject == null.<br/>
+	 * - ne fait rien si pFile == null.<br/>
+	 * <br/>
+	 *
+	 * @param pObject : T : 
+	 * l'objet métier à persister dans le stockage.<br/>
+	 * @param pFile : java.io.File : 
+	 * le fichier XML dans lequel écrire les entities JAXB.<br/>
+	 *  
+	 * @throws JAXBException 
+	 * @throws IOException 
+	 */
+	public final void persist(
+			final T pObject
+				, final File pFile) 
+						throws JAXBException, IOException {
+		
+		/* ne fait rien si pObject == null. */
+		if (pObject == null) {
+			return;
+		}
+		
+		/* ne fait rien si pFile == null. */
+		if (pFile == null) {
+			return;
+		}
+		
+		List<T> listeObjetsMetier = null;
+		
+		/* récupère ou crée la liste des objets métier déjà stockés 
+		 * déjà stockés dans le fichier XML pFile.*/
+		if (pFile.exists()) {
+			listeObjetsMetier = this.findAll(pFile);
+		} else {
+			listeObjetsMetier = new ArrayList<T>();
+		}
+		  		
+		if (listeObjetsMetier != null) {
+			
+			/* ajoute l'objet métier pObject à la liste 
+			 * si pObject n'est pas déjà stocké (gestion des doublons). */
+			if (!listeObjetsMetier.contains(pObject)) {
+				listeObjetsMetier.add(pObject);
+			} else {
+				return;
+			}
+						
+			/* enregistre la nouvelle liste dans le fichier XML pFile. */
+			this.enregistrer(listeObjetsMetier, pFile);
+			
+		} 
+							
+	} // Fin de create(...)._______________________________________________
+
 
 	
 	/**
@@ -574,6 +657,7 @@ public abstract class AbstractDaoGenericJAXB<T, ID extends Serializable>
 	 * @throws IOException
 	 * @throws JAXBException
 	 */
+	@Override
 	public final List<T> findByMetier(
 			final String pString) 
 						throws IOException, JAXBException {
@@ -870,6 +954,7 @@ public abstract class AbstractDaoGenericJAXB<T, ID extends Serializable>
 	 * <br/>
 	 *
 	 * @param pObject : T : objet métier à détruire.<br/>
+	 * @param pFile : java.io.File : fichier XML.<br/> 
 	 * 
 	 * @return : boolean : 
 	 * true si l'objet métier a été détruit.<br/>
@@ -1578,6 +1663,7 @@ public abstract class AbstractDaoGenericJAXB<T, ID extends Serializable>
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
+	@Override
 	public final void ecrireListeObjetsMetierXMLConsole() 
 					throws JAXBException, IOException {
 		
@@ -1605,6 +1691,7 @@ public abstract class AbstractDaoGenericJAXB<T, ID extends Serializable>
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
+	@Override
 	public final void ecrireListeObjetsMetierXMLConsole(
 			final File pFile) 
 					throws JAXBException, IOException {
@@ -1647,6 +1734,7 @@ public abstract class AbstractDaoGenericJAXB<T, ID extends Serializable>
 	 * 
 	 * @throws JAXBException
 	 */
+	@Override
 	public abstract void ecrireListeObjetsMetierXMLConsole(
 			List<T> pList) throws JAXBException;
 	
@@ -1659,6 +1747,7 @@ public abstract class AbstractDaoGenericJAXB<T, ID extends Serializable>
 	 *
 	 * @return fichierXML : File.<br/>
 	 */
+	@Override
 	public File getFichierXML() {
 		return this.fichierXML;
 	} // Fin de getFichierXML().___________________________________________
@@ -1673,6 +1762,7 @@ public abstract class AbstractDaoGenericJAXB<T, ID extends Serializable>
 	*
 	* @param pFichierXML : File : valeur à passer à fichierXML.<br/>
 	*/
+	@Override
 	public void setFichierXML(
 			final File pFichierXML) {
 		this.fichierXML = pFichierXML;

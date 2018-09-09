@@ -14,10 +14,6 @@ import levy.daniel.application.model.metier.regex.IMotif;
 
 
 
-
-
-
-
 /**
  * CLASSE MotifEntityJAXB :<br/>
  * .<br/>

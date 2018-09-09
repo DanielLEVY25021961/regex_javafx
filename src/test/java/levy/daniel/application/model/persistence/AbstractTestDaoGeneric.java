@@ -39,22 +39,27 @@ public abstract class AbstractTestDaoGeneric<T, ID extends Serializable>
 
 	
 	/**
-	 * new Motif("1 chiffre", "\\d", "1 chiffre", "[0-9]", "/ \\d /").<br/>
+	 * objet1 valable et différent de objet2 et objet3.<br/>
 	 */
 	public T objet1; 
 	
 	
 	/**
-	 * new Motif("commence par 1 à 3 chiffres", "^\\d{1,3}?", "commence par 1 à 3 chiffres reluctant", "^\\d[0-9]{1,3}?", "/ ^\\\\d{1,3}? /").<br/>
+	 * objet2 valable et différent de objet1 et objet3.<br/>
 	 */
 	public T objet2;
 	
 	/**
-	 * new Motif("commence par 1 à 4 chiffres", "^\\d{1,4}?", "commence par 1 à 4 chiffres reluctant", "^\\d[0-9]{1,4}?", "/ ^\\d{1,4}? /").<br/>
+	 * objet3 valable et différent de objet1 et objet2.
 	 */
 	public T objet3;
 
-
+	
+	/**
+	 * DAO à tester.<br/>
+	 */
+	public transient IDaoGeneric<T, ID> daoATester;
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -74,12 +79,5 @@ public abstract class AbstractTestDaoGeneric<T, ID extends Serializable>
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract void testCreate() throws Exception;
-	
-	
+		
 } // FIN DE LA CLASSE AbstractTestDaoGeneric.--------------------------------

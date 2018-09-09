@@ -103,6 +103,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<mysql-connector-java.version>8.0.11</mysql-connector-java.version>
 		<!-- 				Version de BD HSQLDB						-->
 		<hsqldb.version>2.4.1</hsqldb.version>
+		<!-- 				Version de H2								 -->
+		<h2.version>1.4.197</h2.version>
 		
 		<!-- 				Version de commons-lang					    -->
 		<commons-lang.version>2.6</commons-lang.version>
@@ -521,6 +523,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <artifactId>hsqldb</artifactId>
 		    <version>${hsqldb.version}</version>
 		    <scope>test</scope>		    
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>${h2.version}</version>
+		    <scope>test</scope>
 		</dependency>
 		
 

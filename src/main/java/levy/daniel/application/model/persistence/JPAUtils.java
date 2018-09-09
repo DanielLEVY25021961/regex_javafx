@@ -82,10 +82,10 @@ public final class JPAUtils {
 	/**
 	 * PERSISTENCE_UNIT : String :<br/>
 	 * Persistence-unit déclarée dans META-INF/Persistence.xml.<br/>
-	 * "persistence_unit_base-adresses_javafx".<br/>
+	 * "persistence_unit_base-regex_javafx".<br/>
 	 */
 	public static final String PERSISTENCE_UNIT 
-		= "persistence_unit_base-adresses_javafx";
+		= "persistence_unit_base-regex_javafx";
 
 
 	/**
@@ -300,6 +300,8 @@ public final class JPAUtils {
 	 * retourne un SINGLETON d'EntityManagerFactory.<br/>
 	 * <ul>
 	 * <li>lit <b>src/main/resources/META-INF/persistence.xml</b></li>
+	 * <li><b>nécessite que le serveur de base de données indiqué dans 
+	 * persistence.xml soit démarré.</b>.</li>
 	 * <li>charge la configuration du contexte de persistence 
 	 * dans entityManagerFactory.</li>
 	 * <li>retourne un Singleton entityManagerFactory.</li>
@@ -320,7 +322,7 @@ public final class JPAUtils {
 			if (entityManagerFactory == null) {
 				
 				try {
-										
+
 					entityManagerFactory 
 					= Persistence
 						.createEntityManagerFactory(PERSISTENCE_UNIT);
@@ -507,6 +509,7 @@ public final class JPAUtils {
 
 			final Path pathAbsoluPersistenceXml 
 				= fournirPathAbsoluPersistenceXml();
+
 			final Path pathAbsoluPersistenceTestXml 
 				= fournirPathAbsoluPersistenceTestXml();
 
@@ -518,12 +521,10 @@ public final class JPAUtils {
 
 			/* Remplace persistence.xml par le contenu 
 			 * de persistence-test.xml. */
-			final Path resultat = remplacerFichier(
+			remplacerFichier(
 					pathAbsoluPersistenceTestXml
 						, pathAbsoluPersistenceXml);
 			
-			System.out.println(affichierFichier(resultat));
-
 		} // Fin du bloc synchronized._____________________
 
 	} // Fin de activerPersistenceTestXml()._______________________________

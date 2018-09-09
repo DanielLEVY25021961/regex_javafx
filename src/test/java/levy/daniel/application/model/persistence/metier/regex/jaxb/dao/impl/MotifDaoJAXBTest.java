@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.junit.Test;
 
 import levy.daniel.application.model.metier.regex.IMotif;
 import levy.daniel.application.model.metier.regex.impl.Motif;
+import levy.daniel.application.model.persistence.AbstractTestDaoGenericJAXB;
 import levy.daniel.application.model.persistence.metier.regex.jaxb.dao.IMotifDaoJAXB;
 
 
@@ -47,11 +49,16 @@ import levy.daniel.application.model.persistence.metier.regex.jaxb.dao.IMotifDao
  * @since 2 sept. 2018
  *
  */
-public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
+public class MotifDaoJAXBTest 
+				extends AbstractTestDaoGenericJAXB<IMotif, Long> {
 	
 	// ************************ATTRIBUTS************************************/
-
 	
+	/**
+	 * Boolean qui commande l'affichage pour tous les tests.<br/>
+	 */
+	public static final Boolean AFFICHAGE_GENERAL = true;
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -74,11 +81,13 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 	/**
 	 * teste la méthode create(IMotif).<br/>
 	 * <ul>
-	 * <li>garantit que create() crée sur disque 
-	 * le fichier XML si il n'existe pas.</li>
-	 * <li>garantit que create() insère un enregistrement 
-	 * dans le stockage.</li>
-	 * <li>garantit que create() ne crée pas de doublon.</li>
+	 * <li>garantit que create(IMotif) crée sur disque 
+	 * le stockage (fichier XML) si il n'existe pas.</li>
+	 * <li>garantit que create(IMotif) insère un enregistrement 
+	 * dans this.stockage.</li>
+	 * <li>garantit que create(IMotif) retourne l'instance 
+	 * persistante.</li>
+	 * <li>garantit que create(Doublon) ne crée pas de doublon.</li>
 	 * <li>garantit que create(Doublon) retourne null.</li>
 	 * <li>garantit que create(null) retourne null.</li>
 	 * </ul>
@@ -87,7 +96,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 	@SuppressWarnings(UNUSED)
 	@Test
 	@Override
-	public void testCreate() throws Exception {
+	public void testCreate() throws Exception { // NOPMD by dan on 08/09/18 09:28
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -99,53 +108,9 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println();
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testCreate() ********** ");
 		}
-
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
-		}
 		
-		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		super.testCreate(AFFICHAGE_GENERAL, affichage);
 		
-		// *************************************
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.create(this.objet1);
-		
-		/* garantit que create() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
-		
-		final Long nombreInitial = this.daoJAXB.count();
-		
-		/* AFFICHAGE A LA CONSOLE. */
-		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
-			System.out.println();
-			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
-		}
-		
-		/* garantit que create() insère un enregistrement dans le stockage. */
-		assertEquals(STOCKAGE_CONTIENT_1_ENREGISTREMENT
-				, (Long) 1L
-					, nombreInitial);
-		
-		// *************************************
-		/* stockage d'un motif dans le XML (Doublon). */
-		final IMotif motifDoublon = this.daoJAXB.create(this.objet1);
-		
-		final Long nombreApresDoublon = this.daoJAXB.count();
-		
-		/* garantit que create(Doublon) retourne null. */
-		assertNull(
-				"create(Doublon) doit retourner null : "
-					, motifDoublon);
-		
-		/* garantit que create() ne crée pas de doublon. */
-		assertEquals(STOCKAGE_CONTIENT_1_ENREGISTREMENT
-				, (Long) 1L
-					, nombreApresDoublon);
-
 	} // Fin de testCreate().______________________________________________
 
 
@@ -157,7 +122,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 	 * le fichier XML si il n'existe pas.</li>
 	 * <li>grantit que createReturnId(existant) retourne un identifiant.</li>
 	 * <li>garantit que createReturnId() insère un enregistrement 
-	 * dans le stockage.</li>
+	 * dans le this.stockage.</li>
 	 * <li>garantit que createReturnId() ne crée pas de doublon.</li>
 	 * <li>garantit que createReturnId(Doublon) retourne null.</li>
 	 * </ul>
@@ -178,16 +143,16 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testCreateReturnId() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		// *************************************
-		/* stockage d'un motif dans le XML. */
-		final Long idMotif = this.daoJAXB.createReturnId(this.objet1);
+		/* this.stockage d'un motif dans le XML. */
+		final Long idMotif = this.daoATester.createReturnId(this.objet1);
 		
 		/* grantit que createReturnId(existant) retourne un identifiant. */
 		assertNotNull(
@@ -195,29 +160,29 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 					, idMotif);
 		
 		/* garantit que create() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
 		
-		/* garantit que create() insère un enregistrement dans le stockage. */
+		/* garantit que create() insère un enregistrement dans le this.stockage. */
 		assertEquals(STOCKAGE_CONTIENT_1_ENREGISTREMENT
 				, (Long) 1L
 					, nombreInitial);
 		
 		// *************************************
-		/* stockage d'un motif dans le XML (Doublon). */
-		final Long idMotifDoublon = this.daoJAXB.createReturnId(this.objet1);
+		/* this.stockage d'un motif dans le XML (Doublon). */
+		final Long idMotifDoublon = this.daoATester.createReturnId(this.objet1);
 		
-		final Long nombreApresDoublon = this.daoJAXB.count();
+		final Long nombreApresDoublon = this.daoATester.count();
 		
 		/* garantit que createReturnId(Doublon) retourne null. */
 		assertNull(
@@ -258,12 +223,12 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testSave() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
@@ -274,19 +239,19 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		liste2.add(this.objet3);
 		
 		// *************************************
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -298,16 +263,16 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 					, nombreInitial);
 		
 		// *************************************
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste2);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste2);
 		
-		final Long nombreFinal = this.daoJAXB.count(); 
+		final Long nombreFinal = this.daoATester.count(); 
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreFinal);
 		}
@@ -349,31 +314,31 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testRetrieve() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -386,11 +351,11 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 
 		// *************************************
 		/* RECHERCHE d'un motif dans le XML. */
-		final IMotif motif = this.daoJAXB.retrieve(this.objet2);
-		final IMotif motifNull = this.daoJAXB.retrieve(null);
+		final IMotif motif = this.daoATester.retrieve(this.objet2);
+		final IMotif motifNull = this.daoATester.retrieve(null);
 		final IMotif motifInexistantPur 
 			= new Motif(7L, "inexistant1", "inexistant2", "inexistant3", "inexistant3", "inexistant5");
-		final IMotif motifInexistant = this.daoJAXB.retrieve(motifInexistantPur);
+		final IMotif motifInexistant = this.daoATester.retrieve(motifInexistantPur);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -449,31 +414,31 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindById() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -487,9 +452,9 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		// *******************************************
 		/* RECHERCHE d'un objet métier dans le XML. */
 		final Long index = 1L;
-		final IMotif motif = this.daoJAXB.findById(index);
-		final IMotif motifZero = this.daoJAXB.findById(0L);
-		final IMotif motifInexistant = this.daoJAXB.findById(7L);
+		final IMotif motif = this.daoATester.findById(index);
+		final IMotif motifZero = this.daoATester.findById(0L);
+		final IMotif motifInexistant = this.daoATester.findById(7L);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -546,12 +511,12 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testRetrieveId() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
@@ -559,20 +524,20 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		liste1.add(this.objet3);
 		
 		/* CAST du DAO. */
-		final IMotifDaoJAXB daoJAXBCaste = (IMotifDaoJAXB) this.daoJAXB;
+		final IMotifDaoJAXB daoJAXBCaste = (IMotifDaoJAXB) this.daoATester;
 		
-		/* stockage d'un motif dans le XML. */
+		/* this.stockage d'un motif dans le XML. */
 		daoJAXBCaste.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
 		final Long nombreInitial = daoJAXBCaste.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
 			daoJAXBCaste.ecrireListeObjetsMetierXMLConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
@@ -647,12 +612,12 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindByMetier() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
@@ -660,20 +625,20 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		liste1.add(this.objet3);
 		
 		/* CAST du DAO. */
-		final IMotifDaoJAXB daoJAXBCaste = (IMotifDaoJAXB) this.daoJAXB;
+		final IMotifDaoJAXB daoJAXBCaste = (IMotifDaoJAXB) this.daoATester;
 		
-		/* stockage d'un motif dans le XML. */
+		/* this.stockage d'un motif dans le XML. */
 		daoJAXBCaste.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
 		final Long nombreInitial = daoJAXBCaste.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
 			daoJAXBCaste.ecrireListeObjetsMetierXMLConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
@@ -741,31 +706,31 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAll() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -778,7 +743,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		
 		// *******************************************
 		/* RECHERCHE d'objets métier dans le XML. */
-		final List<IMotif> liste = this.daoJAXB.findAll();
+		final List<IMotif> liste = this.daoATester.findAll();
 		
 		/* garantit que findAll() fonctionne 
 		 * correctement. */
@@ -814,31 +779,31 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAllMax() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -876,31 +841,31 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testUpdate() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -913,7 +878,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		
 		// *******************************************
 		/* RECHERCHE d'objets métier dans le XML. */
-		final List<IMotif> liste = this.daoJAXB.findAll();
+		final List<IMotif> liste = this.daoATester.findAll();
 		
 		/* garantit que findAll() fonctionne 
 		 * correctement. */
@@ -924,7 +889,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		
 		
 		/* RECHERCHE d'un objet métier dans le XML. */
-		final Long indexMotif = this.daoJAXB.retrieveId(this.objet2);
+		final Long indexMotif = this.daoATester.retrieveId(this.objet2);
 
 		final IMotif objetModifie 
 			= new Motif(
@@ -934,13 +899,13 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		
 		// *******************************************
 		// MODIFICATION.
-		this.daoJAXB.update(indexMotif, objetModifie);
+		this.daoATester.update(indexMotif, objetModifie);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -952,7 +917,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 					, nombreInitial);
 		
 		/* RECHERCHE d'objets métier dans le XML. */
-		final List<IMotif> listeModifiee = this.daoJAXB.findAll();
+		final List<IMotif> listeModifiee = this.daoATester.findAll();
 		
 		/* garantit le bon fonctionnement de update(...). */
 		assertEquals(
@@ -990,31 +955,31 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDelete() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -1027,7 +992,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		
 		// *******************************************
 		/* RECHERCHE d'objets métier dans le XML. */
-		final List<IMotif> liste = this.daoJAXB.findAll();
+		final List<IMotif> liste = this.daoATester.findAll();
 		
 		/* garantit que findAll() fonctionne 
 		 * correctement. */
@@ -1038,16 +1003,16 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		
 		// *******************************************
 		// DESTRUCTION.
-		final boolean deleteTrue = this.daoJAXB.delete(this.objet2);
+		final boolean deleteTrue = this.daoATester.delete(this.objet2);
 		
-		final Long nombreFinal = this.daoJAXB.count();
+		final Long nombreFinal = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println("************** APRES DESTRUCTION ************** ");
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreFinal);
 		}
@@ -1064,7 +1029,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 					, deleteTrue);
 		
 		// DESTRUCTION d'un inexistant.
-		final boolean deleteNull = this.daoJAXB.delete(null);
+		final boolean deleteNull = this.daoATester.delete(null);
 		
 		final IMotif objetInexistant 
 		= new Motif(
@@ -1072,7 +1037,7 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 				, "inex11"
 				, "inex12", "inex13", "inex14", "inex15");
 		
-		final boolean deleteInexistant = this.daoJAXB.delete(objetInexistant);
+		final boolean deleteInexistant = this.daoATester.delete(objetInexistant);
 		
 		/* garantit que delete(null) retourne false. */
 		assertFalse(
@@ -1110,31 +1075,31 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDeleteById() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -1171,31 +1136,31 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDeleteByIdBoolean() ********** ");
 		}
 
-		if (FILE.exists()) {
-			Files.delete(FILE.toPath());
+		if (this.stockage.exists()) {
+			Files.delete(this.stockage.toPath());
 		}
 		
 		/* garantit que le fichier XML n'existe pas. */
-		assertFalse(FILE_PAS_EXISTER, FILE.exists());
+		assertFalse(FILE_PAS_EXISTER, this.stockage.exists());
 		
 		final List<IMotif> liste1 = new ArrayList<IMotif>();
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* stockage d'un motif dans le XML. */
-		this.daoJAXB.save(liste1);
+		/* this.stockage d'un motif dans le XML. */
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
-		assertTrue(FILE_EXISTER, FILE.exists());
+		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = this.daoJAXB.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println(CONTENU_STOCKAGE + FILE.getAbsolutePath() + SAUT_APO);
-			this.daoJAXB.ecrireStockageDansConsole();
+			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -1209,16 +1174,16 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 	} // Fin de testDeleteByIdBoolean().___________________________________
 	
 	
-
-	 /**
-	 * instructions exécutées avant <b>chaque</b> test.<br/>
-	 * <ul>
-	 * <li><b>A REMPLIR A LA MAIN</b></li>
-	 * </ul>
-	 * @throws JAXBException 
+	 
+	/**
+	 * {@inheritDoc}
 	 */
 	@Before
+	@Override
 	public void before() throws JAXBException {
+		
+		this.stockage 
+			= new File("data/base-regex_javafx-JAXB/motifs.xml");
 		
 		this.objet1 
 		= new Motif("1 chiffre", "\\d", "1 chiffre", "[0-9]", "/ \\d /");
@@ -1229,16 +1194,18 @@ public class MotifDaoJAXBTest extends AbstractMotifDaoJAXBTest {
 		this.objet3 
 		= new Motif("commence par 1 à 4 chiffres", "^\\d{1,4}?", "commence par 1 à 4 chiffres reluctant", "^\\d[0-9]{1,4}?", "/ ^\\d{1,4}? /");
 		
-		this.daoJAXB = new MotifDaoJAXB(FILE);
+		this.daoATester = new MotifDaoJAXBGeneric(this.stockage);
 		
 	} // Fin de before().__________________________________________________	 
 	 
 	 
+	
 	/**
 	 * <ul>
 	 * <li>instructions exécutées <b>une seule fois 
+	 * lors de l'instanciation de la présente classe 
 	 * avant l'ensemble des tests</b> 
-	 * de la classe JUnit.</li>
+	 * contenus par la présente classe JUnit.</li>
 	 * <li><b>A REMPLIR A LA MAIN</b></li>
 	 * </ul>
 	 * @throws JAXBException 

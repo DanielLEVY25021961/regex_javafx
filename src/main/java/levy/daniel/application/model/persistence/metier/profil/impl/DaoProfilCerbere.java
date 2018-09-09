@@ -47,7 +47,7 @@ import levy.daniel.application.model.persistence.metier.profil.AbstractDaoProfil
  * </p>
  * <ul>
  * <li>
- * <img src="../../../../../../../../../../../../javadoc/images/implementation_DAO_Profil.png" 
+ * <img src="../../../../../../../../../../../../../../../javadoc/images/implementation_DAO_Profil.png" 
  * alt="implémentation des DAOs Profil" border="1" align="center" />
  * </li>
  * </ul>
@@ -244,15 +244,14 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 */
 	@Override
 	public final List<IProfil> findAllMaxSousClasse(
-			final Long pMax) throws AbstractDaoException {
-		return this.findAllMaxProfilCerbere(pMax);
+			final int pStartPosition
+				, final int pMaxResult) throws AbstractDaoException {
+		return this.findAllMaxProfilCerbere(pStartPosition, pMaxResult);
 	} // Fin de findAllMaxSousClasse(...)._________________________________
 
 
 
 	/**
-	 * method findAllMaxProfilCerbere(
-	 * Long pMax) :<br/>
 	 * <ul>
 	 * <li>Retourne sous forme de List&lt;IProfil&gt; 
 	 * la liste des pMax premiers Objets métier 
@@ -274,18 +273,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * @throws AbstractDaoException
 	 */
 	private List<IProfil> findAllMaxProfilCerbere(
-			final Long pMax) throws AbstractDaoException {
-
-		/* retourne null si pMax == null. */
-		if (pMax == null) {
-			return null;
-		}
-
-		/* retourne null si pMax < 1L. */
-		if (pMax < 1L) {
-			return null;
-		}
-
+			final int pStartPosition
+					, final int pMaxResult) throws AbstractDaoException {
 
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
@@ -308,7 +297,7 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
 				= this.entityManager.createQuery(requeteString)
-					.setFirstResult(0).setMaxResults(pMax.intValue());
+					.setFirstResult(pStartPosition).setMaxResults(pMaxResult);
 
 			/* Exécute la javax.persistence.Query. */
 			resultat = query.getResultList();
@@ -331,10 +320,31 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 		/* Retourne la liste résultat. */
 		return resultat;
 
-	} // Fin de findAllMaxProfilCerbere(...).__________________________
+	} // Fin de findAllMaxProfilCerbere(...).______________________________
 
 
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long retrieveId(
+			final IProfil pObject) throws AbstractDaoException {
+		
+		final IProfil profil = this.retrieve(pObject);
+		
+		Long resultat = null;
+		
+		if (profil != null) {
+			resultat = profil.getId();
+		}
+		
+		return resultat;
+		
+	} // Fin de retrieveId(...).___________________________________________
+
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -526,7 +536,9 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterable<IProfil> save(Iterable<IProfil> pList) throws AbstractDaoException {
+	public IProfil update(
+			final Long pIndex, 
+				final IProfil pObjectModifie) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -537,40 +549,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<IProfil> findAllMax(int pStartPosition, int pMaxResult) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Long retrieveId(IProfil pObject) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IProfil update(Long pIndex, IProfil pObjectModifie) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void deleteIterable(Iterable<IProfil> pList) throws Exception {
+	public void deleteIterable(
+			final Iterable<IProfil> pList) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -581,7 +561,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteIterableBoolean(Iterable<IProfil> pList) throws Exception {
+	public boolean deleteIterableBoolean(
+			final Iterable<IProfil> pList) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -595,6 +576,17 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	public void ecrireStockageDansConsole() throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String afficherListeObjetsMetier(List<IProfil> pList) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

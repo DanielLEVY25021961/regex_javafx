@@ -84,7 +84,7 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 
 	/**
 	 * entityManager : javax.persistence.EntityManager :<br/>
-	 * JPA EntityManager fourni par SPRING.<br/>
+	 * JPA EntityManager injecté par SPRING.<br/>
 	 */
 	@PersistenceContext
 	protected transient EntityManager entityManager;
@@ -154,6 +154,7 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 
 	/* CREATE ************/
 
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -388,7 +389,104 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 			throws AbstractDaoException;
 
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Iterable<T> save(
+			final Iterable<T> pList) 
+					throws AbstractDaoException {
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
 
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return null;
+		}
+
+		final List<T> resultat = new ArrayList<T>();
+
+		final Iterator<T> iteS = pList.iterator();
+
+		try {
+
+			while (iteS.hasNext()) {
+
+				final T objet = iteS.next();
+
+				/* Passe les doublons existants en base. */
+				if (!this.exists(objet)) {
+
+					/* passe un null dans le lot. */
+					if (objet != null) {
+
+						T objetPersistant = null;
+
+						try {
+
+							/* PERSISTE en base. */
+							this.entityManager.persist(objet);
+
+							objetPersistant = objet;
+
+						} catch (Exception e) {
+
+							/* LOG. */
+							if (LOG.isDebugEnabled()) {
+								LOG.debug(e.getMessage(), e);
+							}
+
+							/* Gestion de la DAO Exception. */
+							this.gestionnaireException
+								.gererException(
+										CLASSE_ABSTRACTDAOGENERIC_JPA_SPRING
+											, "Méthode save(Iterable)", e);
+						}
+
+
+						/* ne sauvegarde pas un doublon 
+						 * présent dans le lot. */
+						if (objetPersistant != null) {
+
+							/* Ajoute à l'iterable resultat. */
+							resultat.add(objetPersistant);								
+						}						
+					}					
+				}				
+			} // Next._____________________________________
+
+		}
+		catch (Exception e) {
+
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						CLASSE_ABSTRACTDAOGENERIC_JPA_SPRING
+							, "Méthode save(Iterable)", e);
+
+		}
+
+		/* retourne l'iterable resultat. */
+		return resultat;
+
+	} // Fin de save(...)._________________________________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -449,7 +547,7 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 							this.gestionnaireException
 								.gererException(
 										CLASSE_ABSTRACTDAOGENERIC_JPA_SPRING
-											, "Méthode save(Iterable)", e);
+											, "Méthode saveIterableSousClasse(Iterable)", e);
 						}
 
 
@@ -617,17 +715,8 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 	 */
 	@Override
 	public final List<T> findAllMax(
-			final Long pMax) throws AbstractDaoException {
-
-		/* retourne null si pMax == null. */
-		if (pMax == null) {
-			return null;
-		}
-
-		/* retourne null si pMax < 1L. */
-		if (pMax < 1L) {
-			return null;
-		}
+			final int pStartPosition
+				, final int pMaxResult) throws AbstractDaoException {
 
 
 		/* Cas où this.entityManager == null. */
@@ -651,7 +740,7 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
 				= this.entityManager.createQuery(requeteString)
-					.setFirstResult(0).setMaxResults(pMax.intValue());
+					.setFirstResult(pStartPosition).setMaxResults(pMaxResult);
 
 			/* Exécute la javax.persistence.Query. */
 			resultat = query.getResultList();
@@ -667,7 +756,7 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(CLASSE_ABSTRACTDAOGENERIC_JPA_SPRING
-						, "Méthode findAllMax()", e);
+						, "Méthode findAllMax(...)", e);
 
 		}
 
@@ -723,6 +812,7 @@ public abstract class AbstractDaoGenericJPASpring<T, ID extends Serializable>
 
 	/* UPDATE *************/
 
+	
 	/**
 	 * {@inheritDoc}
 	 */

@@ -7,9 +7,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * class AbstractDaoException :
- * Classe abstraite de base commune a toutes les exceptions 
- * techniques de DAO.<br>
+ * class <b>AbstractDaoException</b> : <br/>
+ * Classe abstraite de base commune a toutes les <i>exceptions 
+ * techniques</i> de DAO.<br>
  * EXCEPTION (PAS RUNTIME EXCEPTION).<br/>
  * Les exceptions techniques doivent provoquer l'affichage 
  * d'un message stocké dans une liste commune à toutes les
