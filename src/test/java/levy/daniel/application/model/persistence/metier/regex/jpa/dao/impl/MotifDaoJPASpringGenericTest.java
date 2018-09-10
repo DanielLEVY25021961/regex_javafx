@@ -3,7 +3,6 @@ package levy.daniel.application.model.persistence.metier.regex.jpa.dao.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
-import org.junit.Test;
 
 import levy.daniel.application.model.metier.regex.IMotif;
 import levy.daniel.application.model.metier.regex.impl.Motif;
@@ -76,7 +75,7 @@ public class MotifDaoJPASpringGenericTest
 	 * </ul>
 	 * @throws Exception 
 	 */
-	@SuppressWarnings(UNUSED)
+	@SuppressWarnings(UNUSED) // NOPMD by dan on 10/09/18 13:01
 //	@Test
 	@Override
 	public void testCreate() throws Exception { // NOPMD by dan on 08/09/18 09:28

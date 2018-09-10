@@ -584,7 +584,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String afficherListeObjetsMetier(List<IProfil> pList) {
+	public String afficherListeObjetsMetier(
+			final List<IProfil> pList) {
 		// TODO Auto-generated method stub
 		return null;
 	}

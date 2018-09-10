@@ -28,7 +28,7 @@ import levy.daniel.application.model.persistence.IDaoGenericJAXB;
 
 
 /**
- * CLASSE MotifDaoJAXBTestUnit :<br/>
+ * CLASSE MotifDaoJAXBTest :<br/>
  * Test JUnit de la classe MotifDaoJAXB.<br/>
  * <br/>
  *
@@ -49,7 +49,7 @@ import levy.daniel.application.model.persistence.IDaoGenericJAXB;
  * @since 2 sept. 2018
  *
  */
-public class MotifDaoJAXBTestUnit 
+public class MotifDaoJAXBTest 
 				extends AbstractTestDaoGenericJAXB<IMotif, Long> {
 	
 	// ************************ATTRIBUTS************************************/
@@ -64,7 +64,7 @@ public class MotifDaoJAXBTestUnit
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(MotifDaoJAXBTestUnit.class);
+		= LogFactory.getLog(MotifDaoJAXBTest.class);
 
 
 	// *************************METHODES************************************/
@@ -72,7 +72,7 @@ public class MotifDaoJAXBTestUnit
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public MotifDaoJAXBTestUnit() {
+	public MotifDaoJAXBTest() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
@@ -106,7 +106,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testCreate() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testCreate() ********** ");
 		}
 		
 		super.testCreate(AFFICHAGE_GENERAL, affichage);
@@ -140,7 +140,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testCreateReturnId() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testCreateReturnId() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -220,7 +220,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testSave() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testSave() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -311,7 +311,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testRetrieve() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testRetrieve() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -411,7 +411,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testFindById() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindById() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -508,7 +508,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testRetrieveId() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testRetrieveId() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -608,7 +608,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testFindByMetier() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindByMetier() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -704,7 +704,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testFindAll() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAll() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -777,7 +777,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testFindAllMax() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAllMax() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -839,7 +839,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testUpdate() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testUpdate() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -953,7 +953,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testDelete() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDelete() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -1073,7 +1073,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testDeleteById() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDeleteById() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -1134,7 +1134,7 @@ public class MotifDaoJAXBTestUnit
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testDeleteByIdBoolean() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDeleteByIdBoolean() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -1220,4 +1220,4 @@ public class MotifDaoJAXBTestUnit
 	
 
 	
-} // FIN DE LA CLASSE MotifDaoJAXBTestUnit.--------------------------------------
+} // FIN DE LA CLASSE MotifDaoJAXBTest.--------------------------------------

@@ -357,7 +357,8 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public IMotif update(Long pIndex, IMotif pObjectModifie) throws Exception {
+	public IMotif update(
+			final Long pIndex, final IMotif pObjectModifie) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -366,7 +367,8 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deleteIterable(Iterable<IMotif> pList) throws Exception {
+	public void deleteIterable(
+			final Iterable<IMotif> pList) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -375,7 +377,8 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteIterableBoolean(Iterable<IMotif> pList) throws Exception {
+	public boolean deleteIterableBoolean(
+			final Iterable<IMotif> pList) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -393,7 +396,8 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String afficherListeObjetsMetier(List<IMotif> pList) {
+	public String afficherListeObjetsMetier(
+			final List<IMotif> pList) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -404,7 +408,8 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deleteById(Long pId) throws AbstractDaoException {
+	public void deleteById(
+			final Long pId) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -413,7 +418,8 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteByIdBoolean(Long pId) throws AbstractDaoException {
+	public boolean deleteByIdBoolean(
+			final Long pId) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -422,7 +428,8 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean exists(IMotif pObject) throws AbstractDaoException {
+	public boolean exists(
+			final IMotif pObject) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -431,7 +438,8 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean exists(Long pId) throws AbstractDaoException {
+	public boolean exists(
+			final Long pId) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -440,7 +448,7 @@ public class MotifDaoJPASpringGeneric
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String afficherListe(List<IMotif> pListe) {
+	public String afficherListe(final List<IMotif> pListe) {
 		// TODO Auto-generated method stub
 		return null;
 	}
