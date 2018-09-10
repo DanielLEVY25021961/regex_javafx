@@ -82,7 +82,7 @@ public class JPAUtilsTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -124,7 +124,7 @@ public class JPAUtilsTest {
 		
 		// ***************************************************
 		// REMPLACE LE persistence.xml par persistence-text.xml
-//		JPAUtils.activerPersistenceTestXml();
+		JPAUtils.activerPersistenceTestXml();
 
 	} // Fin de avantLaClasse().___________________________________________
 	
@@ -145,7 +145,7 @@ public class JPAUtilsTest {
 		
 		// ***************************************************
 		// RETABLIT LE persistence.xml original
-//		JPAUtils.activerPersistenceXml();
+		JPAUtils.activerPersistenceXml();
 
 	} // Fin de apresLaClasse().___________________________________________
 	

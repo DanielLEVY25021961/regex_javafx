@@ -23,12 +23,12 @@ import org.junit.Test;
 import levy.daniel.application.model.metier.regex.IMotif;
 import levy.daniel.application.model.metier.regex.impl.Motif;
 import levy.daniel.application.model.persistence.AbstractTestDaoGenericJAXB;
-import levy.daniel.application.model.persistence.metier.regex.jaxb.dao.IMotifDaoJAXB;
+import levy.daniel.application.model.persistence.IDaoGenericJAXB;
 
 
 
 /**
- * CLASSE MotifDaoJAXBTest :<br/>
+ * CLASSE MotifDaoJAXBTestUnit :<br/>
  * Test JUnit de la classe MotifDaoJAXB.<br/>
  * <br/>
  *
@@ -49,7 +49,7 @@ import levy.daniel.application.model.persistence.metier.regex.jaxb.dao.IMotifDao
  * @since 2 sept. 2018
  *
  */
-public class MotifDaoJAXBTest 
+public class MotifDaoJAXBTestUnit 
 				extends AbstractTestDaoGenericJAXB<IMotif, Long> {
 	
 	// ************************ATTRIBUTS************************************/
@@ -64,7 +64,7 @@ public class MotifDaoJAXBTest
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(MotifDaoJAXBTest.class);
+		= LogFactory.getLog(MotifDaoJAXBTestUnit.class);
 
 
 	// *************************METHODES************************************/
@@ -72,7 +72,7 @@ public class MotifDaoJAXBTest
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public MotifDaoJAXBTest() {
+	public MotifDaoJAXBTestUnit() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
@@ -100,13 +100,13 @@ public class MotifDaoJAXBTest
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testCreate() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testCreate() ********** ");
 		}
 		
 		super.testCreate(AFFICHAGE_GENERAL, affichage);
@@ -140,7 +140,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testCreateReturnId() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testCreateReturnId() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -220,7 +220,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testSave() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testSave() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -311,7 +311,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testRetrieve() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testRetrieve() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -411,7 +411,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindById() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testFindById() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -508,7 +508,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testRetrieveId() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testRetrieveId() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -523,8 +523,9 @@ public class MotifDaoJAXBTest
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
 		
-		/* CAST du DAO. */
-		final IMotifDaoJAXB daoJAXBCaste = (IMotifDaoJAXB) this.daoATester;
+		// CAST
+		final IDaoGenericJAXB<IMotif, Long> daoJAXBCaste 
+			= (IDaoGenericJAXB<IMotif, Long>) this.daoATester;
 		
 		/* this.stockage d'un motif dans le XML. */
 		daoJAXBCaste.save(liste1);
@@ -538,7 +539,7 @@ public class MotifDaoJAXBTest
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
-			daoJAXBCaste.ecrireListeObjetsMetierXMLConsole();
+			daoJAXBCaste.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -593,13 +594,11 @@ public class MotifDaoJAXBTest
 	 * <li>garantit que findByMetier(rechercheInexistante) 
 	 * retourne une liste vide.</li>
 	 * </ul>
-	 *
-	 * @throws JAXBException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testFindByMetier() throws JAXBException, IOException {
+	public void testFindByMetier() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -609,7 +608,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindByMetier() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testFindByMetier() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -623,23 +622,20 @@ public class MotifDaoJAXBTest
 		liste1.add(this.objet1);
 		liste1.add(this.objet2);
 		liste1.add(this.objet3);
-		
-		/* CAST du DAO. */
-		final IMotifDaoJAXB daoJAXBCaste = (IMotifDaoJAXB) this.daoATester;
-		
+				
 		/* this.stockage d'un motif dans le XML. */
-		daoJAXBCaste.save(liste1);
+		this.daoATester.save(liste1);
 		
 		/* garantit que save() crée sur disque le fichier XML si il n'existe pas. */
 		assertTrue(FILE_EXISTER, this.stockage.exists());
 		
-		final Long nombreInitial = daoJAXBCaste.count();
+		final Long nombreInitial = this.daoATester.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(CONTENU_STOCKAGE + this.stockage.getAbsolutePath() + SAUT_APO);
-			daoJAXBCaste.ecrireListeObjetsMetierXMLConsole();
+			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
@@ -649,6 +645,11 @@ public class MotifDaoJAXBTest
 		assertEquals(STOCKAGE_CONTIENT_3_ENEGISTREMENTS
 				, (Long) 3L
 					, nombreInitial);
+		
+		// CAST
+		final IDaoGenericJAXB<IMotif, Long> daoJAXBCaste 
+			= (IDaoGenericJAXB<IMotif, Long>) this.daoATester;
+		
 		
 		// *******************************************
 		/* RECHERCHE d'objets métier dans le XML. */
@@ -661,10 +662,10 @@ public class MotifDaoJAXBTest
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println("LISTE EXISTANTE : ");
-			System.out.println(daoJAXBCaste.afficherListeObjetsMetier(liste));
+			System.out.println(this.daoATester.afficherListeObjetsMetier(liste));
 			System.out.println();
 			System.out.println("LISTE INEXISTANTE : ");
-			System.out.println(daoJAXBCaste.afficherListeObjetsMetier(listeInexistant));
+			System.out.println(this.daoATester.afficherListeObjetsMetier(listeInexistant));
 		}
 		
 		/* garantit que findByMetier(recherche) fonctionne 
@@ -703,7 +704,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAll() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testFindAll() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -776,7 +777,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testFindAllMax() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testFindAllMax() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -838,7 +839,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testUpdate() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testUpdate() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -952,7 +953,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDelete() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testDelete() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -1072,7 +1073,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDeleteById() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testDeleteById() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -1133,7 +1134,7 @@ public class MotifDaoJAXBTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJAXBTest - méthode testDeleteByIdBoolean() ********** ");
+			System.out.println("********** CLASSE MotifDaoJAXBTestUnit - méthode testDeleteByIdBoolean() ********** ");
 		}
 
 		if (this.stockage.exists()) {
@@ -1219,4 +1220,4 @@ public class MotifDaoJAXBTest
 	
 
 	
-} // FIN DE LA CLASSE MotifDaoJAXBTest.--------------------------------------
+} // FIN DE LA CLASSE MotifDaoJAXBTestUnit.--------------------------------------

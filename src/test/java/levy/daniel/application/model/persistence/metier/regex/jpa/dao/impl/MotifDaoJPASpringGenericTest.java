@@ -77,7 +77,7 @@ public class MotifDaoJPASpringGenericTest
 	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED)
-	@Test
+//	@Test
 	@Override
 	public void testCreate() throws Exception { // NOPMD by dan on 08/09/18 09:28
 		

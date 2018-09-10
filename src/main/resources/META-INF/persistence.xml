@@ -66,7 +66,7 @@
 		<!-- ========================================================= -->
 		<!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
 		<!-- ========================================================= -->
-		<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/base-regex_javafx" />
+<!-- 		<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/base-regex_javafx" /> -->
     		
 		 <!-- ========================================================= -->
 		 <!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
@@ -89,7 +89,7 @@
 		<!-- en mode FILE -->
 <!-- 		<property name="hibernate.connection.url" value="jdbc:h2:./data/base-regex_javafx-h2/base-regex_javafx" />  -->
    		<!-- en mode MEMORY -->
-<!-- 	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-regex_javafx" />     -->
+	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-regex_javafx" />    
 	
 					
 
@@ -102,8 +102,8 @@
 		<!-- ========================================================= -->
 		<!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
 		<!-- ========================================================= --> 
-		<property name="hibernate.connection.username" value="postgres" />
-		<property name="hibernate.connection.password" value="postgres" />
+<!-- 		<property name="hibernate.connection.username" value="postgres" /> -->
+<!-- 		<property name="hibernate.connection.password" value="postgres" /> -->
 		
 		<!-- ========================================================= -->
 		<!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
@@ -120,8 +120,8 @@
 		<!-- ========================================================= -->
 		<!--                     	H2 1.4.197 - [sa, sa]              -->
 		<!-- ========================================================= -->
-<!--     	<property name="hibernate.connection.username" value="sa" /> -->
-<!--     	<property name="hibernate.connection.password" value="sa" />	 -->
+    	<property name="hibernate.connection.username" value="sa" />
+    	<property name="hibernate.connection.password" value="sa" />	
 
 
 		
@@ -131,7 +131,7 @@
 		<!-- ========================================================= -->
 		<!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
 		<!-- ========================================================= -->
-		<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+<!-- 		<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> -->
 			      
 		 <!-- ========================================================= -->
 		 <!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
@@ -146,7 +146,7 @@
 		<!-- ========================================================= -->
 		<!--                     	H2 1.4.197 - [sa, sa]              -->
 		<!-- ========================================================= -->
-<!-- 		<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" /> -->
+		<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 
 		
 						<!-- **************************** -->
@@ -157,7 +157,7 @@
 			<!-- ========================================================= -->
 		    <!--    postgresql 9.6.4 - port : 5432 - [postgres, postgres]  -->
 		    <!-- ========================================================= -->
-    		<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect" />
+<!--     		<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect" /> -->
     		
 		    <!-- ========================================================= -->
 		    <!--         mySql 5.7.19.0 - port : 3306 - [root, root]       -->
@@ -172,7 +172,7 @@
 			<!-- ========================================================= -->
 			<!--                     	H2 1.4.197 - [sa, sa]              -->
 			<!-- ========================================================= -->
-<!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" /> -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
 
 
 		 			<!-- ************************** -->
