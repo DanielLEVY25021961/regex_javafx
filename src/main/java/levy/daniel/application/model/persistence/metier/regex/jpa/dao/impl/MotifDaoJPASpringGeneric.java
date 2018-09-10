@@ -430,7 +430,6 @@ public class MotifDaoJPASpringGeneric
 	@Override
 	public boolean exists(
 			final IMotif pObject) throws AbstractDaoException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -440,7 +439,6 @@ public class MotifDaoJPASpringGeneric
 	@Override
 	public boolean exists(
 			final Long pId) throws AbstractDaoException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -458,7 +456,7 @@ public class MotifDaoJPASpringGeneric
 	 */
 	@Override
 	protected void renseignerClassObjetMetier() {
-		// TODO Auto-generated method stub
+		this.classObjetMetier = IMotif.class;
 		
 	}
 }

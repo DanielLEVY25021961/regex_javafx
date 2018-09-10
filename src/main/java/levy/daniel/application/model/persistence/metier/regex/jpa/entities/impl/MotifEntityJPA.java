@@ -15,9 +15,8 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.persistence.metier.regex.jpa.entities.IMotif;
 
-
 /**
- * CLASSE MotifEntityJPASpring :<br/>
+ * CLASSE <b>MotifEntityJPA</b> :<br/>
  * .<br/>
  * <br/>
  *
@@ -31,21 +30,20 @@ import levy.daniel.application.model.persistence.metier.regex.jpa.entities.IMoti
  * <br/>
  *
  *
- * @author dan Lévy
+ * @author daniel.levy Lévy
  * @version 1.0
- * @since 8 sept. 2018
+ * @since 10 sept. 2018
  *
  */
-@Entity(name="MotifEntityJPASpring")
-@Table(name="MOTIFS", schema="PUBLIC"
+@Entity(name="MotifEntityJPA")
+@Table(name="MOTIFS_JPA", schema="PUBLIC"
 , uniqueConstraints=@UniqueConstraint(name="UNICITE_NOM_MOTIFJAVA"
 , columnNames={"NOM", "MOTIFJAVA"})
 , indexes={@Index(name="INDEX_NOM_MOTIFJAVA", columnList="NOM, MOTIFJAVA")})
-public class MotifEntityJPASpring implements IMotif {
-	
+public class MotifEntityJPA implements IMotif {
+
 	// ************************ATTRIBUTS************************************/
 
-	
 	/**
 	 * serialVersionUID : long :<br/>
 	 */
@@ -80,23 +78,23 @@ public class MotifEntityJPASpring implements IMotif {
 	 * motif Regex JavaScript.<br/>
 	 */
 	private String motifJavaScript;
-	
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(MotifEntityJPASpring.class);
-
-
-	// *************************METHODES************************************/
+		= LogFactory.getLog(MotifEntityJPA.class);
 	
 
+	// *************************METHODES************************************/
+
+	
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public MotifEntityJPASpring() {
+	public MotifEntityJPA() {
 		
 		this(null, null, null, null, null, null);
 		
@@ -118,7 +116,7 @@ public class MotifEntityJPASpring implements IMotif {
 	 * @param pMotifJavaScript : String : 
 	 * motif Regex JavaScript.<br/>
 	 */
-	public MotifEntityJPASpring(
+	public MotifEntityJPA(
 				final String pNom, 
 				final String pMotifJava, 
 				final String pSignification, 
@@ -149,7 +147,7 @@ public class MotifEntityJPASpring implements IMotif {
 	 * @param pMotifJavaScript : String : 
 	 * motif Regex JavaScript.<br/>
 	 */
-	public MotifEntityJPASpring(
+	public MotifEntityJPA(
 			final Long pId, 
 				final String pNom, 
 				final String pMotifJava, 
@@ -177,7 +175,7 @@ public class MotifEntityJPASpring implements IMotif {
 	 *
 	 * @param pMotif : IMotif.<br/>
 	 */
-	public MotifEntityJPASpring(
+	public MotifEntityJPA(
 			final IMotif pMotif) {
 		
 		super();
@@ -227,12 +225,12 @@ public class MotifEntityJPASpring implements IMotif {
 		if (pObject == null) {
 			return false;
 		}
-		if (!(pObject instanceof MotifEntityJPASpring)) {
+		if (!(pObject instanceof MotifEntityJPA)) {
 			return false;
 		}
 		
-		final MotifEntityJPASpring other 
-			= (MotifEntityJPASpring) pObject;
+		final MotifEntityJPA other 
+			= (MotifEntityJPA) pObject;
 		
 		/* nom. */
 		if (this.nom == null) {
@@ -327,9 +325,9 @@ public class MotifEntityJPASpring implements IMotif {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final MotifEntityJPASpring clone() throws CloneNotSupportedException {
+	public final MotifEntityJPA clone() throws CloneNotSupportedException {
 		
-		final MotifEntityJPASpring motifClone = (MotifEntityJPASpring) super.clone();
+		final MotifEntityJPA motifClone = (MotifEntityJPA) super.clone();
 		
 		motifClone.id = this.id;
 		motifClone.nom = this.nom;
@@ -712,4 +710,4 @@ public class MotifEntityJPASpring implements IMotif {
 
 
 	
-} // FIN DE LA CLASSE MotifEntityJPASpring.----------------------------------
+} // FIN DE LA CLASSE MotifEntityJPA.----------------------------------------

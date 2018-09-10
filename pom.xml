@@ -4,8 +4,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
 
          <!-- ================================================== -->
-         <!-- 			POM pour MAVEN 3.5.0					 -->
-         <!-- 			Java 1.8.0_144							 -->
+         <!-- 			POM pour MAVEN 3.5.3					 -->
+         <!-- 			Java 1.8.0_181							 -->
          <!-- ================================================== -->
 
 
@@ -152,7 +152,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- 		Version maven-compiler-plugin					    -->
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 		<!-- 		Version maven-surefire-plugin					    -->
-		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+		<maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
 		<!-- 		Version maven-install-plugin						-->
 		<maven-install-plugin.version>2.5.2</maven-install-plugin.version>
 		<!-- 		Version maven-deploy-plugin						    -->
@@ -910,6 +910,33 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				<groupId>org.apache.maven.plugins</groupId>
    				<artifactId>maven-surefire-plugin</artifactId>
    				<version>${maven-surefire-plugin.version}</version>
+   				<dependencies>
+			      <dependency>
+			        <groupId>org.apache.maven.surefire</groupId>
+			        <artifactId>surefire-junit47</artifactId>
+			        <version>${maven-surefire-plugin.version}</version>
+			      </dependency>
+			    </dependencies>
+			    <configuration>
+			      <!-- '**' INCLUT TOUS LES SOUS-REPERTOIRES DU PROJET -->
+		          <includes>
+		          	<!-- INCLUT TOUTES LES CLASSES COMMENCANT PAR Test -->
+		            <include>**/Test*.java</include>
+		            <!-- INCLUT TOUTES LES CLASSES FINISSANT PAR Test -->
+		            <include>**/*Test.java</include>
+		            <!-- INCLUT TOUTES LES CLASSES FINISSANT PAR Tests -->
+		            <include>**/*Tests.java</include>
+		            <!-- INCLUT TOUTES LES CLASSES FINISSANT PAR TestCase -->
+		            <include>**/*TestCase.java</include>
+		          </includes>
+		          <!-- '**' EXCLUT TOUS LES SOUS-REPERTOIRES DU PROJET -->			    
+		          <excludes>
+		          	<!-- EXCLUT LA CLASSE MotifDaoJAXBTest.java -->
+<!-- 		            <exclude>**/MotifDaoJAXBTest.java</exclude> -->
+					<!-- EXCLUT LE PACKAGE model/persistence -->
+		            <exclude>model/persistence/*</exclude>            
+		          </excludes>
+		        </configuration>				    
 				<executions>
 					<execution>
 						<id>default-test</id>
