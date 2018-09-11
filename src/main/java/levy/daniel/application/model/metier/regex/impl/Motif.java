@@ -198,34 +198,32 @@ public class Motif implements IMotif {
 		if (pObject == null) {
 			return false;
 		}
-		if (!(pObject instanceof Motif)) {
+		if (!(pObject instanceof IMotif)) {
 			return false;
 		}
 		
-		final Motif other = (Motif) pObject;
+		final IMotif other = (IMotif) pObject;
 		
 		/* nom. */
 		if (this.nom == null) {
-			if (other.nom != null) {
+			if (other.getNom() != null) {
 				return false;
 			}
 		}
-		else if (!this.nom.equals(other.nom)) {
+		else if (!this.nom.equals(other.getNom())) {
 			return false;
 		}
 		
 		/* motifJava. */
 		if (this.motifJava == null) {
-			if (other.motifJava != null) {
+			if (other.getMotifJava() != null) {
 				return false;
 			}
 		}
-		else if (!this.motifJava.equals(other.motifJava)) {
+		else if (!this.motifJava.equals(other.getMotifJava())) {
 			return false;
 		}
-		
-		
-		
+				
 		return true;
 		
 	} // Fin de equals(...)._______________________________________________

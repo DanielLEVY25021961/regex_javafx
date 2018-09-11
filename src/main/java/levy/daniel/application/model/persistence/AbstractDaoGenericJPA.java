@@ -144,11 +144,27 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	 *
 	 * @return : EntityManager.<br/>
 	 */
-	private EntityManager fournirEntityManager() {
+	protected final EntityManager fournirEntityManager() {
 		return JPAUtils.getEntityManagerFactory().createEntityManager();
 	} // Fin de fournirEntityManager().____________________________________
 
 
+	
+	/**
+	 * <b>fabrique et retourne une Entity JPA à partir 
+	 * d'un objet métier</b>.<br/>
+	 * <ul>
+	 * <li><i>L'entity et l'objet métier doivent avoir 
+	 * la même interface de type T</i>.</li>
+	 * </ul>
+	 *
+	 * @param pObject : T : objet métier
+	 * @return : T : Entity JPA instanciée à partir de l'objet métier.<br/>
+	 */
+	protected abstract T entity(T pObject);
+	
+	
+	
 	/* CREATE ************/
 
 	
@@ -198,15 +214,16 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			}
 			
 			/* ***************** */
-			/* PERSISTE en base. */
-			entityManager.persist(pObject);
+			/* PERSISTE en base l'ENTITY. */
+			entityManager.persist(entity(pObject));
 			
 			/* Commit de la Transaction (Réalise le SQL INSERT). */			
 			transaction.commit();
 			
+			/* recherche l'entité persistante dans le stockage. */
+			persistentObject = this.retrieve(entity(pObject));
+									
 			entityManager.close();
-
-			persistentObject = pObject;
 
 		}
 		catch (Exception e) {
@@ -708,8 +725,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	@Override
 	public List<T> findAll() throws AbstractDaoException {
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+		
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -721,17 +741,19 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		/* Création de la requête HQL sous forme de String. */
 		final String requeteString 
 			= "from " + this.classObjetMetier.getName();
-
+		
 		List<T> resultat = null;
-
+		
 		try {
-
+			
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
-				= this.entityManager.createQuery(requeteString);
+				= entityManager.createQuery(requeteString);
 
 			/* Exécute la javax.persistence.Query. */
 			resultat = query.getResultList();
+			
+			entityManager.close();
 
 		}
 		catch (Exception e) {
@@ -1011,8 +1033,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	@Override
 	public final void deleteAll() throws AbstractDaoException {
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+		
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -1025,18 +1050,39 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		/* Création de la requête HQL sous forme de String. */
 		final String requeteString 
 			= "delete from " + this.classObjetMetier.getName();
+		
+		/* Récupération d'une TransactionJPA 
+		 * javax.persistence.EntityTransaction 
+		 * auprès du entityManager. */
+		final EntityTransaction transaction 
+			= entityManager.getTransaction();
 
 		try {
+			
+			/* Début de la Transaction. */
+			if (!transaction.isActive()) {
+				transaction.begin();
+			}
 
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
-				= this.entityManager.createQuery(requeteString);
+				= entityManager.createQuery(requeteString);
 
 			/* EXECUTION DE LA REQUETE. */
 			query.executeUpdate();
+			
+			/* Commit de la Transaction (Réalise l'ordre SQL). */			
+			transaction.commit();
+
+			entityManager.close();
 
 		}
 		catch (Exception e) {
+			
+			/* Rollback de la transaction. */
+			if (transaction != null) {
+				transaction.rollback();
+			}
 
 			/* LOG. */
 			if (LOG.isDebugEnabled()) {

@@ -3,15 +3,15 @@ package levy.daniel.application.model.persistence.metier.regex.jpa.dao.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
+import org.junit.Test;
 
 import levy.daniel.application.model.metier.regex.IMotif;
 import levy.daniel.application.model.metier.regex.impl.Motif;
-import levy.daniel.application.model.persistence.AbstractTestDaoGenericJPASpring;
+import levy.daniel.application.model.persistence.AbstractTestDaoGenericJPA;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 
-
 /**
- * CLASSE <b>MotifDaoJPASpringGenericTest</b> :<br/>
+ * CLASSE MotifDaoJPAGenericTest :<br/>
  * .<br/>
  * <br/>
  *
@@ -25,14 +25,14 @@ import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoExcept
  * <br/>
  *
  *
- * @author dan Lévy
+ * @author daniel.levy Lévy
  * @version 1.0
- * @since 8 sept. 2018
+ * @since 11 sept. 2018
  *
  */
-public class MotifDaoJPASpringGenericTest 
-			extends AbstractTestDaoGenericJPASpring<IMotif, Long>{
-	
+public class MotifDaoJPAGenericTest 
+				extends AbstractTestDaoGenericJPA<IMotif, Long> {
+
 	// ************************ATTRIBUTS************************************/
 	
 	/**
@@ -48,21 +48,21 @@ public class MotifDaoJPASpringGenericTest
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(MotifDaoJPASpringGenericTest.class);
+		= LogFactory.getLog(MotifDaoJPAGenericTest.class);
+
 	
-
 	// *************************METHODES************************************/
-
+	
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public MotifDaoJPASpringGenericTest() {
+	public MotifDaoJPAGenericTest() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 
-		
+
 	/**
 	 * teste la méthode create(IMotif).<br/>
 	 * <ul>
@@ -77,7 +77,7 @@ public class MotifDaoJPASpringGenericTest
 	 * @throws Exception 
 	 */
 	@SuppressWarnings(UNUSED) // NOPMD by dan on 10/09/18 13:01
-//	@Test
+	@Test
 	@Override
 	public void testCreate() throws Exception { // NOPMD by dan on 08/09/18 09:28
 		
@@ -89,7 +89,7 @@ public class MotifDaoJPASpringGenericTest
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("********** CLASSE MotifDaoJPASpringGenericTest - méthode testCreate() ********** ");
+			System.out.println("********** CLASSE MotifDaoJPAGenericTest - méthode testCreate() ********** ");
 		}
 		
 		super.testCreate(AFFICHAGE_GENERAL, affichage);
@@ -97,7 +97,7 @@ public class MotifDaoJPASpringGenericTest
 	} // Fin de testCreate().______________________________________________
 
 
-	 
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -114,11 +114,10 @@ public class MotifDaoJPASpringGenericTest
 		this.objet3 
 		= new Motif("commence par 1 à 4 chiffres", "^\\d{1,4}?", "commence par 1 à 4 chiffres reluctant", "^\\d[0-9]{1,4}?", "/ ^\\d{1,4}? /");
 		
-		this.daoATester = new MotifDaoJPASpringGeneric();
+		this.daoATester = new MotifDaoJPAGeneric();
 		
 	} // Fin de before().__________________________________________________	 
 	 
 
-	
-	
-} // FIN DE LA CLASSE MotifDaoJPASpringGenericTest.--------------------------
+
+} // FIN DE LA CLASSE MotifDaoJPAGenericTest.--------------------------------

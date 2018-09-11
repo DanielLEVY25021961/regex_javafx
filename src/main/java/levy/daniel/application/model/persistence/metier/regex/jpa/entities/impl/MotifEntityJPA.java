@@ -13,7 +13,7 @@ import javax.persistence.UniqueConstraint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import levy.daniel.application.model.persistence.metier.regex.jpa.entities.IMotif;
+import levy.daniel.application.model.metier.regex.IMotif;
 
 /**
  * CLASSE <b>MotifEntityJPA</b> :<br/>
@@ -225,30 +225,30 @@ public class MotifEntityJPA implements IMotif {
 		if (pObject == null) {
 			return false;
 		}
-		if (!(pObject instanceof MotifEntityJPA)) {
+		if (!(pObject instanceof IMotif)) {
 			return false;
 		}
 		
-		final MotifEntityJPA other 
-			= (MotifEntityJPA) pObject;
+		final IMotif other 
+			= (IMotif) pObject;
 		
 		/* nom. */
 		if (this.nom == null) {
-			if (other.nom != null) {
+			if (other.getNom() != null) {
 				return false;
 			}
 		}
-		else if (!this.nom.equals(other.nom)) {
+		else if (!this.nom.equals(other.getNom())) {
 			return false;
 		}
 		
 		/* motifJava. */
 		if (this.motifJava == null) {
-			if (other.motifJava != null) {
+			if (other.getMotifJava() != null) {
 				return false;
 			}
 		}
-		else if (!this.motifJava.equals(other.motifJava)) {
+		else if (!this.motifJava.equals(other.getMotifJava())) {
 			return false;
 		}
 				
@@ -350,7 +350,7 @@ public class MotifEntityJPA implements IMotif {
 		
 		final StringBuilder builder = new StringBuilder();
 		
-		builder.append("Motif [");
+		builder.append("MotifEntityJPA [");
 		
 		/* id. */
 		builder.append("id=");
@@ -570,7 +570,7 @@ public class MotifEntityJPA implements IMotif {
 	 * {@inheritDoc}
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID")
 	@Override
 	public Long getId() {

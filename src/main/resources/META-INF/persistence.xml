@@ -180,8 +180,8 @@
 					<!-- ************************** -->
 
         	<!-- Montrer toutes les réquêtes générées -->
-	        <property name="hibernate.show_sql" value="true" />
-<!--      	    <property name="hibernate.show_sql" value="false" /> -->
+<!-- 	        <property name="hibernate.show_sql" value="true" /> -->
+     	    <property name="hibernate.show_sql" value="false" />
 	        
 	        <!-- Formater le SQL de sortie -->
 			<property name="hibernate.format_sql" value="true" />
