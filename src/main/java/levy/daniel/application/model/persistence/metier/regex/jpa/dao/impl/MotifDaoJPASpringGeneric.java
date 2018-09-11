@@ -424,14 +424,81 @@ public class MotifDaoJPASpringGeneric
 		return false;
 	}
 
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean exists(
 			final IMotif pObject) throws AbstractDaoException {
+
+		/* return false si pObject == null. */
+		if (pObject == null) {
+			return false;
+		}
+		
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return false;
+		}
+
+		IMotif objetResultat = null;
+
+		/* REQUETE HQL PARAMETREE. */
+		final String requeteString 
+			= SELECT_OBJET
+				+ "where motif.nom = :pNom and motif.motifJava = :pMotifJava;";
+
+		/* Construction de la requête HQL. */
+		final Query requete 
+			= this.entityManager.createQuery(requeteString);
+
+		/* Passage des paramètres de la requête HQL. */
+		requete.setParameter("pNom", pObject.getNom());
+		requete.setParameter("pMotifJava", pObject.getMotifJava());
+
+		try {
+
+			/* Execution de la requete HQL. */
+			objetResultat 
+				= (IMotif) requete.getSingleResult();
+			
+			if (objetResultat != null) {
+				return true;
+			}
+
+		}
+		catch (NoResultException noResultExc) {
+
+			/* retourne null si l'Objet métier n'existe pas en base. */
+			return false;
+
+		}
+		catch (Exception e) {
+
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						CLASSE_MOTIFDAOJPASPRING
+						, "Méthode retrieve(IMotif pObject)", e);
+		}
+
 		return false;
-	}
+
+	} // Fin de exists(...)._______________________________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}

@@ -87,9 +87,9 @@
 		<!--                     	H2 1.4.197 - [sa, sa]              -->
 		<!-- ========================================================= -->
 		<!-- en mode FILE -->
-<!-- 		<property name="hibernate.connection.url" value="jdbc:h2:./data/base-regex_javafx-h2/base-regex_javafx" />  -->
+		<property name="hibernate.connection.url" value="jdbc:h2:file:./data/base-regex_javafx-h2/base-regex_javafx" /> 
    		<!-- en mode MEMORY -->
-	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-regex_javafx" />    
+<!-- 	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-regex_javafx" />     -->
 	
 					
 
