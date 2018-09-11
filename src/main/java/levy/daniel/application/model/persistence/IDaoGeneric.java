@@ -49,7 +49,7 @@ public interface IDaoGeneric<T, ID extends Serializable> {
 	
 	/**
 	 * <b>crée un objet métier pObject dans le stockage 
-	 * et retourne l'objet persisté</b>.<br/>
+	 * et retourne l'objet METIER persisté</b>.<br/>
 	 * <ul>
 	 * <li>ne crée <b>pas de doublon</b>.</li>
 	 * <li>retourne null si pObject existe déjà dans le stockage.</li>

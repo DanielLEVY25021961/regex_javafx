@@ -143,8 +143,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	 * fournit une nouvelle instance d'EntityManager à chaque appel.<br/>
 	 *
 	 * @return : EntityManager.<br/>
+	 * 
+	 * @throws AbstractDaoException
 	 */
-	protected final EntityManager fournirEntityManager() {
+	protected final EntityManager fournirEntityManager() 
+			throws AbstractDaoException {
 		return JPAUtils.getEntityManagerFactory().createEntityManager();
 	} // Fin de fournirEntityManager().____________________________________
 
@@ -162,6 +165,20 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	 * @return : T : Entity JPA instanciée à partir de l'objet métier.<br/>
 	 */
 	protected abstract T entity(T pObject);
+	
+	
+	/**
+	 * <b>fabrique et retourne un objet métier à partir 
+	 * d'une Entity JPA</b>.<br/>
+	 * <ul>
+	 * <li><i>L'entity et l'objet métier doivent avoir 
+	 * la même interface de type T</i>.</li>
+	 * </ul>
+	 *
+	 * @param pObject : T : Entity JPA
+	 * @return : T : Objet métier instancié à partir de l'Entity JPA.<br/>
+	 */
+	protected abstract T objetMetier(T pObject);
 	
 	
 	
@@ -186,6 +203,7 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		T persistentObject = null;
+		T persistentEntity = null;
 		
 		/* Instanciation d'un entityManager. */
 		final EntityManager entityManager = this.fournirEntityManager();
@@ -215,13 +233,17 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			
 			/* ***************** */
 			/* PERSISTE en base l'ENTITY. */
+			/* convertit l'objet métier en Entity pour le persister 
+			 * dans le stockage. */
 			entityManager.persist(entity(pObject));
 			
 			/* Commit de la Transaction (Réalise le SQL INSERT). */			
 			transaction.commit();
 			
-			/* recherche l'entité persistante dans le stockage. */
-			persistentObject = this.retrieve(entity(pObject));
+			/* recherche l'entité persistée dans le stockage. */
+			persistentEntity = this.retrieve(entity(pObject));
+			/* convertit l'entité persistée en objet métier. */
+			persistentObject = this.objetMetier(persistentEntity);
 									
 			entityManager.close();
 

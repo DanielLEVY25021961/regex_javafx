@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.metier.regex.IMotif;
+import levy.daniel.application.model.metier.regex.impl.Motif;
 import levy.daniel.application.model.persistence.AbstractDaoGenericJPA;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.persistence.metier.regex.jpa.entities.impl.MotifEntityJPA;
@@ -71,9 +72,23 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 			final IMotif pObject) {
 		return new MotifEntityJPA(pObject);
 	} // Fin de entity(...)._______________________________________________
-	
-	
 
+	
+		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final IMotif objetMetier(
+			final IMotif pObject) {
+		
+		final MotifEntityJPA entity = (MotifEntityJPA) pObject;
+		return new Motif(entity);
+		
+	} // Fin de objetMetier(...).__________________________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -387,15 +402,6 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String afficherListe(List pListe) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 	
 	/**
@@ -405,6 +411,20 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 	protected final void renseignerClassObjetMetier() {
 		this.setClassObjetMetier(IMotif.class);
 	} // Fin de renseignerClassObjetMetier().______________________________
+
+
+
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String afficherListe(List<IMotif> pListe) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 
