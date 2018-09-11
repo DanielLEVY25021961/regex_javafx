@@ -6,15 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import javax.transaction.Transaction;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.persistence.daoexceptions.GestionnaireDaoException;
+import levy.daniel.application.model.persistence.daoexceptions.technical.impl.DaoDoublonException;
 
 
 /**
@@ -148,7 +149,21 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	 */
 	protected final EntityManager fournirEntityManager() 
 			throws AbstractDaoException {
-		return JPAUtils.getEntityManagerFactory().createEntityManager();
+		
+		EntityManagerFactory emf = null;
+		
+		try {
+			emf = JPAUtils.getEntityManagerFactory();
+		} catch (Exception e) {
+			throw new DaoDoublonException("IMPOSSIBLE", e);
+		}
+		
+		
+		if (emf != null) {
+			return emf.createEntityManager();
+		}
+		
+		return null;
 	} // Fin de fournirEntityManager().____________________________________
 
 
@@ -371,8 +386,16 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return;
 		}
 
+		/* ne fait rien si pObject est un doublon. */
+		if (this.exists(pObject)) {
+			return;
+		}
+
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -381,16 +404,12 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return;
 		}
 
-		/* ne fait rien si pObject est un doublon. */
-		if (this.exists(pObject)) {
-			return;
-		}
 
 
 		try {
 
 			/* PERSISTE en base. */
-			this.entityManager.persist(pObject);
+			entityManager.persist(pObject);
 
 		}
 		catch (Exception e) {
@@ -424,8 +443,16 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return;
 		}
 
+		/* ne fait rien si pObject est un doublon. */
+		if (this.exists(pObject)) {
+			return;
+		}
+
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -433,16 +460,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			}
 			return;
 		}
-
-		/* ne fait rien si pObject est un doublon. */
-		if (this.exists(pObject)) {
-			return;
-		}
-
+		
 		try {
 
 			/* PERSISTE en base. */
-			this.entityManager.persist(pObject);
+			entityManager.persist(pObject);
 
 		}
 		catch (Exception e) {
@@ -488,8 +510,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return null;
 		}
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -519,7 +544,7 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 						try {
 
 							/* PERSISTE en base. */
-							this.entityManager.persist(objet);
+							entityManager.persist(objet);
 
 							objetPersistant = objet;
 
@@ -585,9 +610,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return null;
 		}
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -617,7 +644,7 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 						try {
 
 							/* PERSISTE en base. */
-							this.entityManager.persist(objet);
+							entityManager.persist(objet);
 
 							objetPersistant = objet;
 
@@ -696,8 +723,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return null;
 		}
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -709,7 +739,7 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		try {
 
 			objetTrouve 
-				= this.entityManager.find(this.classObjetMetier, pId);
+				= entityManager.find(this.classObjetMetier, pId);
 
 		}
 		catch (Exception e) {
@@ -808,9 +838,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			final int pStartPosition
 				, final int pMaxResult) throws AbstractDaoException {
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -829,7 +861,7 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
-				= this.entityManager.createQuery(requeteString)
+				= entityManager.createQuery(requeteString)
 					.setFirstResult(pStartPosition).setMaxResults(pMaxResult);
 
 			/* Exécute la javax.persistence.Query. */
@@ -869,8 +901,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return null;
 		}
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -915,8 +950,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return null;
 		}
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -937,7 +975,7 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		try {
 
 			/* MODIFIE en base. */
-			this.entityManager.merge(pObject);
+			entityManager.merge(pObject);
 
 			persistentObject = pObject;
 
@@ -979,8 +1017,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			return false;
 		}
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -999,10 +1040,10 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			if (persistanceInstance != null) {
 
 				/* merge avant de pouvoir détruire. */
-				this.entityManager.merge(persistanceInstance);
+				entityManager.merge(persistanceInstance);
 
 				/* DESTRUCTION. */
-				this.entityManager.remove(persistanceInstance);
+				entityManager.remove(persistanceInstance);
 
 				resultat = true;
 
@@ -1129,8 +1170,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	@Override
 	public final boolean deleteAllBoolean() throws AbstractDaoException {
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
+
 		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		if (entityManager == null) {
 
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -1150,7 +1194,7 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
-				= this.entityManager.createQuery(requeteString);
+				= entityManager.createQuery(requeteString);
 
 			/* EXECUTION DE LA REQUETE. */
 			query.executeUpdate();
@@ -1206,6 +1250,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			}
 		}
 
+		/* Instanciation d'un entityManager. */
+		final EntityManager entityManager = this.fournirEntityManager();
 
 		/* Itération uniquement sur la liste des Objets persistants. */
 		final Iterator<? extends T> ite = listePersistants.iterator();
