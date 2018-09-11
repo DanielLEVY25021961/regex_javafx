@@ -58,6 +58,9 @@ public interface IDaoGenericJPASpring<T, ID extends Serializable>
 	 * T pObject) :<br/>
 	 * <ul>
 	 * <li>Crée un Objet metier de type paramétré T pObject en base.</li>
+	 * <li>convertit l'objet métier en Entity pour le 
+	 * persister dans le stockage.</li>
+	 * <li>utilise <code>entityManager.persist(entity(pObject));</code></li>
 	 * <li>Crée un Objet metier DESCENDANT de type paramétré S
 	 * sous-classe de T pObject en base (strategy=InheritanceType.JOINED) 
 	 * et le retourne avec la visibilité (Typé) T.</li>

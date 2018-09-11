@@ -100,6 +100,7 @@ public abstract class AbstractTestDaoGenericJPA<T, ID extends Serializable>
 		/* AFFICHAGE A LA CONSOLE. */
 		if (pAffichageGeneral && pAffichage) {
 			System.out.println();
+			System.out.println("objet persisté retourne par create(T pObject) : " + objetPersiste.toString());
 			System.out.println(CONTENU_STOCKAGE);
 			this.daoATester.ecrireStockageDansConsole();
 			System.out.println();

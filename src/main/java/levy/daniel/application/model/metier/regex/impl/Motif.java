@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.metier.regex.IMotif;
+import levy.daniel.application.model.persistence.metier.regex.jpa.entities.impl.MotifEntityJPA;
 
 
 /**
@@ -163,6 +164,27 @@ public class Motif implements IMotif {
 
 
 
+	 /**
+	 * CONSTRUCTEUR TRANSFORMATEUR.<br/>
+	 * <b>instancie un objet métier à partir d'une Entity JPA</b>.<br/>
+	 *
+	 * @param pEntityJPA : MotifEntityJPA.<br/>
+	 */
+	public Motif(
+			final MotifEntityJPA pEntityJPA) {
+		
+		super();
+		
+		this.id = pEntityJPA.getId();
+		this.nom = pEntityJPA.getNom();
+		this.motifJava = pEntityJPA.getMotifJava();
+		this.signification = pEntityJPA.getSignification();
+		this.alias = pEntityJPA.getAlias();
+		this.motifJavaScript = pEntityJPA.getMotifJavaScript();
+		
+	} // Fin de CONSTRUCTEUR TRANSFORMATEUR._______________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}
