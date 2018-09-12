@@ -77,10 +77,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- 				Version de SPRING 							-->
 		<spring.version>5.0.1.RELEASE</spring.version>
 		<!-- 				Version d'HIBERNATE 						-->
-		<hibernate.version>5.3.1.Final</hibernate.version>
+		<hibernate.version>5.3.6.Final</hibernate.version>
 		<!-- 			Version hibernate-jpa-2.1-api				    -->
 		<hibernate-jpa-2.1-api.version>1.0.2.Final</hibernate-jpa-2.1-api.version>
 		<!-- 			Version validation-api						    -->
+
+		<!--  			Version javax.persistence-api					-->
+		<javax.persistence-api.version>2.2</javax.persistence-api.version>
+
 		<validation-api.version>2.0.0.Final</validation-api.version>
 		<!-- 			Version d'HIBERNATE VALIDATOR				    -->
 		<hibernate.validator>6.0.2.Final</hibernate.validator>
@@ -469,8 +473,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <version>${hibernate-jpa-2.1-api.version}</version>
 		    <scope>compile</scope>
 		</dependency>
-
 		
+		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>javax.persistence</groupId> -->
+<!-- 		    <artifactId>javax.persistence-api</artifactId> -->
+<!-- 		    <version>${javax.persistence-api.version}</version> -->
+<!-- 		</dependency> -->
+				
 		
 		<!-- Intégration du POOL DE CONNEXION c3p0 pour Hibernate 			 -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
@@ -530,7 +540,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <groupId>com.h2database</groupId>
 		    <artifactId>h2</artifactId>
 		    <version>${h2.version}</version>
-		    <scope>test</scope>
+		    <scope>compile</scope>		    
+<!-- 		    <scope>test</scope> -->
 		</dependency>
 		
 
@@ -932,7 +943,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		          <!-- '**' EXCLUT TOUS LES SOUS-REPERTOIRES DU PROJET -->			    
 		          <excludes>
 		          	<!-- EXCLUT LA CLASSE MotifDaoJAXBTest.java -->
-<!-- 		            <exclude>**/MotifDaoJAXBTest.java</exclude> -->
+		            <exclude>**/MotifDaoJAXBTest.java</exclude>
 					<!-- EXCLUT LE PACKAGE model/persistence -->
 		            <exclude>model/persistence/*</exclude>            
 		          </excludes>

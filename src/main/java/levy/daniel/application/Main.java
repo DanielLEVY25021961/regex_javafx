@@ -1,12 +1,5 @@
 package levy.daniel.application;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -107,7 +100,7 @@ public final class Main {
 	 * <br/>
 	 *
 	 */
-	public Main() {
+	private Main() {
 		super();
 	} // Fin de Main().____________________________________________________
 	
@@ -125,7 +118,7 @@ public final class Main {
 	 */
 	public static void main(
 			final String[] pArgs) throws Exception {
-				
+		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
 		final boolean affichage = true;
@@ -152,18 +145,7 @@ public final class Main {
 		/* enregistrement d'un objet dans le stockage (TABLE SGBDR JPA). */
 		final IMotif objetPersiste = DAOATESTER.create(objet1);
 		// *************************************************************
-		
 				
-		/* garantit que create() retourne une instance persistée. */
-		assertNotNull(
-				"create(...) doit retourner une instance persistée : "
-					, objetPersiste);
-		
-		assertEquals(
-				"create(...) doit retourner une instance persistée equals à this.objet1 : "
-					, objet1 
-						, objetPersiste);
-		
 		final Long nombreInitial = DAOATESTER.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -175,34 +157,14 @@ public final class Main {
 			System.out.println();
 			System.out.println(NOMBRE_ENREGISTREMENTS + nombreInitial);
 		}
-		
-		/* garantit que create() insère un enregistrement dans le stockage. */
-		assertEquals(STOCKAGE_CONTIENT_1_ENREGISTREMENT
-				, (Long) 1L
-					, nombreInitial);
-		
+				
 		// ******************************************************************
 		/* enregistrement d'un DOUBLON dans le stockage (TABLE SGBDR JPA). */
-		final IMotif motifDoublon = DAOATESTER.create(objet1);
+//		final IMotif motifDoublon = DAOATESTER.create(objet1);
 		// ******************************************************************
 		
-		final Long nombreApresDoublon = DAOATESTER.count();
+//		final Long nombreApresDoublon = DAOATESTER.count();
 		
-		/* garantit que create(Doublon) retourne null. */
-		assertNull(
-				"create(Doublon) doit retourner null : "
-					, motifDoublon);
-		
-		/* garantit que create(Doublon) ne crée pas de doublon. */
-		assertEquals(STOCKAGE_CONTIENT_1_ENREGISTREMENT
-				, (Long) 1L
-					, nombreApresDoublon);
-		
-		/* garantit que create(null) retourne null. */
-		assertNull(
-				"create(null) doit retourner null : "
-					, DAOATESTER.create(null));
-
 	} // Fin de main(...)._________________________________________________
 
 

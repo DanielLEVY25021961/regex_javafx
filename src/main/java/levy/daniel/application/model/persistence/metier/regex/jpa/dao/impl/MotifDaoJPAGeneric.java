@@ -64,6 +64,15 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 	// *************************METHODES************************************/
 
 	
+	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 */
+	public MotifDaoJPAGeneric() {
+		super();
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -166,7 +175,7 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List findAllSousClasse() throws AbstractDaoException {
+	public List<IMotif> findAllSousClasse() throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -175,7 +184,7 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List findAllMaxSousClasse(int pStartPosition, int pMaxResult) throws AbstractDaoException {
+	public List<IMotif> findAllMaxSousClasse(int pStartPosition, int pMaxResult) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -232,7 +241,7 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deleteIterable(Iterable pList) throws Exception {
+	public void deleteIterable(Iterable<IMotif> pList) throws Exception {
 		// TODO Auto-generated method stub
 
 	}
@@ -241,7 +250,7 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteIterableBoolean(Iterable pList) throws Exception {
+	public boolean deleteIterableBoolean(Iterable<IMotif> pList) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
