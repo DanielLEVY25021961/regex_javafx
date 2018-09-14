@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
@@ -22,6 +23,8 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.IConstantesApplicatives;
 import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
+import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
+import levy.daniel.application.model.persistence.daoexceptions.technical.impl.DaoDoublonException;
 
 
 /**
@@ -349,8 +352,40 @@ public final class JPAUtils {
 				
 	} // Fin de getEntityManagerFactory()._________________________________
 	
+
 	
+	/**
+	 * fournit une nouvelle instance d'EntityManager à chaque appel.<br/>
+	 *
+	 * @return : EntityManager.<br/>
+	 * 
+	 * @throws AbstractDaoException
+	 */
+	public static EntityManager fournirEntityManager() 
+			throws AbstractDaoException {
 		
+		synchronized(JPAUtils.class) {
+			
+			EntityManagerFactory emf = null;
+			
+			try {
+				emf = JPAUtils.getEntityManagerFactory();
+			} catch (Exception e) {
+				throw new DaoDoublonException("IMPOSSIBLE", e);
+			}
+					
+			if (emf != null) {
+				return emf.createEntityManager();
+			}
+			
+			return null;
+
+		} // Fin du bloc synchronized._____________________
+		
+	} // Fin de fournirEntityManager().____________________________________
+
+
+	
 	/**
 	 * method getProperties() :<br/>
 	 * Retourne les properties lues dans le fichier persistence.xml 
