@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
@@ -15,7 +14,6 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.persistence.daoexceptions.GestionnaireDaoException;
-import levy.daniel.application.model.persistence.daoexceptions.technical.impl.DaoDoublonException;
 
 
 /**
@@ -141,34 +139,6 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 
 	
 	/**
-	 * fournit une nouvelle instance d'EntityManager à chaque appel.<br/>
-	 *
-	 * @return : EntityManager.<br/>
-	 * 
-	 * @throws AbstractDaoException
-	 */
-	protected final EntityManager fournirEntityManager() 
-			throws AbstractDaoException {
-		
-		EntityManagerFactory emf = null;
-		
-		try {
-			emf = JPAUtils.getEntityManagerFactory();
-		} catch (Exception e) {
-			throw new DaoDoublonException("IMPOSSIBLE", e);
-		}
-		
-		
-		if (emf != null) {
-			return emf.createEntityManager();
-		}
-		
-		return null;
-	} // Fin de fournirEntityManager().____________________________________
-
-
-	
-	/**
 	 * <b>fabrique et retourne une Entity JPA à partir 
 	 * d'un objet métier</b>.<br/>
 	 * <ul>
@@ -221,7 +191,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		T persistentEntity = null;
 		
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -260,7 +231,10 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 			/* convertit l'entité persistée en objet métier. */
 			persistentObject = this.objetMetier(persistentEntity);
 									
-			entityManager.close();
+			/* Fermeture de l'EntityManager. */
+			if (entityManager.isOpen()) {
+				entityManager.close();
+			}
 
 		}
 		catch (Exception e) {
@@ -270,6 +244,11 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 				transaction.rollback();
 			}
 
+			/* Fermeture de l'EntityManager. */
+			if (entityManager.isOpen()) {
+				entityManager.close();
+			}
+			
 			/* LOG. */
 			if (LOG.isDebugEnabled()) {
 				LOG.debug(e.getMessage(), e);
@@ -310,7 +289,9 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		S persistentObject = null;
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
+
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -392,7 +373,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -449,7 +431,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -511,7 +494,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -611,7 +595,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -724,7 +709,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -778,7 +764,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	public List<T> findAll() throws AbstractDaoException {
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 		
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -839,7 +826,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 				, final int pMaxResult) throws AbstractDaoException {
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -902,7 +890,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -951,7 +940,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -1018,7 +1008,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -1097,7 +1088,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	public final void deleteAll() throws AbstractDaoException {
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 		
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -1171,7 +1163,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 	public final boolean deleteAllBoolean() throws AbstractDaoException {
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -1251,7 +1244,8 @@ public abstract class AbstractDaoGenericJPA<T, ID extends Serializable>
 		}
 
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 
 		/* Itération uniquement sur la liste des Objets persistants. */
 		final Iterator<? extends T> ite = listePersistants.iterator();

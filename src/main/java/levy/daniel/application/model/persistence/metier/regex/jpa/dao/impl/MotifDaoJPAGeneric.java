@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import levy.daniel.application.model.metier.regex.IMotif;
 import levy.daniel.application.model.metier.regex.impl.Motif;
 import levy.daniel.application.model.persistence.AbstractDaoGenericJPA;
+import levy.daniel.application.model.persistence.JPAUtils;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.persistence.metier.regex.jpa.entities.impl.MotifEntityJPA;
 
@@ -111,7 +112,8 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 		}
 		
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 		
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -144,14 +146,29 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 			objetResultat 
 				= (IMotif) requete.getSingleResult();
 			
+			/* Fermeture de l'EntityManager. */
+			if (entityManager.isOpen()) {
+				entityManager.close();
+			}
+			
 		}
 		catch (NoResultException noResultExc) {
 
+			/* Fermeture de l'EntityManager. */
+			if (entityManager.isOpen()) {
+				entityManager.close();
+			}
+			
 			/* retourne null si l'Objet métier n'existe pas en base. */
 			return null;
 
 		}
 		catch (Exception e) {
+			
+			/* Fermeture de l'EntityManager. */
+			if (entityManager.isOpen()) {
+				entityManager.close();
+			}
 
 			/* LOG. */
 			if (LOG.isDebugEnabled()) {
@@ -338,7 +355,8 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 		}
 		
 		/* Instanciation d'un entityManager. */
-		final EntityManager entityManager = this.fournirEntityManager();
+		final EntityManager entityManager 
+			= JPAUtils.fournirEntityManager();
 		
 		/* Cas où this.entityManager == null. */
 		if (entityManager == null) {
@@ -371,6 +389,11 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 			objetResultat 
 				= (IMotif) requete.getSingleResult();
 			
+			/* Fermeture de l'EntityManager. */
+			if (entityManager.isOpen()) {
+				entityManager.close();
+			}
+						
 			if (objetResultat != null) {
 				return true;
 			}
@@ -378,6 +401,11 @@ public class MotifDaoJPAGeneric extends AbstractDaoGenericJPA<IMotif, Long> {
 		}
 		catch (NoResultException noResultExc) {
 
+			/* Fermeture de l'EntityManager. */
+			if (entityManager.isOpen()) {
+				entityManager.close();
+			}
+			
 			/* retourne null si l'Objet métier n'existe pas en base. */
 			return false;
 
