@@ -180,13 +180,15 @@ public class MotifEntityJPA implements IMotif {
 		
 		super();
 		
-		this.id = pMotif.getId();
-		this.nom = pMotif.getNom();
-		this.motifJava = pMotif.getMotifJava();
-		this.signification = pMotif.getSignification();
-		this.alias = pMotif.getAlias();
-		this.motifJavaScript = pMotif.getMotifJavaScript();
-		
+		if (pMotif != null) {
+			this.id = pMotif.getId();
+			this.nom = pMotif.getNom();
+			this.motifJava = pMotif.getMotifJava();
+			this.signification = pMotif.getSignification();
+			this.alias = pMotif.getAlias();
+			this.motifJavaScript = pMotif.getMotifJavaScript();
+		}
+				
 	} // Fin de CONSTRUCTEUR TRANSFORMATEUR._______________________________
 	
 
