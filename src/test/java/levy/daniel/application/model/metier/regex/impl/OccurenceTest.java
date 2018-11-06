@@ -25,6 +25,7 @@ import levy.daniel.application.model.metier.regex.IOccurence;
  * - Mots-clé :<br/>
  * test des contrats Java, contrat Java, contrat java, <br/>
  * test equals, test compare, test compareTo, <br/>
+ * test objet metier, test objet métier,<br/>
  * <br/>
  *
  * - Dépendances :<br/>

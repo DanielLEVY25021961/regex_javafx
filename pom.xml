@@ -535,6 +535,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    <scope>test</scope>		    
 		</dependency>
 		
+		<!-- H2 -->
 		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>
 		    <groupId>com.h2database</groupId>
