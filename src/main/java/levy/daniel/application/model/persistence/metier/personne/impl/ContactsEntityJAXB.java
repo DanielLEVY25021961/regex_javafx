@@ -132,7 +132,8 @@ public class ContactsEntityJAXB {
 	 * <br/>
 	 *
 	 * @return this.listePersonnes : List&lt;PersonneEntityJAXB&gt;.<br/>
-	 */
+	 */	
+	// XmLElementWrapper generates a wrapper element around XML representation
 	@XmlElementWrapper(name = "contacts")
     @XmlElement(name = "personne")
 	public List<PersonneEntityJAXB> getListePersonnes() {

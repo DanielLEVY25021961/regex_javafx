@@ -175,13 +175,15 @@ public class Motif implements IMotif {
 		
 		super();
 		
-		this.id = pEntityJPA.getId();
-		this.nom = pEntityJPA.getNom();
-		this.motifJava = pEntityJPA.getMotifJava();
-		this.signification = pEntityJPA.getSignification();
-		this.alias = pEntityJPA.getAlias();
-		this.motifJavaScript = pEntityJPA.getMotifJavaScript();
-		
+		if (pEntityJPA != null) {
+			this.id = pEntityJPA.getId();
+			this.nom = pEntityJPA.getNom();
+			this.motifJava = pEntityJPA.getMotifJava();
+			this.signification = pEntityJPA.getSignification();
+			this.alias = pEntityJPA.getAlias();
+			this.motifJavaScript = pEntityJPA.getMotifJavaScript();
+		}
+				
 	} // Fin de CONSTRUCTEUR TRANSFORMATEUR._______________________________
 	
 	
