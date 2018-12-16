@@ -75,21 +75,23 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- 		VERSIONS DES COMPOSANTS DANS LES DEPENDANCES		-->
 		<!-- ========================================================== -->
 		<!-- 				Version de SPRING 							-->
-		<spring.version>5.0.1.RELEASE</spring.version>
+		<spring.version>5.1.2.RELEASE</spring.version>
+		
 		<!-- 				Version d'HIBERNATE 						-->
 		<hibernate.version>5.3.6.Final</hibernate.version>
 		<!-- 			Version hibernate-jpa-2.1-api				    -->
 		<hibernate-jpa-2.1-api.version>1.0.2.Final</hibernate-jpa-2.1-api.version>
 		<!-- 			Version validation-api						    -->
+				<validation-api.version>2.0.0.Final</validation-api.version>
+		<!-- 			Version d'HIBERNATE VALIDATOR				    -->
+		<hibernate.validator>6.0.2.Final</hibernate.validator>
 
 		<!--  			Version javax.persistence-api					-->
 		<javax.persistence-api.version>2.2</javax.persistence-api.version>
 
-		<validation-api.version>2.0.0.Final</validation-api.version>
-		<!-- 			Version d'HIBERNATE VALIDATOR				    -->
-		<hibernate.validator>6.0.2.Final</hibernate.validator>
 		<!-- 			Version du POOL DE CONNEXION c3p0	 			-->
 		<c3p0.version>0.9.5.2</c3p0.version>
+		
 		<!-- 					Version de JSTL						 	-->
 		<jstl.version>1.2</jstl.version>
 		<!-- 			Version des Taglibs JSTL 						-->
@@ -125,7 +127,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- 				Version de junit						    -->
 		<junit.version>4.12</junit.version>
 		<!-- 				Version de JUnit pour JavaFX 				-->
-		<testfx-junit.version>4.0.13-alpha</testfx-junit.version>
+		<testfx-junit.version>4.0.15-alpha</testfx-junit.version>
 		<!-- 				Version de joda-time					    -->
 		<joda-time.version>2.9.9</joda-time.version>
 		<!-- 				Version de joda-time-hibernate			    -->

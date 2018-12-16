@@ -25,6 +25,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurat
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnaireslocale.LocaleManager;
 
 
+
 /**
  * CLASSE <b>GestionnairePreferencesSelecteur</b> :<br/>
  * Classe Utilitaire chargée de gérer les 
@@ -1121,6 +1122,52 @@ public final class GestionnairePreferencesSelecteur {
 
 	
 	/**
+	 * fournit une String pour l'affichage du fichier properties
+	 * <b>ressources_externes/
+	 * preferences/preferences_selecteur.properties</b>.<br/>
+	 * <ul>
+	 * <li>crée le fichier preferences_selecteur.properties et alimente 
+	 * le Properties preferences avec des valeurs en dur 
+	 * si preferences est vide.</li>
+	 * <li>trace EX_FONCT_PARAMETRAGE_01</li>
+	 * </ul>
+	 *
+	 * @return String.<br/>
+	 * 
+	 * @throws Exception
+	 */
+	public static String afficherFichierPreferencesProperties() 
+													throws Exception {
+		
+		synchronized (GestionnairePreferencesSelecteur.class) {
+			
+			/* crée le fichier preferences.properties et alimente 
+			 * le Properties preferences avec des valeurs en dur 
+			 * si preferences est vide. */
+			if (preferences.isEmpty()) {
+				creerFichierPropertiesInitial();
+			}
+									
+			final StringBuffer stb = new StringBuffer();
+			
+			final List<String> listeLignes 
+				= Files.readAllLines(
+						pathAbsoluPreferencesProperties, CHARSET_UTF8);
+			
+			for (final String ligne : listeLignes) {
+				stb.append(ligne);
+				stb.append(NEWLINE);
+			}
+			
+			return stb.toString();
+			
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de afficherFichierPreferencesProperties().____________________
+	
+	
+	
+	/**
 	 * <b>Crée ou met à jour une Property</b> dans 
 	 * le <i>Properties</i> <b>preferences</b>.<br/>
 	 * <ul>
@@ -1430,7 +1477,8 @@ public final class GestionnairePreferencesSelecteur {
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
-					|| !filePreferencesProperties.exists()) {
+					|| !filePreferencesProperties.exists() 
+					|| filePreferencesProperties.length() == 0) {
 				creerFichierPropertiesInitial();
 			}
 			
@@ -1697,7 +1745,8 @@ public final class GestionnairePreferencesSelecteur {
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
-					|| !filePreferencesProperties.exists()) {
+					|| !filePreferencesProperties.exists() 
+					|| filePreferencesProperties.length() == 0) {
 				creerFichierPropertiesInitial();
 			}
 			
@@ -1852,7 +1901,8 @@ public final class GestionnairePreferencesSelecteur {
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
-					|| !filePreferencesProperties.exists()) {
+					|| !filePreferencesProperties.exists() 
+					|| filePreferencesProperties.length() == 0) {
 				creerFichierPropertiesInitial();
 			}
 			
