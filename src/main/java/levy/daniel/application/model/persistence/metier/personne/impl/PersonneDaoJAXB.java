@@ -1,8 +1,11 @@
 package levy.daniel.application.model.persistence.metier.personne.impl;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -316,12 +319,12 @@ public class PersonneDaoJAXB {
 	 * @return : IPersonne : le MODEL stocké dans le fichier.<br/>
 	 * 
 	 * @throws JAXBException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
 	public IPersonne create(
 			final IPersonne pObject
 				, final File pFile) 
-						throws FileNotFoundException, JAXBException {
+						throws JAXBException, IOException {
 		
 		/* retourne null si pObject == null. */
 		if (pObject == null) {
@@ -502,12 +505,12 @@ public class PersonneDaoJAXB {
 	 * 
 	 * @return List&lt;IPersonne&gt;.<br/>
 	 * 
-	 * @throws FileNotFoundException
 	 * @throws JAXBException :  :  .<br/>
+	 * @throws IOException 
 	 */
 	public List<IPersonne> recupererListeModeles(
 			final File pFile) 
-					throws FileNotFoundException, JAXBException {
+					throws JAXBException, IOException {
 		
 		/* return null si pFile == null. */
 		if (pFile == null) {
@@ -552,12 +555,12 @@ public class PersonneDaoJAXB {
 	 * @return ContactsEntityJAXB : 
 	 * Entity JAXB modélisant le contenu du fichier XML pFile.<br/>
 	 * 
-	 * @throws FileNotFoundException
 	 * @throws JAXBException
+	 * @throws IOException 
 	 */
 	public ContactsEntityJAXB recupererEntites(
 			final File pFile) 
-					throws FileNotFoundException, JAXBException {
+					throws JAXBException, IOException {
 		
 		/* return null si pFile == null. */
 		if (pFile == null) {
@@ -574,10 +577,20 @@ public class PersonneDaoJAXB {
 			return null;
 		}
 		
-		final FileReader fileReader = new FileReader(pFile);
+		InputStream inputStream = null;
+		InputStreamReader inputStreamReader = null;
+
+		final Charset charsetUtf8 = Charset.forName("UTF-8");
+		
+		inputStream = new FileInputStream(pFile);
+		inputStreamReader = new InputStreamReader(inputStream, charsetUtf8);
 		
 		final ContactsEntityJAXB resultat 
-			= (ContactsEntityJAXB) this.unmarshaller.unmarshal(fileReader);
+			= (ContactsEntityJAXB) this.unmarshaller.unmarshal(inputStreamReader);
+		
+		inputStream.close();
+		inputStreamReader.close();
+
 		
 		return resultat;
 		

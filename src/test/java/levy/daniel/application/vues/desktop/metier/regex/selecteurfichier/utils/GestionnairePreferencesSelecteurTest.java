@@ -133,6 +133,7 @@ public class GestionnairePreferencesSelecteurTest {
 	 * 
 	 * @throws Exception 
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testInitialisation() throws Exception {
@@ -271,6 +272,7 @@ public class GestionnairePreferencesSelecteurTest {
 	 *
 	 * @throws Exception
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testRegex() throws Exception {

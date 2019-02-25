@@ -165,6 +165,7 @@ public class RegexTest {
 	 *
 	 * @throws Exception
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testFonctionnementSetters() throws Exception {
@@ -305,6 +306,7 @@ public class RegexTest {
 	 * 
 	 * @throws Exception 
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testMotifRespecteSyntaxeRegex() throws Exception {
@@ -369,6 +371,7 @@ public class RegexTest {
 	 * 
 	 * @throws Exception 
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testTexteCommenceParMotifNu() throws Exception {
@@ -489,6 +492,7 @@ public class RegexTest {
 	 * 
 	 * @throws Exception 
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testTexteCommenceParMotif() throws Exception {
@@ -566,6 +570,7 @@ public class RegexTest {
 	 *
 	 * @throws Exception
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testTrouverOccurencesNu() throws Exception {
@@ -704,6 +709,7 @@ public class RegexTest {
 	 *
 	 * @throws Exception
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testTrouverOccurences() throws Exception {
@@ -785,6 +791,7 @@ public class RegexTest {
 	 * </ul>
 	 * @throws Exception 
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testTexteCorrespondEntierementAMotif() throws Exception {
@@ -849,6 +856,7 @@ public class RegexTest {
 	 * </ul>
 	 * @throws Exception 
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testTexteCorrespondEntierementAMotif2() throws Exception {
@@ -919,6 +927,7 @@ public class RegexTest {
 	 *
 	 * @throws Exception
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testTexteMatcheMotif() throws Exception {

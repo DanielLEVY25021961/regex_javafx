@@ -74,6 +74,7 @@ public class MotifCellTest {
 	 * <li>.</li>
 	 * </ul>
 	 */
+	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdateItem() {

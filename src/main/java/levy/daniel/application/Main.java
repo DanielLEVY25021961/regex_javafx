@@ -73,18 +73,21 @@ public final class Main {
 	/**
 	 * objet1 valable et différent de objet2 et objet3.<br/>
 	 */
-	public static IMotif objet1 = new Motif("1 chiffre", "\\d", "1 chiffre", "[0-9]", "/ \\d /"); 
+	public static final IMotif OBJET1 
+		= new Motif("1 chiffre", "\\d", "1 chiffre", "[0-9]", "/ \\d /"); 
 	
 	
 	/**
 	 * objet2 valable et différent de objet1 et objet3.<br/>
 	 */
-	public static IMotif objet2 = new Motif("commence par 1 à 3 chiffres", "^\\d{1,3}?", "commence par 1 à 3 chiffres reluctant", "^\\d[0-9]{1,3}?", "/ ^\\\\d{1,3}? /");
+	public static final IMotif OBJET2 
+		= new Motif("commence par 1 à 3 chiffres", "^\\d{1,3}?", "commence par 1 à 3 chiffres reluctant", "^\\d[0-9]{1,3}?", "/ ^\\\\d{1,3}? /");
 	
 	/**
 	 * objet3 valable et différent de objet1 et objet2.
 	 */
-	public static IMotif objet3 = new Motif("commence par 1 à 4 chiffres", "^\\d{1,4}?", "commence par 1 à 4 chiffres reluctant", "^\\d[0-9]{1,4}?", "/ ^\\d{1,4}? /");
+	public static final IMotif OBJET3 
+		= new Motif("commence par 1 à 4 chiffres", "^\\d{1,4}?", "commence par 1 à 4 chiffres reluctant", "^\\d[0-9]{1,4}?", "/ ^\\d{1,4}? /");
 
 
 	/**
@@ -143,7 +146,7 @@ public final class Main {
 		
 		// *************************************************************
 		/* enregistrement d'un objet dans le stockage (TABLE SGBDR JPA). */
-		final IMotif objetPersiste = DAOATESTER.create(objet1);
+		final IMotif objetPersiste = DAOATESTER.create(OBJET1);
 		// *************************************************************
 				
 		final Long nombreInitial = DAOATESTER.count();
