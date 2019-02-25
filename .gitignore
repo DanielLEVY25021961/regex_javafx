@@ -3,3 +3,6 @@
 /target/
 /data/base-regex_javafx-JAXB/motifs.xml
 /.factorypath
+/.classpath
+/.project
+/.gitignore
