@@ -152,6 +152,16 @@ public class ExplicateurRegex implements IExplicateurRegex {
 	
 	// *************************METHODES************************************/
 
+	
+	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 */
+	public ExplicateurRegex() {
+		super();
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */

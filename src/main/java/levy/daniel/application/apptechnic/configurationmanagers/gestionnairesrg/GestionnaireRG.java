@@ -53,7 +53,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 26 août 2017
  *
  */
-public final class GestionnaireRG {
+public final class GestionnaireRG { // NOPMD by daniel.levy on 25/02/19 15:34
 
 	// ************************ATTRIBUTS************************************/
 

@@ -136,7 +136,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  * @since 24 juil. 2018
  *
  */
-public final class GestionnairePreferencesSelecteur {
+public final class GestionnairePreferencesSelecteur { // NOPMD by daniel.levy on 25/02/19 15:39
 	
 	// ************************ATTRIBUTS************************************/
 	
