@@ -91,7 +91,7 @@ public interface ITestDaoGeneric<T, ID extends Serializable> {
 	 * 
 	 * @throws Exception 
 	 */
-	void testCreate(// NOPMD by dan on 08/09/18 09:32
+	void testCreate(
 			boolean pAffichageGeneral
 				, boolean pAffichage) throws Exception;
 	
@@ -112,7 +112,7 @@ public interface ITestDaoGeneric<T, ID extends Serializable> {
 	 * </ul>
 	 * @throws Exception 
 	 */
-	void testCreate() throws Exception; // NOPMD by dan on 08/09/18 18:45
+	void testCreate() throws Exception; 
 	
 	
 	

@@ -87,7 +87,7 @@ public abstract class AbstractTestDaoGenericJAXB<T, ID extends Serializable>
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override // NOPMD by dan on 08/09/18 09:28
+	@Override 
 	public void testCreate(
 			final boolean pAffichageGeneral
 				, final boolean pAffichage) throws Exception {

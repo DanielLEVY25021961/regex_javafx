@@ -96,7 +96,7 @@ public class MotifDaoJAXBTest
 	@SuppressWarnings(UNUSED)
 	@Test
 	@Override
-	public void testCreate() throws Exception { // NOPMD by dan on 08/09/18 09:28
+	public void testCreate() throws Exception { 
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON

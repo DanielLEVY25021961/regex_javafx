@@ -72,7 +72,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 9 août 2017
  *
  */
-public final class LocaleManager { // NOPMD by daniel.levy on 25/02/19 15:33
+public final class LocaleManager { 
 
 	// ************************ATTRIBUTS************************************/
 

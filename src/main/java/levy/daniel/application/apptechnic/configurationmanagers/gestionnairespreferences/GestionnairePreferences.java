@@ -123,7 +123,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  * @since 24 juil. 2018
  *
  */
-public final class GestionnairePreferences { // NOPMD by daniel.levy on 25/02/19 15:34
+public final class GestionnairePreferences { 
 	
 	// ************************ATTRIBUTS************************************/
 	

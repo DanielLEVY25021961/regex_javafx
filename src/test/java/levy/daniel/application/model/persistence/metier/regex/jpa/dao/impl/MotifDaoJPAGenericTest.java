@@ -76,10 +76,10 @@ public class MotifDaoJPAGenericTest
 	 * </ul>
 	 * @throws Exception 
 	 */
-	@SuppressWarnings(UNUSED) // NOPMD by dan on 10/09/18 13:01
+	@SuppressWarnings(UNUSED) 
 	@Test
 	@Override
-	public void testCreate() throws Exception { // NOPMD by dan on 08/09/18 09:28
+	public void testCreate() throws Exception { 
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON

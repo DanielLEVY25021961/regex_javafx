@@ -65,7 +65,7 @@ public abstract class AbstractTestDaoGenericJPASpring<T, ID extends Serializable
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override // NOPMD by dan on 10/09/18 13:02
+	@Override 
 	public void testCreate(
 			final boolean pAffichageGeneral
 				, final boolean pAffichage) throws Exception {
