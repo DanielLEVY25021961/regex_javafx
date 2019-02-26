@@ -113,7 +113,9 @@ public class RichTextAreaMain extends Application {
         pPrimaryStage.setScene(scene);
         
         pPrimaryStage.show();
-	}
+        
+	} // Fin de start(...).________________________________________________
+	
 
 	
 	/**
@@ -159,7 +161,7 @@ public class RichTextAreaMain extends Application {
 		this.label.setPrefHeight(100);
 		this.label.setStyle("-fx-border-color: black;-fx-background-color: WHITE;");
 		
-	}
+	} // Fin de configurerLabel()._________________________________________
 	
 	
 	
@@ -229,4 +231,4 @@ public class RichTextAreaMain extends Application {
 
 		
 	
-}
+} // FIN DE LA CLASSE RichTextAreaMain.--------------------------------------
